@@ -6,13 +6,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Configuration
-@EnableWebSecurity
+@Configuration // Spring의 설정 클래스임을 나타냅니다.
+@EnableWebSecurity // Spring Security를 활성화하여 웹 보안을 설정합니다.
 public class SecurityConfig {
 
+    // PasswordEncoder 빈을 생성하여 암호화를 위한 BCryptPasswordEncoder를 반환합니다.
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); // BCrypt 알고리즘을 사용하여 비밀번호를 암호화합니다.
     }
 
 }
