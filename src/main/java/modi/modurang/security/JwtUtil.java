@@ -3,51 +3,56 @@ package modi.modurang.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.function.Function;
 
-// JWT 유틸리티 클래스
+@Slf4j
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
-    private String secretKey;  // JWT 서명에 사용될 비밀 키
+    @Value("${jwt.secretKey}")
+    private String secretKey;
 
     @Value("${jwt.expiration}")
-    private long expirationTime; // 토큰 만료 시간 (밀리초 단위)
+    private long expirationTime;
 
-    // 사용자 이름을 기반으로 JWT 토큰 생성
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    public Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+    }
+
+    private Boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
-                .setIssuedAt(new Date())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
-    // JWT 토큰에서 클레임 추출
-    public Claims extractClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    // JWT 토큰에서 사용자 이름 추출
-    public String extractUsername(String token) {
-        return extractClaims(token).getSubject();
-    }
-
-    // JWT 토큰 만료 여부 확인
-    public boolean isTokenExpired(String token) {
-        return extractClaims(token).getExpiration().before(new Date());
-    }
-
-    // JWT 토큰의 유효성 확인
-    public boolean validateToken(String token, String username) {
-        return (username.equals(extractUsername(token)) && !isTokenExpired(token));
+    public Boolean validateToken(String token, String username) {
+        final String extractedUsername = extractUsername(token);
+        return (extractedUsername.equals(username) && !isTokenExpired(token));
     }
 }

@@ -1,4 +1,4 @@
-package modi.modurang.member;
+package modi.modurang;
 
 import org.springframework.stereotype.Controller;
 
