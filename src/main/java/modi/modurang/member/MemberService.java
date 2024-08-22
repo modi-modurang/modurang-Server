@@ -1,4 +1,4 @@
-package modi.modurang;
+package modi.modurang.member;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

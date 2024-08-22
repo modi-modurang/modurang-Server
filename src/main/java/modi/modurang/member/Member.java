@@ -1,4 +1,4 @@
-package modi.modurang;
+package modi.modurang.member;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package modi.modurang;
+package modi.modurang.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
