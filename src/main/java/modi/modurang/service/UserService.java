@@ -15,7 +15,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder; // 비밀번호 암호화를 위한 인코더
 
     // 회원 정보를 저장하는 메서드
-    public void memberSave(String username, String password, int studentNumber) {
+    public void UserSave(String username, String password, int studentNumber) {
         User user = new User(); // 새로운 User 객체 생성
         user.setUsername(username); // 사용자 이름 설정
         user.setPassword(passwordEncoder.encode(password)); // 비밀번호를 암호화한 후 설정

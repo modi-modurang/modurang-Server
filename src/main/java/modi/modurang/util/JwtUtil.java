@@ -3,8 +3,9 @@ package modi.modurang.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import modi.modurang.security.JwtProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -12,13 +13,10 @@ import java.util.function.Function;
 
 @Slf4j // 로그 출력을 위한 Lombok 어노테이션
 @Component // Spring의 컴포넌트로 등록하여 의존성 주입을 가능하게 함
+@RequiredArgsConstructor
 public class JwtUtil {
 
-    @Value("${jwt.secret-key}") // application.yml에서 jwt.secret-key 값을 주입받음
-    private String secretKey;
-
-    @Value("${jwt.access-token-expiration}") // application.yml에서 jwt.access-token-expiration 값을 주입받음
-    private long expirationTime;
+    private final JwtProperties jwtProperties;
 
     // JWT 토큰에서 사용자 이름을 추출
     public String extractUsername(String token) {
@@ -41,7 +39,7 @@ public class JwtUtil {
     // 비밀 키를 사용하여 토큰을 파싱하고, 클레임의 본문을 추출합니다.
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(secretKey) // 서명 키 설정
+                .setSigningKey(jwtProperties.getSecretKey()) // 서명 키 설정
                 .parseClaimsJws(token) // 토큰 파싱 및 클레임 추출
                 .getBody();
     }
@@ -58,8 +56,8 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(username) // 토큰의 주제(사용자 이름) 설정
                 .setIssuedAt(new Date(System.currentTimeMillis())) // 토큰 발급 시간 설정
-                .setExpiration(new Date(System.currentTimeMillis() + expirationTime)) // 토큰 만료 시간 설정
-                .signWith(SignatureAlgorithm.HS256, secretKey) // 서명 알고리즘 및 비밀 키 설정
+                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getAccessTokenExpiration())) // 토큰 만료 시간 설정
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey()) // 서명 알고리즘 및 비밀 키 설정
                 .compact(); // 토큰 생성
     }
 

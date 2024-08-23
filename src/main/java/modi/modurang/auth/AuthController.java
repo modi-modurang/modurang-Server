@@ -21,7 +21,7 @@ public class AuthController {
     public ResponseEntity<SignupResponseDto> signup(@RequestBody SignupRequestDto signupRequest) {
         try {
             // 회원가입 요청을 처리하고, 성공 시 회원 정보를 저장합니다.
-            userService.memberSave(signupRequest.getUsername(), signupRequest.getPassword(), signupRequest.getStudentNumber());
+            userService.UserSave(signupRequest.getUsername(), signupRequest.getPassword(), signupRequest.getStudentNumber());
             return ResponseEntity.ok(new SignupResponseDto("회원가입 성공")); // 회원가입 성공 메시지를 반환합니다.
         } catch (Exception e) {
             // 예외 발생 시 실패 메시지를 반환합니다.
