@@ -10,5 +10,4 @@ spring:
     show-sql: true
 jwt:
   secret-key: ${JWT_SECRET_KEY}
-  issuer: ${JWT_ISSUER}
   access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION}
