@@ -16,10 +16,10 @@ public class UserService {
 
     // 회원 정보를 저장하는 메서드
     public void memberSave(String username, String password, int studentNumber) {
-        User user = new User(); // 새로운 Member 객체 생성
+        User user = new User(); // 새로운 User 객체 생성
         user.setUsername(username); // 사용자 이름 설정
-        user.setPassword(passwordEncoder.encode(password)); // 비밀번호 암호화 및 설정
+        user.setPassword(passwordEncoder.encode(password)); // 비밀번호를 암호화한 후 설정
         user.setStudentNumber(studentNumber); // 학번 설정
-        userRepository.save(user); // 데이터베이스에 Member 객체 저장
+        userRepository.save(user); // 데이터베이스에 User 객체 저장
     }
 }

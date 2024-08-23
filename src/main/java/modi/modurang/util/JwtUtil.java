@@ -31,12 +31,14 @@ public class JwtUtil {
     }
 
     // JWT 토큰에서 클레임을 추출하는 공통 메서드
+    // 이 메서드는 주어진 토큰에서 클레임을 추출하여 전달된 함수로 처리합니다.
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
     // JWT 토큰에서 모든 클레임을 추출
+    // 비밀 키를 사용하여 토큰을 파싱하고, 클레임의 본문을 추출합니다.
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(secretKey) // 서명 키 설정
@@ -45,11 +47,13 @@ public class JwtUtil {
     }
 
     // JWT 토큰이 만료되었는지 확인
+    // 토큰의 만료 시간을 현재 시간과 비교하여 만료 여부를 반환합니다.
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
     // 사용자 이름을 기반으로 JWT 토큰을 생성
+    // 토큰에는 사용자 이름, 발급 시간, 만료 시간, 서명 알고리즘 등이 포함됩니다.
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username) // 토큰의 주제(사용자 이름) 설정
@@ -60,6 +64,7 @@ public class JwtUtil {
     }
 
     // JWT 토큰의 유효성을 검사
+    // 토큰에서 사용자 이름을 추출하여 전달된 사용자 이름과 비교하고, 토큰이 만료되지 않았는지 확인합니다.
     public Boolean validateToken(String token, String username) {
         final String extractedUsername = extractUsername(token); // 토큰에서 추출한 사용자 이름
         return (extractedUsername.equals(username) && !isTokenExpired(token)); // 사용자 이름이 일치하고 토큰이 만료되지 않았는지 확인
