@@ -15,12 +15,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키 값을 데이터베이스가 자동으로 생성(자동 증가)하도록 설정합니다.
     private int id;
 
-    @Column(nullable = false) // 이 컬럼은 null 값을 허용하지 않습니다.
+    @Column(nullable = false, length = 5) // 이 컬럼은 null 값을 허용하지 않으며, 최대 길이는 5입니다.
     private String username; // 사용자의 이름을 저장하는 필드입니다.
 
-    @Column(nullable = false) // 이 컬럼은 null 값을 허용하지 않습니다.
+    @Column(nullable = false, length = 12) // 이 컬럼은 null 값을 허용하지 않으며, 최대 길이는 12입니다.
     private String password; // 사용자의 비밀번호를 저장하는 필드입니다.
 
-    @Column(nullable = false, unique = true) // 이 컬럼은 null 값을 허용하지 않으며, 유일한 값이어야 합니다.
+    @Column(nullable = false, unique = true, length = 4) // 이 컬럼은 null 값을 허용하지 않으며, 유일한 값이어야 하고, 최대 길이는 4입니다.
     private int studentNumber; // 사용자의 학번을 저장하는 필드입니다.
 }
