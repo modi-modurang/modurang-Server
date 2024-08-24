@@ -22,12 +22,8 @@ public class AuthController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/signup")
     public ResponseEntity<SignupResponseDto> signup(@RequestBody SignupRequestDto signupRequest) {
-        try {
-            userService.UserSave(signupRequest.getUsername(), signupRequest.getPassword(), signupRequest.getStudentNumber());
-            return ResponseEntity.ok(new SignupResponseDto("회원가입 성공" , "회원가입 성공"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new SignupResponseDto("STUDENTNUMBER_ALREADY_EXISTS", e.getMessage()));
-        }
+        userService.UserSave(signupRequest.getUsername(), signupRequest.getPassword(), signupRequest.getStudentNumber());
+        return ResponseEntity.ok(new SignupResponseDto("SIGNUP_SUCCESS", "회원가입이 성공적으로 완료되었습니다."));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
