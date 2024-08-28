@@ -22,7 +22,7 @@ public class AuthController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/signup")
     public ResponseEntity<SignupResponseDto> signup(@RequestBody SignupRequestDto signupRequest) {
-        userService.UserSave(signupRequest.getUsername(), signupRequest.getPassword(), signupRequest.getStudentNumber());
+        userService.saveUser(signupRequest);
         return ResponseEntity.ok(new SignupResponseDto("SIGNUP_SUCCESS", "회원가입이 성공적으로 완료되었습니다."));
     }
 

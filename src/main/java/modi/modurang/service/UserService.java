@@ -3,10 +3,10 @@ package modi.modurang.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import modi.modurang.domain.User;
+import modi.modurang.dto.SignupRequestDto;
 import modi.modurang.exception.CustomException;
 import modi.modurang.exception.ErrorCode;
 import modi.modurang.repository.UserRepository;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +18,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void UserSave(String username, String password, String studentNumber) throws DuplicateKeyException {
-        if (userRepository.existsByStudentNumber(studentNumber)) {
+    public void saveUser(SignupRequestDto signupRequestDto) throws CustomException {
+        if (userRepository.existsByStudentNumber(signupRequestDto.getStudentNumber())) {
             throw new CustomException(ErrorCode.HAS_STUDENTNUMBER);
         }
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setStudentNumber(studentNumber);
+        user.setUsername(signupRequestDto.getUsername());
+        user.setPassword(passwordEncoder.encode(signupRequestDto.getPassword()));
+        user.setStudentNumber(signupRequestDto.getStudentNumber());
         userRepository.save(user);
     }
 
