@@ -32,13 +32,10 @@ public class AuthController {
 
     @PostMapping("/refresh")
     public ResponseEntity<LoginResponseDto> refresh(@RequestBody String refreshToken) {
-        System.out.println("Refresh token: " + refreshToken);
         try {
             String newAccessToken = userService.refreshAccessToken(refreshToken);
-            System.out.println("성공");
             return ResponseEntity.ok(new LoginResponseDto(newAccessToken, refreshToken, "액세스 토큰 갱신 성공"));
         } catch (Exception e) {
-            System.out.println("실패");
             return ResponseEntity.badRequest().body(new LoginResponseDto(null, null, "토큰 갱신 실패: " + e.getMessage()));
         }
     }
