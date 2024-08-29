@@ -3,15 +3,14 @@ package modi.modurang.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import modi.modurang.security.JwtProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.function.Function;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtUtil {
@@ -26,31 +25,62 @@ public class JwtUtil {
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
+        final Claims claims = extractAllClaims(token, getSecretKeyForToken(token));
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(jwtProperties.getSecretKey())
-                .parseClaimsJws(token)
-                .getBody();
+    private Claims extractAllClaims(String token, String secretKey) {
+        try {
+            return Jwts.parser()
+                    .setSigningKey(secretKey)
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (SignatureException e) {
+            throw new RuntimeException("Invalid JWT signature");
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid JWT token");
+        }
     }
+
+    private String getSecretKeyForToken(String token) {
+        if (token.startsWith("accessTokenPrefix")) {
+            return jwtProperties.getAccessTokenSecretKey();
+        } else if (token.startsWith("refreshTokenPrefix")) {
+            return jwtProperties.getRefreshTokenSecretKey();
+        } else {
+            throw new RuntimeException("Unknown token type");
+        }
+    }
+
 
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(String username) {
+    public String generateAccessToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getAccessTokenExpiration()))
-                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getAccessTokenSecretKey())
                 .compact();
     }
 
-    public Boolean validateToken(String token, String username) {
+    public String generateRefreshToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getRefreshTokenExpiration()))
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getRefreshTokenSecretKey())
+                .compact();
+    }
+
+    public Boolean validateAccessToken(String token, String username) {
+        final String extractedUsername = extractUsername(token);
+        return (extractedUsername.equals(username) && !isTokenExpired(token));
+    }
+
+    public Boolean validateRefreshToken(String token, String username) {
         final String extractedUsername = extractUsername(token);
         return (extractedUsername.equals(username) && !isTokenExpired(token));
     }

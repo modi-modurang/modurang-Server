@@ -45,10 +45,20 @@ public class UserService {
     public LoginResponseDto login(String studentNumber, String password) {
         User user = authenticateUser(studentNumber, password);
         if (user != null) {
-            String accessToken = jwtUtil.generateToken(user.getUsername());
-            return new LoginResponseDto(accessToken, "로그인 성공");
+            String accessToken = jwtUtil.generateAccessToken(user.getUsername());
+            String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
+            return new LoginResponseDto(accessToken, refreshToken, "로그인 성공");
         } else {
-            return new LoginResponseDto(null, "로그인 실패: 잘못된 사용자 이름 또는 비밀번호");
+            return new LoginResponseDto(null, null, "로그인 실패: 잘못된 사용자 이름 또는 비밀번호");
+        }
+    }
+
+    public String refreshAccessToken(String refreshToken) throws CustomException {
+        String username = jwtUtil.extractUsername(refreshToken);
+        if (jwtUtil.validateRefreshToken(refreshToken, username)) {
+            return jwtUtil.generateAccessToken(username);
+        } else {
+            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
     }
 }

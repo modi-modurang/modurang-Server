@@ -22,7 +22,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/auth/signup", "/auth/login").permitAll()
+                                .requestMatchers("/auth/signup", "/auth/login").anonymous()
                                 .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable);

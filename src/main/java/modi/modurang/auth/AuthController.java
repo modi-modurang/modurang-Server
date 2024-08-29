@@ -26,7 +26,20 @@ public class AuthController {
             LoginResponseDto response = userService.login(loginRequest.getStudentNumber(), loginRequest.getPassword());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new LoginResponseDto(null, "로그인 실패: " + e.getMessage()));
+            return ResponseEntity.badRequest().body(new LoginResponseDto(null, null, "로그인 실패: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<LoginResponseDto> refresh(@RequestBody String refreshToken) {
+        System.out.println("Refresh token: " + refreshToken);
+        try {
+            String newAccessToken = userService.refreshAccessToken(refreshToken);
+            System.out.println("성공");
+            return ResponseEntity.ok(new LoginResponseDto(newAccessToken, refreshToken, "액세스 토큰 갱신 성공"));
+        } catch (Exception e) {
+            System.out.println("실패");
+            return ResponseEntity.badRequest().body(new LoginResponseDto(null, null, "토큰 갱신 실패: " + e.getMessage()));
         }
     }
 }
