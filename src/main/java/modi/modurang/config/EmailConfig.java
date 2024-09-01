@@ -1,5 +1,8 @@
 package modi.modurang.config;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,9 +11,10 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
+@Getter @Setter
+@RequiredArgsConstructor
 @Configuration
 public class EmailConfig {
-
     @Value("${spring.mail.host}")
     private String host;
 
@@ -56,12 +60,15 @@ public class EmailConfig {
 
     private Properties getMailProperties() {
         Properties properties = new Properties();
-        properties.put("mail.smtp.auth", auth);
-        properties.put("mail.smtp.starttls.enable", starttlsEnable);
-        properties.put("mail.smtp.starttls.required", starttlsRequired);
-        properties.put("mail.smtp.connectiontimeout", connectionTimeout);
-        properties.put("mail.smtp.timeout", timeout);
-        properties.put("mail.smtp.writetimeout", writeTimeout);
+        properties.put("mail.smtp.auth", Boolean.toString(auth));
+        properties.put("mail.smtp.starttls.enable", Boolean.toString(starttlsEnable));
+        properties.put("mail.smtp.starttls.required", Boolean.toString(starttlsRequired));
+        properties.put("mail.smtp.connectiontimeout", Integer.toString(connectionTimeout));
+        properties.put("mail.smtp.timeout", Integer.toString(timeout));
+        properties.put("mail.smtp.writetimeout", Integer.toString(writeTimeout));
+        properties.put("mail.smtp.ssl.trust", host);
+        properties.put("mail.transport.protocol", "smtp");
+        properties.put("mail.smtp.port", Integer.toString(port));
 
         return properties;
     }

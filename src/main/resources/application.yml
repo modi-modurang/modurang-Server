@@ -24,9 +24,10 @@ spring:
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
-    auth-code-expiration-millis: 1800000
+          ssl:
+            trust: smtp.gmail.com
 jwt:
   access-token-secret-key: ${JWT_ACCESS_TOKEN_SECRET_KEY}
   access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION}
   REFRESH-token-secret-key: ${JWT_REFRESH_TOKEN_SECRET_KEY}
-  REFRESH-token-expiration: ${JWT_REFRESH_TOKEN_EXPIRATION}
+  REFRESH-token-expiration: ${JWT_REFRESH_TOKEN_EXPIRATION}t

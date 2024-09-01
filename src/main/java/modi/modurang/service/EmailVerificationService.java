@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 public class EmailVerificationService {
 
     private final EmailVerificationRepository emailVerificationRepository;
-    private final MailService mailService;
+    private final EmailService emailService;
 
     public void sendVerificationCode(String email) {
         String code = generateVerificationCode();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(15); // 15분 유효 기간
+        LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(5);
 
         EmailVerification emailVerification = new EmailVerification();
         emailVerification.setEmail(email);
@@ -26,7 +26,7 @@ public class EmailVerificationService {
 
         emailVerificationRepository.save(emailVerification);
 
-        mailService.sendVerificationCode(email, code);
+        emailService.sendVerificationCode(email, code);
     }
 
     private String generateVerificationCode() {
