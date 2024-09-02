@@ -12,9 +12,10 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
 
 @Getter @Setter
-@RequiredArgsConstructor
 @Configuration
+@RequiredArgsConstructor
 public class EmailConfig {
+
     @Value("${spring.mail.host}")
     private String host;
 

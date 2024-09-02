@@ -14,6 +14,7 @@ import java.util.function.Function;
 @Component
 @RequiredArgsConstructor
 public class JwtUtil {
+
     private final JwtProperties jwtProperties;
 
     public String extractUsername(String token) {

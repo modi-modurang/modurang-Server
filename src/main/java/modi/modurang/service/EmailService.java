@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class EmailService {
+
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
     private final JavaMailSender javaMailSender;
     private static final String SENDER_EMAIL = "dongwhilove09@gmail.com";

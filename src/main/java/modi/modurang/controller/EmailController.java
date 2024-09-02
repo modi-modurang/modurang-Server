@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/email")
 @RequiredArgsConstructor
 public class EmailController {
+
     private final EmailVerificationService emailVerificationService;
 
     @PostMapping("/verification-request")

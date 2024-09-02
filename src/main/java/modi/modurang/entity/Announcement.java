@@ -7,6 +7,7 @@ import lombok.Setter;
 @Entity
 @Getter @Setter
 public class Announcement {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

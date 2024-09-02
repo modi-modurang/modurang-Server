@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
     private final JwtUtil jwtUtil;
 
     @Bean

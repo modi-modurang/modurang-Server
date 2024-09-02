@@ -12,6 +12,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/modurang")
 public class AnnouncementController {
+
     private final AnnouncementService announcementService;
 
     @Autowired
