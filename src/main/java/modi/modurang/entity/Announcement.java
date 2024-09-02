@@ -1,21 +1,21 @@
 package modi.modurang.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
+@Getter @Setter
 public class Announcement {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 100)
     private String title;
-    private String author;
+
+    @Column(nullable = false, length = 100)
     private String content;
+
+    @Column(length = 5)
+    private String author;
 }

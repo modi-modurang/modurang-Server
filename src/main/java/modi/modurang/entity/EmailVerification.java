@@ -10,8 +10,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity(name = "email")
-@Getter
-@Setter
+@Getter @Setter
 public class EmailVerification {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
