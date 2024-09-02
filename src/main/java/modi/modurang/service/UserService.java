@@ -2,7 +2,7 @@ package modi.modurang.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import modi.modurang.domain.User;
+import modi.modurang.entity.User;
 import modi.modurang.dto.LoginResponseDto;
 import modi.modurang.dto.SignupDto;
 import modi.modurang.exception.CustomException;

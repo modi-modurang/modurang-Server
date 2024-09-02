@@ -1,6 +1,6 @@
 package modi.modurang.repository;
 
-import modi.modurang.domain.EmailVerification;
+import modi.modurang.entity.EmailVerification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmailVerificationRepository extends JpaRepository<EmailVerification, Long> {

@@ -1,4 +1,4 @@
-package modi.modurang.domain;
+package modi.modurang.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

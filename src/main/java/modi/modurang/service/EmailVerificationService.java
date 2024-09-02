@@ -1,7 +1,7 @@
 package modi.modurang.service;
 
 import lombok.RequiredArgsConstructor;
-import modi.modurang.domain.EmailVerification;
+import modi.modurang.entity.EmailVerification;
 import modi.modurang.repository.EmailVerificationRepository;
 import org.springframework.stereotype.Service;
 
