@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import modi.modurang.security.JwtProperties;
+import modi.modurang.config.JwtProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

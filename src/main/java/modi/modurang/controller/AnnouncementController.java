@@ -12,7 +12,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/modurang")
 public class AnnouncementController {
-    private AnnouncementService announcementService;
+    private final AnnouncementService announcementService;
 
     @Autowired
     public AnnouncementController(AnnouncementService announcementService) {
@@ -27,7 +27,7 @@ public class AnnouncementController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<AnnouncementDto> getAnnouncementById(@PathVariable Long id) {
+    public ResponseEntity<AnnouncementDto> getAnnouncementById(@PathVariable long id) {
         AnnouncementDto announcement = announcementService.getAnnouncementById(id);
         return ResponseEntity.ok(announcement);
     }

@@ -1,4 +1,4 @@
-package modi.modurang.domain;
+package modi.modurang.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,7 +1,7 @@
 package modi.modurang.service;
 
 import lombok.RequiredArgsConstructor;
-import modi.modurang.domain.User;
+import modi.modurang.entity.User;
 import modi.modurang.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

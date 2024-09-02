@@ -2,7 +2,7 @@ package modi.modurang.service;
 
 
 import jakarta.transaction.Transactional;
-import modi.modurang.domain.Announcement;
+import modi.modurang.entity.Announcement;
 import modi.modurang.dto.AnnouncementDto;
 import modi.modurang.repository.AnnouncementRepository;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package modi.modurang.auth;
+package modi.modurang.controller;
 
 import lombok.RequiredArgsConstructor;
 import modi.modurang.dto.SignupRequestDto;
