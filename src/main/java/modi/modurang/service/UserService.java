@@ -50,7 +50,7 @@ public class UserService {
             String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
             return new LoginResponseDto(accessToken, refreshToken, "로그인 성공");
         } else {
-            return new LoginResponseDto(null, null, "로그인 실패: 잘못된 사용자 이름 또는 비밀번호");
+            return new LoginResponseDto(null, null, "로그인 실패: 잘못된 학번 또는 비밀번호");
         }
     }
 

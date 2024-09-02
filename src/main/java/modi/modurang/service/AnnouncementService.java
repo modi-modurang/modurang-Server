@@ -1,6 +1,5 @@
 package modi.modurang.service;
 
-
 import jakarta.transaction.Transactional;
 import modi.modurang.entity.Announcement;
 import modi.modurang.dto.AnnouncementDto;

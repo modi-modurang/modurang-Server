@@ -20,7 +20,6 @@ public class AnnouncementController {
         this.announcementService = announcementService;
     }
 
-
     @GetMapping
     public ResponseEntity<List<AnnouncementDto>> getAllAnnouncements() {
         List<AnnouncementDto> announcements = announcementService.getAllAnnouncements();
