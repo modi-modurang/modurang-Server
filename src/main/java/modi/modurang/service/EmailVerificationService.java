@@ -7,7 +7,6 @@ import modi.modurang.exception.ErrorCode;
 import modi.modurang.repository.EmailRepository;
 import org.springframework.stereotype.Service;
 
-import java.security.SecureRandom;
 import java.time.LocalDateTime;
 
 @Service
@@ -19,7 +18,7 @@ public class EmailVerificationService {
 
     public void sendVerificationCode(String email) {
         String code = generateVerificationCode();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(5);
+        LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(1);
 
         Email emailVerification = new Email();
         emailVerification.setEmail(email);
@@ -32,8 +31,7 @@ public class EmailVerificationService {
     }
 
     private String generateVerificationCode() {
-        SecureRandom random = new SecureRandom();
-        return String.format("%6d", random.nextInt(1000000));
+        return String.format("%06d", (int)(Math.random() * 1000000));
     }
 
     public void verifyCode(String email, String code) {

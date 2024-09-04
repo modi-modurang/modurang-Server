@@ -49,10 +49,9 @@ public class JwtUtil {
         } else if (token.startsWith("refreshTokenPrefix")) {
             return jwtProperties.getRefreshTokenSecretKey();
         } else {
-            throw new RuntimeException("Unknown token type");
+            throw new RuntimeException("알 수 없는 토큰");
         }
     }
-
 
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
