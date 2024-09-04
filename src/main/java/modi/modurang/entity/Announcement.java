@@ -18,5 +18,5 @@ public class Announcement {
     private String content;
 
     @Column(length = 5)
-    private String author;
+    private String writer;
 }
