@@ -26,7 +26,7 @@ public class AnnouncementController {
         return ResponseEntity.ok(announcements);
     }
 
-    @GetMapping("/")
+    @GetMapping("/{id}")
     public ResponseEntity<AnnouncementDto> getAnnouncementById(@PathVariable long id) {
         AnnouncementDto announcement = announcementService.getAnnouncementById(id);
         return ResponseEntity.ok(announcement);

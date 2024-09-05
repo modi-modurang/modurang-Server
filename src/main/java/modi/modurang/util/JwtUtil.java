@@ -37,9 +37,9 @@ public class JwtUtil {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (SignatureException e) {
-            throw new RuntimeException("Invalid JWT signature");
+            throw new RuntimeException("유효하지 않은 서명");
         } catch (Exception e) {
-            throw new RuntimeException("Invalid JWT token");
+            throw new RuntimeException("유효하지 않은 토큰");
         }
     }
 
