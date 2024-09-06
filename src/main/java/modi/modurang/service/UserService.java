@@ -32,20 +32,11 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User authenticateUser(String studentNumber, String password) {
+    public LoginResponseDto login(String studentNumber, String password) {
         User user = userRepository.findByStudentNumber(studentNumber)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            return user;
-        } else {
-            return null;
-        }
-    }
-
-    public LoginResponseDto login(String studentNumber, String password) {
-        User user = authenticateUser(studentNumber, password);
-        if (user != null) {
+        if (passwordEncoder.matches(password, user.getPassword())) {
             String accessToken = jwtUtil.generateAccessToken(user.getUsername());
             String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
             return new LoginResponseDto(accessToken, refreshToken, "로그인 성공");
@@ -56,7 +47,7 @@ public class UserService {
 
     public String refreshAccessToken(String refreshToken) throws CustomException {
         String username = jwtUtil.extractUsername(refreshToken);
-        if (jwtUtil.validateRefreshToken(refreshToken, username)) {
+        if (jwtUtil.validateToken(refreshToken, username)) {
             return jwtUtil.generateAccessToken(username);
         } else {
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);

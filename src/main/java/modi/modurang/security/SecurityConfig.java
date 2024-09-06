@@ -47,7 +47,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/auth/signup", "/auth/login", "auth/emails/verification-requests", "auth/emails/verifications").anonymous()
+                                .requestMatchers("/auth/signup", "/auth/login").anonymous()
 //                                .anyRequest().authenticated()
                                 .anyRequest().permitAll()
                 )
