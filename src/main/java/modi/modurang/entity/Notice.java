@@ -6,17 +6,16 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-public class User {
+public class Notice {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 5)
-    private String username;
-
     @Column(nullable = false, length = 100)
-    private String password;
+    private String title;
 
-    @Column(nullable = false, unique = true, length = 4)
-    private String studentNumber;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String content;
+
+    private String writer;
 }
