@@ -1,4 +1,4 @@
-package modi.modurang.util;
+package modi.modurang.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

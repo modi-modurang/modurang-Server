@@ -8,7 +8,7 @@ import modi.modurang.entity.User;
 import modi.modurang.exception.CustomException;
 import modi.modurang.exception.ErrorCode;
 import modi.modurang.repository.UserRepository;
-import modi.modurang.util.JwtProvider;
+import modi.modurang.security.JwtProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
