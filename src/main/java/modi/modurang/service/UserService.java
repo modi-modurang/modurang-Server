@@ -2,13 +2,13 @@ package modi.modurang.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import modi.modurang.entity.User;
 import modi.modurang.dto.LoginDto;
 import modi.modurang.dto.SignupDto;
+import modi.modurang.entity.User;
 import modi.modurang.exception.CustomException;
 import modi.modurang.exception.ErrorCode;
 import modi.modurang.repository.UserRepository;
-import modi.modurang.util.JwtUtil;
+import modi.modurang.util.JwtProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +16,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    private final JwtProvider jwtProvider;
 
     public void saveUser(SignupDto signupDto) throws CustomException {
         if (userRepository.existsByStudentNumber(signupDto.getStudentNumber())) {
@@ -37,8 +36,8 @@ public class UserService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         if (passwordEncoder.matches(password, user.getPassword())) {
-            String accessToken = jwtUtil.generateAccessToken(user.getUsername());
-            String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
+            String accessToken = jwtProvider.generateAccessToken(user.getUsername());
+            String refreshToken = jwtProvider.generateRefreshToken(user.getUsername());
             return new LoginDto(accessToken, refreshToken, "로그인 성공");
         } else {
             return new LoginDto(null, null, "로그인 실패: 잘못된 학번 또는 비밀번호");
@@ -46,9 +45,9 @@ public class UserService {
     }
 
     public String refreshAccessToken(String refreshToken) throws CustomException {
-        String username = jwtUtil.extractUsername(refreshToken);
-        if (jwtUtil.validateToken(refreshToken, username)) {
-            return jwtUtil.generateAccessToken(username);
+        String username = jwtProvider.extractUsername(refreshToken);
+        if (jwtProvider.validateToken(refreshToken, username)) {
+            return jwtProvider.generateAccessToken(username);
         } else {
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }

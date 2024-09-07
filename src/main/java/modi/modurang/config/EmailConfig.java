@@ -14,7 +14,6 @@ import java.util.Properties;
 @Configuration
 @RequiredArgsConstructor
 public class EmailConfig {
-
     @Value("${spring.mail.host}")
     private String host;
 

@@ -9,9 +9,9 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 public class Email {
-
     @Id
     @Column(nullable = false, length = 36)
     private String email;

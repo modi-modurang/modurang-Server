@@ -3,7 +3,8 @@ package modi.modurang.repository;
 import modi.modurang.entity.Email;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EmailRepository extends JpaRepository<Email, Long> {
+import java.util.Optional;
 
-    Email findByEmailAndVerificationCode(String email, String code);
+public interface EmailRepository extends JpaRepository<Email, Long> {
+    Optional<Email> findByEmailAndVerificationCode(String email, String code);
 }
