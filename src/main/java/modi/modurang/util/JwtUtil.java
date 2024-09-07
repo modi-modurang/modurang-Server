@@ -6,6 +6,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.config.JwtProperties;
+import modi.modurang.exception.InvalidSignatureException;
+import modi.modurang.exception.InvalidTokenException;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -37,9 +39,9 @@ public class JwtUtil {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (SignatureException e) {
-            throw new RuntimeException("유효하지 않은 서명");
+            throw new InvalidSignatureException("유효하지 않은 서명");
         } catch (Exception e) {
-            throw new RuntimeException("유효하지 않은 토큰");
+            throw new InvalidTokenException("유효하지 않은 토큰");
         }
     }
 

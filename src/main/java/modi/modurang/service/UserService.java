@@ -3,7 +3,7 @@ package modi.modurang.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import modi.modurang.entity.User;
-import modi.modurang.dto.LoginResponseDto;
+import modi.modurang.dto.LoginDto;
 import modi.modurang.dto.SignupDto;
 import modi.modurang.exception.CustomException;
 import modi.modurang.exception.ErrorCode;
@@ -32,16 +32,16 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public LoginResponseDto login(String studentNumber, String password) {
+    public LoginDto login(String studentNumber, String password) {
         User user = userRepository.findByStudentNumber(studentNumber)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         if (passwordEncoder.matches(password, user.getPassword())) {
             String accessToken = jwtUtil.generateAccessToken(user.getUsername());
             String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
-            return new LoginResponseDto(accessToken, refreshToken, "로그인 성공");
+            return new LoginDto(accessToken, refreshToken, "로그인 성공");
         } else {
-            return new LoginResponseDto(null, null, "로그인 실패: 잘못된 학번 또는 비밀번호");
+            return new LoginDto(null, null, "로그인 실패: 잘못된 학번 또는 비밀번호");
         }
     }
 
