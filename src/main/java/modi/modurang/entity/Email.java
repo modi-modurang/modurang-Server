@@ -22,7 +22,7 @@ public class Email {
     @Size(min = 6, max = 6)
     @Column(nullable = false, length = 6)
     private String verificationCode;
-    
+
     @Column(nullable = false)
     private LocalDateTime expirationDate;
 }
