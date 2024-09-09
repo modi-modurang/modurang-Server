@@ -16,8 +16,7 @@ public enum ErrorCode {
     INVALID_EMAIL(HttpStatus.BAD_REQUEST, "ACCOUNT-003", "만료된 이메일입니다."),
     UNABLE_TO_SEND_EMAIL(HttpStatus.INTERNAL_SERVER_ERROR, "ACCOUNT-004", "이메일 인증을 실패했습니다."),
     INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "ACCOUNT-005", "유효하지 않은 토큰입니다."),
-    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "ACCOUNT-006", "만료된 토큰입니다."),
-    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "ACCOUNT-007", "잘못된 비밀번호입니다."),
+    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "ACCOUNT-006", "잘못된 비밀번호입니다."),
 
     INVALID_SIGNATURE(HttpStatus.UNAUTHORIZED, "TOKEN-001", "유효하지 않은 서명입니다."),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "TOKEN-002", "유효하지 않은 토큰입니다.");

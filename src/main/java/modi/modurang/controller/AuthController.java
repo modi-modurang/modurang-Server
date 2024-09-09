@@ -3,8 +3,8 @@ package modi.modurang.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
-import modi.modurang.dto.LoginDto;
-import modi.modurang.dto.SignupDto;
+import modi.modurang.dto.LoginResponse;
+import modi.modurang.dto.SignUpRequest;
 import modi.modurang.service.EmailVerificationService;
 import modi.modurang.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ public class AuthController {
     private final EmailVerificationService emailVerificationService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody SignupDto signupDto) {
+    public ResponseEntity<String> signup(@RequestBody SignUpRequest signUpRequest) {
         try {
-            userService.saveUser(signupDto);
+            userService.saveUser(signUpRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 성공");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패: " + e.getMessage());
@@ -30,25 +30,25 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginDto> login(@RequestParam("studentNumber") String studentNumber,
-                                          @RequestParam("password") String password) {
+    public ResponseEntity<LoginResponse> login(@RequestParam("studentNumber") String studentNumber,
+                                               @RequestParam("password") String password) {
         try {
-            LoginDto response = userService.login(studentNumber, password);
+            LoginResponse response = userService.login(studentNumber, password);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new LoginDto(null, null, "로그인 실패: " + e.getMessage()));
+                    .body(new LoginResponse(null, null, "로그인 실패: " + e.getMessage()));
         }
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<LoginDto> refresh(@RequestBody String refreshToken) {
+    public ResponseEntity<LoginResponse> refresh(@RequestBody String refreshToken) {
         try {
             String newAccessToken = userService.refreshAccessToken(refreshToken);
-            return ResponseEntity.ok(new LoginDto(newAccessToken, refreshToken, "액세스 토큰 갱신 성공"));
+            return ResponseEntity.ok(new LoginResponse(newAccessToken, refreshToken, "액세스 토큰 갱신 성공"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new LoginDto(null, null, "토큰 갱신 실패: " + e.getMessage()));
+                    .body(new LoginResponse(null, null, "토큰 갱신 실패: " + e.getMessage()));
         }
     }
 

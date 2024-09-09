@@ -30,8 +30,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                                 authorizeRequests
                                         .requestMatchers("/auth/signup", "/auth/login", "auth/email/send", "auth/email/verify").anonymous()
-//                                .anyRequest().authenticated()
-                                        .anyRequest().permitAll()
+                                .anyRequest().authenticated()
+//                                        .anyRequest().permitAll()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -2,8 +2,8 @@ package modi.modurang.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import modi.modurang.dto.LoginDto;
-import modi.modurang.dto.SignupDto;
+import modi.modurang.dto.LoginResponse;
+import modi.modurang.dto.SignUpRequest;
 import modi.modurang.entity.User;
 import modi.modurang.exception.CustomException;
 import modi.modurang.exception.ErrorCode;
@@ -20,27 +20,27 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
-    public void saveUser(SignupDto signupDto) throws CustomException {
-        if (userRepository.existsByStudentNumber(signupDto.getStudentNumber())) {
+    public void saveUser(SignUpRequest signUpRequest) throws CustomException {
+        if (userRepository.existsByStudentNumber(signUpRequest.getStudentNumber())) {
             throw new CustomException(ErrorCode.HAS_STUDENTNUMBER);
         }
         User user = new User();
-        user.setUsername(signupDto.getUsername());
-        user.setPassword(passwordEncoder.encode(signupDto.getPassword()));
-        user.setStudentNumber(signupDto.getStudentNumber());
+        user.setUsername(signUpRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        user.setStudentNumber(signUpRequest.getStudentNumber());
         userRepository.save(user);
     }
 
-    public LoginDto login(String studentNumber, String password) {
+    public LoginResponse login(String studentNumber, String password) {
         User user = userRepository.findByStudentNumber(studentNumber)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         if (passwordEncoder.matches(password, user.getPassword())) {
             String accessToken = jwtProvider.generateAccessToken(user.getUsername());
             String refreshToken = jwtProvider.generateRefreshToken(user.getUsername());
-            return new LoginDto(accessToken, refreshToken, "로그인 성공");
+            return new LoginResponse(accessToken, refreshToken, "로그인 성공");
         } else {
-            return new LoginDto(null, null, "로그인 실패: 잘못된 학번 또는 비밀번호");
+            throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }
     }
 
