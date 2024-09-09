@@ -7,10 +7,6 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "COMMON-001", "서버 내부 오류입니다."),
-    BAD_REQUEST(HttpStatus.BAD_REQUEST, "COMMON-002", "잘못된 요청입니다."),
-    FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON-003", "접근이 거부되었습니다."),
-
     HAS_STUDENTNUMBER(HttpStatus.CONFLICT, "ACCOUNT-001", "존재하는 학번입니다."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "ACCOUNT-002", "사용자를 찾을 수 없습니다."),
     INVALID_EMAIL(HttpStatus.BAD_REQUEST, "ACCOUNT-003", "만료된 이메일입니다."),
