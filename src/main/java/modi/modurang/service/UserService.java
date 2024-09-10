@@ -1,7 +1,6 @@
 package modi.modurang.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import modi.modurang.dto.LoginResponse;
 import modi.modurang.dto.SignUpRequest;
 import modi.modurang.entity.User;
@@ -12,7 +11,6 @@ import modi.modurang.security.JwtProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
