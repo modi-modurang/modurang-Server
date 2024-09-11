@@ -10,6 +10,7 @@ import modi.modurang.repository.UserRepository;
 import modi.modurang.security.JwtProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +19,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
+    @Transactional
     public void saveUser(SignUpRequest signUpRequest) throws CustomException {
         if (userRepository.existsByStudentNumber(signUpRequest.getStudentNumber())) {
             throw new CustomException(ErrorCode.HAS_STUDENTNUMBER);
@@ -26,6 +28,7 @@ public class UserService {
         user.setUsername(signUpRequest.getUsername());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setStudentNumber(signUpRequest.getStudentNumber());
+        user.setEmail(signUpRequest.getEmail());
         userRepository.save(user);
     }
 

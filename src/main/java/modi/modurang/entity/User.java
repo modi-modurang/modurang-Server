@@ -24,4 +24,8 @@ public class User {
     @Size(min = 4, max = 4)
     @Column(nullable = false, unique = true, length = 4)
     private String studentNumber;
+
+    @Size(min = 1, max = 36)
+    @Column(nullable = false, length = 36)
+    private String email;
 }

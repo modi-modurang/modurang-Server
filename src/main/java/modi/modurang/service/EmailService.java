@@ -5,6 +5,7 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import lombok.RequiredArgsConstructor;
+import modi.modurang.config.EmailConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -17,14 +18,14 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class EmailService {
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
-    private static final String SENDER_EMAIL = "dongwhilove09@gmail.com";
     private final JavaMailSender javaMailSender;
+    private final EmailConfig emailConfig;
 
     public void sendVerificationCode(String toEmail, String code) {
         MimeMessage message = javaMailSender.createMimeMessage();
 
         try {
-            message.setFrom(SENDER_EMAIL);
+            message.setFrom(emailConfig.getUsername());
             message.setRecipients(MimeMessage.RecipientType.TO, toEmail);
             message.setSubject("모두랑 이메일 인증코드 : " + code);
 
