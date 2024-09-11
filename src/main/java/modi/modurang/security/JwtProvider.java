@@ -26,13 +26,14 @@ public class JwtProvider {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token, getSecretKeyForToken(token));
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token, String secretKey) {
+    private Claims extractAllClaims(String token) {
         try {
+            String secretKey = getSecretKeyForToken(token);
             return Jwts.parser()
                     .setSigningKey(secretKey)
                     .parseClaimsJws(token)
@@ -45,12 +46,12 @@ public class JwtProvider {
     }
 
     private String getSecretKeyForToken(String token) {
-        if (token.startsWith("accessTokenPrefix")) {
+        if (token.startsWith(jwtProperties.getAccessTokenPrefix())) {
             return jwtProperties.getAccessTokenSecretKey();
-        } else if (token.startsWith("refreshTokenPrefix")) {
+        } else if (token.startsWith(jwtProperties.getRefreshTokenPrefix())) {
             return jwtProperties.getRefreshTokenSecretKey();
         } else {
-            throw new RuntimeException("알 수 없는 토큰");
+            throw new CustomException(ErrorCode.UNSUPPORTED_TOKEN_TYPE);
         }
     }
 
@@ -61,7 +62,7 @@ public class JwtProvider {
     public String generateAccessToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getAccessTokenExpiration()))
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getAccessTokenSecretKey())
                 .compact();
@@ -70,7 +71,7 @@ public class JwtProvider {
     public String generateRefreshToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getRefreshTokenExpiration()))
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getRefreshTokenSecretKey())
                 .compact();

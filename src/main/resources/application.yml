@@ -30,8 +30,10 @@ spring:
 jwt:
   access-token-secret-key: ${JWT_ACCESS_TOKEN_SECRET_KEY}
   access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION}
-  REFRESH-token-secret-key: ${JWT_REFRESH_TOKEN_SECRET_KEY}
-  REFRESH-token-expiration: ${JWT_REFRESH_TOKEN_EXPIRATION}
+  refresh-token-secret-key: ${JWT_REFRESH_TOKEN_SECRET_KEY}
+  refresh-token-expiration: ${JWT_REFRESH_TOKEN_EXPIRATION}
+  access-token-prefix: Bearer
+  refresh-token-prefix: Bearer
 springdoc:
   swagger-ui:
     path: /swagger-ui.html

@@ -19,8 +19,10 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
+    private static final String LOGIN_SUCCESS_MESSAGE = "로그인 성공";
+
     @Transactional
-    public void saveUser(SignUpRequest signUpRequest) throws CustomException {
+    public void saveUser(SignUpRequest signUpRequest) {
         if (userRepository.existsByStudentNumber(signUpRequest.getStudentNumber())) {
             throw new CustomException(ErrorCode.HAS_STUDENTNUMBER);
         }
@@ -39,13 +41,13 @@ public class UserService {
         if (passwordEncoder.matches(password, user.getPassword())) {
             String accessToken = jwtProvider.generateAccessToken(user.getUsername());
             String refreshToken = jwtProvider.generateRefreshToken(user.getUsername());
-            return new LoginResponse(accessToken, refreshToken, "로그인 성공");
+            return new LoginResponse(accessToken, refreshToken, LOGIN_SUCCESS_MESSAGE);
         } else {
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }
     }
 
-    public String refreshAccessToken(String refreshToken) throws CustomException {
+    public String refreshAccessToken(String refreshToken) {
         String username = jwtProvider.extractUsername(refreshToken);
         if (jwtProvider.validateToken(refreshToken, username)) {
             return jwtProvider.generateAccessToken(username);

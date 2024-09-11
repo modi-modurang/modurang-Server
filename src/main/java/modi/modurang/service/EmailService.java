@@ -21,12 +21,12 @@ public class EmailService {
     private final JavaMailSender javaMailSender;
     private final EmailConfig emailConfig;
 
-    public void sendVerificationCode(String toEmail, String code) {
+    public void sendVerificationCode(String email, String code) {
         MimeMessage message = javaMailSender.createMimeMessage();
 
         try {
             message.setFrom(emailConfig.getUsername());
-            message.setRecipients(MimeMessage.RecipientType.TO, toEmail);
+            message.setRecipients(MimeMessage.RecipientType.TO, email);
             message.setSubject("모두랑 이메일 인증코드 : " + code);
 
             MimeMultipart multipart = createMultipart(code);
@@ -35,7 +35,7 @@ public class EmailService {
 
             javaMailSender.send(message);
         } catch (MessagingException | IOException e) {
-            logger.error("Failed to send verification email to {}: {}", toEmail, e.getMessage());
+            logger.error("Failed to send verification email to {}: {}", email, e.getMessage());
         }
     }
 
