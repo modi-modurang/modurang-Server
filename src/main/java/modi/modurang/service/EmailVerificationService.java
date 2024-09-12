@@ -1,5 +1,6 @@
 package modi.modurang.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.entity.Email;
 import modi.modurang.exception.CustomException;
@@ -21,6 +22,7 @@ public class EmailVerificationService {
     private final EmailRepository emailRepository;
     private final EmailService emailService;
 
+    @Transactional
     public void sendVerificationCode(String email) {
         String code = generateVerificationCode();
         LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(EXPIRATION_MINUTES);
@@ -41,6 +43,7 @@ public class EmailVerificationService {
         return String.format("%0" + VERIFICATION_CODE_LENGTH + "d", code);
     }
 
+    @Transactional
     public void verifyCode(String email, String code) {
         Email verification = emailRepository.findByEmailAndVerificationCode(email, code).orElse(null);
 
