@@ -36,15 +36,4 @@ public class AuthController {
                     .body(new LoginResponse(null, null, "로그인 실패: " + e.getMessage()));
         }
     }
-
-    @PostMapping("/refresh")
-    public ResponseEntity<LoginResponse> refresh(@RequestBody String refreshToken) {
-        try {
-            String newAccessToken = userService.refreshAccessToken(refreshToken);
-            return ResponseEntity.ok(new LoginResponse(newAccessToken, refreshToken, "토큰 갱신 성공"));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new LoginResponse(null, null, "토큰 갱신 실패: " + e.getMessage()));
-        }
-    }
 }

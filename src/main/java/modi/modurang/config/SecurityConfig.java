@@ -1,6 +1,8 @@
-package modi.modurang.security;
+package modi.modurang.config;
 
 import lombok.RequiredArgsConstructor;
+import modi.modurang.security.JwtAuthenticationFilter;
+import modi.modurang.security.JwtProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,7 +31,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                                 authorizeRequests
-                                        .requestMatchers("/auth/signup", "/auth/login", "auth/email/send", "auth/email/verify").anonymous()
+                                        .requestMatchers("/auth/signup", "/auth/login", "email/send", "email/verify").anonymous()
 //                                        .anyRequest().authenticated()
                                         .anyRequest().permitAll()
                 )

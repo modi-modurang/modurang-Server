@@ -34,8 +34,8 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public LoginResponse login(String studentNumber, String password) {
-        User user = userRepository.findByStudentNumber(studentNumber)
+    public LoginResponse login(String email, String password) {
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         if (passwordEncoder.matches(password, user.getPassword())) {
