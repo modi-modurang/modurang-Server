@@ -27,7 +27,6 @@ public class User {
     private String email;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "role", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "role")
-    private Set<String> role = new HashSet<>();
+    @CollectionTable(name = "role", joinColumns = @JoinColumn(name = "user_id"))
+    private Set<Role> role = new HashSet<>();
 }
