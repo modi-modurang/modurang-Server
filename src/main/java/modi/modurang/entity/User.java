@@ -1,9 +1,11 @@
 package modi.modurang.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -13,19 +15,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 2, max = 5)
-    @Column(nullable = false, length = 5)
+    @Column(nullable = false)
     private String username;
 
-    @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
     private String password;
 
-    @Size(min = 4, max = 4)
-    @Column(nullable = false, unique = true, length = 4)
+    @Column(nullable = false, unique = true)
     private String studentNumber;
 
-    @Size(min = 1, max = 36)
-    @Column(nullable = false, length = 36)
+    @Column(nullable = false)
     private String email;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "role", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "role")
+    private Set<String> role = new HashSet<>();
 }
