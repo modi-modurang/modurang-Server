@@ -1,8 +1,8 @@
 package modi.modurang.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
-import modi.modurang.domain.user.dto.LoginResponse;
-import modi.modurang.domain.user.dto.SignUpRequest;
+import modi.modurang.domain.user.dto.LoginResponseDto;
+import modi.modurang.domain.user.dto.SignUpRequestDto;
 import modi.modurang.domain.user.entity.User;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
@@ -23,26 +23,26 @@ public class UserService {
     private static final String LOGIN_SUCCESS_MESSAGE = "로그인 성공";
 
     @Transactional
-    public void saveUser(SignUpRequest signUpRequest) {
-        if (userRepository.existsByStudentNumber(signUpRequest.getStudentNumber())) {
+    public void saveUser(SignUpRequestDto signUpRequestDto) {
+        if (userRepository.existsByStudentNumber(signUpRequestDto.getStudentNumber())) {
             throw new CustomException(ErrorCode.HAS_STUDENTNUMBER);
         }
         User user = new User();
-        user.setUsername(signUpRequest.getUsername());
-        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-        user.setStudentNumber(signUpRequest.getStudentNumber());
-        user.setEmail(signUpRequest.getEmail());
+        user.setUsername(signUpRequestDto.getUsername());
+        user.setPassword(passwordEncoder.encode(signUpRequestDto.getPassword()));
+        user.setStudentNumber(signUpRequestDto.getStudentNumber());
+        user.setEmail(signUpRequestDto.getEmail());
         userRepository.save(user);
     }
 
-    public LoginResponse login(String email, String password) {
+    public LoginResponseDto login(String email, String password) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         if (passwordEncoder.matches(password, user.getPassword())) {
             String accessToken = jwtProvider.generateAccessToken(user.getUsername());
             String refreshToken = jwtProvider.generateRefreshToken(user.getUsername());
-            return new LoginResponse(accessToken, refreshToken, LOGIN_SUCCESS_MESSAGE);
+            return new LoginResponseDto(accessToken, refreshToken, LOGIN_SUCCESS_MESSAGE);
         } else {
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }

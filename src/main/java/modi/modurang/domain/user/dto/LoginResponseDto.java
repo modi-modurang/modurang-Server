@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignUpRequest {
+public class LoginResponseDto {
 
-    private String username;
-    private String password;
-    private String studentNumber;
-    private String email;
+    private String accessToken;
+    private String refreshToken;
+    private String message;
 }

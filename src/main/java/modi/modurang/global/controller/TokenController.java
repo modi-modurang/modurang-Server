@@ -1,7 +1,7 @@
 package modi.modurang.global.controller;
 
 import lombok.RequiredArgsConstructor;
-import modi.modurang.domain.user.dto.RefreshResponse;
+import modi.modurang.domain.user.dto.RefreshResponseDto;
 import modi.modurang.domain.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +16,13 @@ public class TokenController {
     private final UserService userService;
 
     @PostMapping("/refresh")
-    public ResponseEntity<RefreshResponse> refresh(@RequestBody String refreshToken) {
+    public ResponseEntity<RefreshResponseDto> refresh(@RequestBody String refreshToken) {
         try {
             String newAccessToken = userService.refreshAccessToken(refreshToken);
-            return ResponseEntity.ok(new RefreshResponse(newAccessToken, "토큰 갱신 성공"));
+            return ResponseEntity.ok(new RefreshResponseDto(newAccessToken, "토큰 갱신 성공"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new RefreshResponse(null, "토큰 갱신 실패: " + e.getMessage()));
+                    .body(new RefreshResponseDto(null, "토큰 갱신 실패: " + e.getMessage()));
         }
     }
 }

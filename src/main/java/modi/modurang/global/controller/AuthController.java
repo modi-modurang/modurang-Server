@@ -1,8 +1,8 @@
 package modi.modurang.global.controller;
 
 import lombok.RequiredArgsConstructor;
-import modi.modurang.domain.user.dto.LoginResponse;
-import modi.modurang.domain.user.dto.SignUpRequest;
+import modi.modurang.domain.user.dto.LoginResponseDto;
+import modi.modurang.domain.user.dto.SignUpRequestDto;
 import modi.modurang.domain.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +17,9 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<String> signup(@RequestBody SignUpRequestDto signUpRequestDto) {
         try {
-            userService.saveUser(signUpRequest);
+            userService.saveUser(signUpRequestDto);
             return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 성공");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패: " + e.getMessage());
@@ -27,14 +27,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestParam("studentNumber") String studentNumber,
-                                               @RequestParam("password") String password) {
+    public ResponseEntity<LoginResponseDto> login(@RequestParam("studentNumber") String studentNumber,
+                                                  @RequestParam("password") String password) {
         try {
-            LoginResponse loginResponse = userService.login(studentNumber, password);
-            return ResponseEntity.ok(loginResponse);
+            LoginResponseDto loginResponseDto = userService.login(studentNumber, password);
+            return ResponseEntity.ok(loginResponseDto);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new LoginResponse(null, null, "로그인 실패: " + e.getMessage()));
+                    .body(new LoginResponseDto(null, null, "로그인 실패: " + e.getMessage()));
         }
     }
 }
