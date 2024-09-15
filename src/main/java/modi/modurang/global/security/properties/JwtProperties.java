@@ -1,4 +1,4 @@
-package modi.modurang.global.config;
+package modi.modurang.global.security.properties;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
