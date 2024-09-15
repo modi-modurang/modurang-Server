@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/token")
 @RequiredArgsConstructor
 public class TokenController {
+
     private final UserService userService;
 
     @PostMapping("/refresh")

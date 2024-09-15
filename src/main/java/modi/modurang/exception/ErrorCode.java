@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
+
     HAS_STUDENTNUMBER(HttpStatus.CONFLICT, "ACCOUNT-001", "존재하는 학번입니다."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "ACCOUNT-002", "사용자를 찾을 수 없습니다."),
     INVALID_EMAIL(HttpStatus.BAD_REQUEST, "ACCOUNT-003", "만료된 이메일입니다."),
