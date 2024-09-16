@@ -1,11 +1,10 @@
-package modi.modurang.global.security.jwt;
+package modi.modurang.global.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
-import modi.modurang.global.security.properties.JwtProperties;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
 import org.springframework.stereotype.Component;

@@ -8,7 +8,7 @@ import modi.modurang.domain.user.entity.User;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
 import modi.modurang.domain.user.repository.UserRepository;
-import modi.modurang.global.security.jwt.JwtProvider;
+import modi.modurang.global.security.JwtProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

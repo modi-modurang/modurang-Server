@@ -1,4 +1,4 @@
-package modi.modurang.global.security.jwt;
+package modi.modurang.global.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
