@@ -27,10 +27,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestParam("studentNumber") String studentNumber,
+    public ResponseEntity<LoginResponseDto> login(@RequestParam("email") String email,
                                                   @RequestParam("password") String password) {
         try {
-            LoginResponseDto loginResponseDto = userService.login(studentNumber, password);
+            LoginResponseDto loginResponseDto = userService.login(email, password);
             return ResponseEntity.ok(loginResponseDto);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
