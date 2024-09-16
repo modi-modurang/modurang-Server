@@ -1,6 +1,7 @@
 package modi.modurang.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
+import modi.modurang.domain.user.dto.LoginRequestDto;
 import modi.modurang.domain.user.dto.LoginResponseDto;
 import modi.modurang.domain.user.dto.SignUpRequestDto;
 import modi.modurang.domain.user.entity.User;
@@ -35,11 +36,11 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public LoginResponseDto login(String email, String password) {
-        User user = userRepository.findByEmail(email)
+    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
+        User user = userRepository.findByEmail(loginRequestDto.getEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        if (passwordEncoder.matches(password, user.getPassword())) {
+        if (passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) {
             String accessToken = jwtProvider.generateAccessToken(user.getUsername());
             String refreshToken = jwtProvider.generateRefreshToken(user.getUsername());
             return new LoginResponseDto(accessToken, refreshToken, LOGIN_SUCCESS_MESSAGE);

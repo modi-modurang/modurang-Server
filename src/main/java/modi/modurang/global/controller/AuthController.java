@@ -1,6 +1,7 @@
 package modi.modurang.global.controller;
 
 import lombok.RequiredArgsConstructor;
+import modi.modurang.domain.user.dto.LoginRequestDto;
 import modi.modurang.domain.user.dto.LoginResponseDto;
 import modi.modurang.domain.user.dto.SignUpRequestDto;
 import modi.modurang.domain.user.service.UserService;
@@ -27,10 +28,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestParam("email") String email,
-                                                  @RequestParam("password") String password) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
         try {
-            LoginResponseDto loginResponseDto = userService.login(email, password);
+            LoginResponseDto loginResponseDto = userService.login(loginRequestDto);
             return ResponseEntity.ok(loginResponseDto);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
