@@ -23,14 +23,15 @@ public class EmailService {
     private final EmailConfig emailConfig;
 
     public void sendVerificationCode(String email, String code) {
-        MimeMessage message = javaMailSender.createMimeMessage();
-
         try {
+            MimeMessage message = javaMailSender.createMimeMessage();
             message.setFrom(emailConfig.getUsername());
             message.setRecipients(MimeMessage.RecipientType.TO, email);
             message.setSubject("모두랑 이메일 인증코드 : " + code);
 
-            MimeMultipart multipart = createMultipart(code);
+            MimeMultipart multipart = new MimeMultipart();
+            multipart.addBodyPart(createMessageBodyPart(code));
+            multipart.addBodyPart(createImageBodyPart());
 
             message.setContent(multipart);
 
@@ -40,25 +41,17 @@ public class EmailService {
         }
     }
 
-    private MimeMultipart createMultipart(String code) throws MessagingException, IOException {
-        MimeMultipart multipart = new MimeMultipart();
-
-        MimeBodyPart messageBodyPart = createMessageBodyPart(code);
-        MimeBodyPart imagePart = createImageBodyPart();
-
-        multipart.addBodyPart(messageBodyPart);
-        multipart.addBodyPart(imagePart);
-
-        return multipart;
-    }
-
     private MimeBodyPart createMessageBodyPart(String code) throws MessagingException {
         MimeBodyPart messageBodyPart = new MimeBodyPart();
         String htmlContent = "<div style='text-align: center;'>"
                 + "<img src='cid:image' style='width: 150px;'><br><br>"
                 + "<p style='font-size: 16px; font-weight: bold;'>모두랑 이메일 인증을 위해 아래 코드를 입력하세요</p>"
                 + "<h1 style='font-size: 48px; margin: 20px 0; letter-spacing: 10px;'>" + code + "</h1>"
-                + "<p style='font-size: 14px;'>코드는 1분 후 만료됩니다.</p>"
+                + "<p style='font-size: 14px;'>코드는 5분 후 만료됩니다.</p>"
+                + "<p style='font-size: 10px; line-height: 1.6; margin: 20px 0;'>만약 이 요청을 본인이 하지 않았다면, 이 메일을 무시하셔도 됩니다.</p>"
+                + "<div style='text-align: center; margin-top: 30px; font-size: 12px; color: #999;'>"
+                + "© 2024 Modurang. All rights reserved."
+                + "</div>"
                 + "</div>";
         messageBodyPart.setContent(htmlContent, "text/html; charset=UTF-8");
         return messageBodyPart;

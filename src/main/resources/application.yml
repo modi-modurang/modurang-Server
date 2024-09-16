@@ -3,13 +3,13 @@ spring:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
-    hikari:
-      maximum-pool-size: 101
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
     open-in-view: false
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -27,6 +27,7 @@ spring:
           writetimeout: 5000
           ssl:
             trust: smtp.gmail.com
+
 jwt:
   access-token-secret-key: ${JWT_ACCESS_TOKEN_SECRET_KEY}
   access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION}
@@ -34,11 +35,7 @@ jwt:
   refresh-token-expiration: ${JWT_REFRESH_TOKEN_EXPIRATION}
   access-token-prefix: Bearer
   refresh-token-prefix: Bearer
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
-server:
-  tomcat:
-    threads:
-      max: 100
-      min-spare: 10
