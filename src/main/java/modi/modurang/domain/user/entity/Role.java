@@ -9,7 +9,7 @@ import lombok.Setter;
 @Embeddable
 public class Role {
 
-    private String studentClub;
+    private String club;
 
     private String role;
 }
