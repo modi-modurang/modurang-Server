@@ -35,7 +35,7 @@ public class EmailVerificationService {
 
         emailRepository.save(emailVerification);
 
-        emailService.sendVerificationCode(email, code);
+        emailService.sendEmail(email, code);
     }
 
     private String generateVerificationCode() {
@@ -44,7 +44,6 @@ public class EmailVerificationService {
         return String.format("%0" + VERIFICATION_CODE_LENGTH + "d", code);
     }
 
-    @Transactional
     public void verifyCode(String email, String code) {
         Email verification = emailRepository.findByEmailAndVerificationCode(email, code).orElse(null);
 

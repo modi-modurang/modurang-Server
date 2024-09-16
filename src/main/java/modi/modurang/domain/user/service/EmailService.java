@@ -22,7 +22,7 @@ public class EmailService {
     private final JavaMailSender javaMailSender;
     private final EmailConfig emailConfig;
 
-    public void sendVerificationCode(String email, String code) {
+    public void sendEmail(String email, String code) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             message.setFrom(emailConfig.getUsername());
@@ -37,7 +37,7 @@ public class EmailService {
 
             javaMailSender.send(message);
         } catch (MessagingException | IOException e) {
-            logger.error("Failed to send verification email to {}: {}", email, e.getMessage());
+            logger.error("{}에게 인증 이메일 전송 실패: {}", email, e.getMessage());
         }
     }
 
