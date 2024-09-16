@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 
 @OpenAPIDefinition(servers = {
-        @Server(description = "https://0d82-221-168-22-204.ngrok-free.app")
+        @Server(url = "/", description = "https://0d82-221-168-22-204.ngrok-free.app")
 })
 
 @SpringBootApplication
