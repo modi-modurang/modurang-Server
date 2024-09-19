@@ -3,9 +3,9 @@ package modi.modurang.domain.email.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.auth.domain.entity.Email;
+import modi.modurang.domain.auth.repository.EmailRepository;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
-import modi.modurang.domain.auth.repository.EmailRepository;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;

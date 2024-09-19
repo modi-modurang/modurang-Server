@@ -2,9 +2,9 @@ package modi.modurang.global.service;
 
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.user.domain.entity.User;
+import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
-import modi.modurang.domain.user.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

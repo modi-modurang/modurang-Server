@@ -2,8 +2,8 @@ package modi.modurang.domain.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.auth.dto.request.LoginRequest;
-import modi.modurang.domain.auth.dto.response.LoginResponse;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
+import modi.modurang.domain.auth.dto.response.LoginResponse;
 import modi.modurang.domain.user.domain.entity.User;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.exception.CustomException;
