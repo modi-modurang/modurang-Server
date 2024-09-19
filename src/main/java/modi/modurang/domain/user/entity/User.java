@@ -1,11 +1,11 @@
-package modi.modurang.domain.user.domain.entity;
+package modi.modurang.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import modi.modurang.domain.user.domain.enums.UserRole;
+import modi.modurang.domain.user.enums.UserRole;
 
 @Entity
 @Getter
@@ -13,6 +13,7 @@ import modi.modurang.domain.user.domain.enums.UserRole;
 @SuperBuilder
 @NoArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +29,6 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String club;
 
     @Enumerated(EnumType.STRING)

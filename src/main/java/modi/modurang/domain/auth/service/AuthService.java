@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.auth.dto.request.LoginRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
 import modi.modurang.domain.auth.dto.response.LoginResponse;
-import modi.modurang.domain.user.domain.entity.User;
+import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
@@ -25,6 +26,7 @@ public class AuthService {
         if (userRepository.existsByStudentNumber(request.getStudentNumber())) {
             throw new CustomException(ErrorCode.HAS_STUDENTNUMBER);
         }
+
         User user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -43,7 +45,7 @@ public class AuthService {
         if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             String accessToken = jwtProvider.generateAccessToken(user.getUsername());
             String refreshToken = jwtProvider.generateRefreshToken(user.getUsername());
-            return new LoginResponse(accessToken, refreshToken);
+            return new LoginResponse(accessToken, refreshToken, "로그인 성공");
         } else {
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }

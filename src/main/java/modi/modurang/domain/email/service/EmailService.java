@@ -17,7 +17,6 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class EmailService {
-
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
     private final JavaMailSender javaMailSender;
     private final MailConfig mailConfig;
