@@ -1,11 +1,11 @@
-package modi.modurang.domain.user.service;
+package modi.modurang.domain.email.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import modi.modurang.domain.user.entity.Email;
+import modi.modurang.domain.auth.domain.entity.Email;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
-import modi.modurang.domain.user.repository.EmailRepository;
+import modi.modurang.domain.auth.repository.EmailRepository;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class EmailVerificationService {
-
     private static final int VERIFICATION_CODE_LENGTH = 6;
     private static final int VERIFICATION_CODE_UPPER_BOUND = 999999;
     private static final int VERIFICATION_CODE_LOWER_BOUND = 100000;

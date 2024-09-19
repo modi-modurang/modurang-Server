@@ -1,11 +1,11 @@
-package modi.modurang.domain.user.service;
+package modi.modurang.domain.email.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import lombok.RequiredArgsConstructor;
-import modi.modurang.global.config.EmailConfig;
+import modi.modurang.global.config.MailConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -20,12 +20,12 @@ public class EmailService {
 
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
     private final JavaMailSender javaMailSender;
-    private final EmailConfig emailConfig;
+    private final MailConfig mailConfig;
 
     public void sendEmail(String email, String code) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
-            message.setFrom(emailConfig.getUsername());
+            message.setFrom(mailConfig.getUsername());
             message.setRecipients(MimeMessage.RecipientType.TO, email);
             message.setSubject("모두랑 이메일 인증코드 : " + code);
 

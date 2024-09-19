@@ -1,4 +1,4 @@
-package modi.modurang.domain.user.dto;
+package modi.modurang.domain.auth.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RefreshResponseDto {
-
+public class LoginResponse {
     private String accessToken;
-    private String message;
+    private String refreshToken;
 }

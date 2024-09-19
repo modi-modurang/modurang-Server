@@ -1,17 +1,18 @@
-package modi.modurang.domain.user.entity;
+package modi.modurang.domain.user.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
+import lombok.experimental.SuperBuilder;
+import modi.modurang.domain.user.domain.enums.UserRole;
 
 @Entity
 @Getter
 @Setter
+@SuperBuilder
+@NoArgsConstructor
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +28,9 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "role", joinColumns = @JoinColumn(name = "user_id"))
-    private Set<Role> role = new HashSet<>();
+    @Column(nullable = false)
+    private String club;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 }

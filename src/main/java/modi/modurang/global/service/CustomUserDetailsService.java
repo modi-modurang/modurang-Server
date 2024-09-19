@@ -1,7 +1,7 @@
 package modi.modurang.global.service;
 
 import lombok.RequiredArgsConstructor;
-import modi.modurang.domain.user.entity.User;
+import modi.modurang.domain.user.domain.entity.User;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
 import modi.modurang.domain.user.repository.UserRepository;
@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,9 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        List<GrantedAuthority> authorities = user.getRole().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRole()))
-                .collect(Collectors.toList());
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }

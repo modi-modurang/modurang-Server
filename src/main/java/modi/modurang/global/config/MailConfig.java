@@ -13,7 +13,7 @@ import java.util.Properties;
 @Getter
 @Configuration
 @RequiredArgsConstructor
-public class EmailConfig {
+public class MailConfig {
 
     @Value("${spring.mail.host}")
     private String host;
