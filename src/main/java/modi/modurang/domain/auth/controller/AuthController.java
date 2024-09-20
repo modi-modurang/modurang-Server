@@ -36,7 +36,7 @@ public class AuthController {
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         try {
             LoginResponse loginResponse = authService.login(request);
-            return ResponseEntity.ok(loginResponse);
+            return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
         } catch (CustomException e) {
             return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new LoginResponse(null, null, "로그인 실패: " + e.getMessage()));
         }
@@ -46,7 +46,7 @@ public class AuthController {
     public ResponseEntity<ReissueResponse> refresh(@RequestBody ReissueRequest request) {
         try {
             String newAccessToken = authService.reissue(request.getRefreshToken());
-            return ResponseEntity.ok(new ReissueResponse(newAccessToken, "토큰 갱신 성공"));
+            return ResponseEntity.status(HttpStatus.OK).body(new ReissueResponse(newAccessToken, "토큰 갱신 성공"));
         } catch (CustomException e) {
             return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new ReissueResponse(null, "토큰 갱신 실패: " + e.getMessage()));
         }
