@@ -2,6 +2,7 @@ package modi.modurang.domain.club.controller;
 
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.club.dto.request.SignupRequest;
+import modi.modurang.domain.club.dto.response.SignupResponse;
 import modi.modurang.domain.club.service.ClubService;
 import modi.modurang.global.exception.CustomException;
 import org.springframework.http.HttpStatus;
@@ -18,12 +19,12 @@ public class ClubController {
     private final ClubService clubService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(SignupRequest request) {
+    public ResponseEntity<SignupResponse> signup(SignupRequest request) {
         try {
             clubService.signup(request);
-            return ResponseEntity.status(HttpStatus.OK).body("동아리 가입 성공");
+            return ResponseEntity.status(HttpStatus.OK).body(new SignupResponse("동아리 가입 성공"));
         } catch (CustomException e) {
-            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body("동아리 가입 실패: " + e.getMessage());
+            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new SignupResponse("동아리 가입 실패: " + e.getMessage()));
         }
     }
 }
