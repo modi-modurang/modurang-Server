@@ -27,8 +27,8 @@ public class AuthController {
         try {
             authService.signup(request);
             return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 성공");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패: " + e.getMessage());
+        } catch (CustomException e) {
+            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body("회원가입 실패: " + e.getMessage());
         }
     }
 
@@ -37,8 +37,8 @@ public class AuthController {
         try {
             LoginResponse loginResponse = authService.login(request);
             return ResponseEntity.ok(loginResponse);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new LoginResponse(null, null, "로그인 실패: " + e.getMessage()));
+        } catch (CustomException e) {
+            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new LoginResponse(null, null, "로그인 실패: " + e.getMessage()));
         }
     }
 
@@ -48,8 +48,7 @@ public class AuthController {
             String newAccessToken = authService.reissue(request.getRefreshToken());
             return ResponseEntity.ok(new ReissueResponse(newAccessToken, "토큰 갱신 성공"));
         } catch (CustomException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ReissueResponse(null, "토큰 갱신 실패: " + e.getMessage()));
+            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new ReissueResponse(null, "토큰 갱신 실패: " + e.getMessage()));
         }
     }
 }
