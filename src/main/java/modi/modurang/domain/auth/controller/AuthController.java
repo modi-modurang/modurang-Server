@@ -6,6 +6,7 @@ import modi.modurang.domain.auth.dto.request.ReissueRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
 import modi.modurang.domain.auth.dto.response.LoginResponse;
 import modi.modurang.domain.auth.dto.response.ReissueResponse;
+import modi.modurang.domain.auth.dto.response.SignupResponse;
 import modi.modurang.domain.auth.service.AuthService;
 import modi.modurang.global.exception.CustomException;
 import org.springframework.http.HttpStatus;
@@ -23,12 +24,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody SignUpRequest request) {
+    public ResponseEntity<SignupResponse> signup(@RequestBody SignUpRequest request) {
         try {
             authService.signup(request);
-            return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 성공");
+            return ResponseEntity.status(HttpStatus.CREATED).body(new SignupResponse("회원가입 성공"));
         } catch (CustomException e) {
-            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body("회원가입 실패: " + e.getMessage());
+            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new SignupResponse("회원가입 실패: " + e.getMessage()));
         }
     }
 

@@ -51,10 +51,6 @@ tasks.named('test') {
 			def props = new Properties()
 			envFile.withInputStream { stream -> props.load(stream) }
 
-			props.each { key, value ->
-				println "${key}=${value}"
-			}
-
 			def jvmArguments = props.collect { key, value ->
 				"-D${key.toString()}=${value.toString()}"
 			}
