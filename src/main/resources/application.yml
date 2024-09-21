@@ -35,7 +35,7 @@ jwt:
   refresh-token-secret-key: ${JWT_REFRESH_TOKEN_SECRET_KEY}
   refresh-token-expiration: ${JWT_REFRESH_TOKEN_EXPIRATION}
   access-token-prefix: "Bearer "
-  refresh-token-prefix: "Bearer "
+  refresh-token-prefix: "Refresh "
 
 springdoc:
   swagger-ui:

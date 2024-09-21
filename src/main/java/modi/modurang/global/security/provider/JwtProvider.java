@@ -1,4 +1,4 @@
-package modi.modurang.global.security;
+package modi.modurang.global.security.provider;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -7,6 +7,7 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
+import modi.modurang.global.security.config.JwtProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -33,10 +34,19 @@ public class JwtProvider {
 
     private Claims extractAllClaims(String token) {
         try {
+            String tokenWithoutPrefix;
+
+            if (token.startsWith("Refresh ")) {
+                tokenWithoutPrefix = token.substring(8);
+            } else {
+                throw new CustomException(ErrorCode.UNSUPPORTED_TOKEN_TYPE);
+            }
+
             String secretKey = getSecretKeyForToken(token);
+
             return Jwts.parser()
                     .setSigningKey(secretKey)
-                    .parseClaimsJws(token)
+                    .parseClaimsJws(tokenWithoutPrefix)
                     .getBody();
         } catch (SignatureException e) {
             throw new CustomException(ErrorCode.INVALID_SIGNATURE);
