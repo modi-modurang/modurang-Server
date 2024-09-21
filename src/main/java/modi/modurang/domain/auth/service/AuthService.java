@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.auth.dto.request.LoginRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
 import modi.modurang.domain.auth.dto.response.LoginResponse;
+import modi.modurang.domain.email.entity.Email;
+import modi.modurang.domain.email.repository.EmailRepository;
 import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.exception.CustomException;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final EmailRepository emailRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
@@ -25,6 +28,13 @@ public class AuthService {
     public void signup(SignUpRequest request) {
         if (userRepository.existsByStudentNumber(request.getStudentNumber())) {
             throw new CustomException(ErrorCode.HAS_STUDENTNUMBER);
+        } else if (request.getStudentNumber().length() != 4) {
+            throw new CustomException(ErrorCode.INVALID_STUDENTNUMBER);
+        }
+
+        Email verification = emailRepository.findByEmail(request.getEmail()).orElse(null);
+        if (verification == null || !verification.isVerified()) {
+            throw new CustomException(ErrorCode.EMAIL_NOT_VERIFIED);
         }
 
         User user = User.builder()
@@ -34,6 +44,7 @@ public class AuthService {
                 .email(request.getEmail())
                 .club(request.getClub())
                 .build();
+
         userRepository.save(user);
     }
 

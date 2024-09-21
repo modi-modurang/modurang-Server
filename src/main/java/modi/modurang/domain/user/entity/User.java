@@ -1,6 +1,7 @@
 package modi.modurang.domain.user.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Size(min = 4, max = 4)
     @Column(nullable = false, unique = true)
     private String studentNumber;
 

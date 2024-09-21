@@ -25,6 +25,10 @@ public class EmailVerificationService {
 
     @Transactional
     public void sendVerificationCode(String email) {
+        if (!isValidEmail(email)) {
+            throw new CustomException(ErrorCode.INVALID_EMAIL);
+        }
+
         String code = generateVerificationCode();
         LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(EXPIRATION_MINUTES);
 
@@ -32,10 +36,20 @@ public class EmailVerificationService {
         emailVerification.setEmail(email);
         emailVerification.setVerificationCode(code);
         emailVerification.setExpirationDate(expirationDate);
+        emailVerification.setVerified(false);
 
         emailRepository.save(emailVerification);
 
         emailService.sendEmail(email, code);
+    }
+
+    private boolean isValidEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            return false;
+        }
+
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        return email.matches(emailRegex);
     }
 
     private String generateVerificationCode() {
@@ -53,9 +67,10 @@ public class EmailVerificationService {
         }
 
         if (verification.getExpirationDate().isBefore(LocalDateTime.now())) {
-            throw new CustomException(ErrorCode.INVALID_EMAIL);
+            throw new CustomException(ErrorCode.EXPIRED_EMAIL);
         }
 
-        emailRepository.delete(verification);
+        verification.setVerified(true);
+        emailRepository.save(verification);
     }
 }

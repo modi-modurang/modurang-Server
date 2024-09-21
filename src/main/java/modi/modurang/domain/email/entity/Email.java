@@ -21,4 +21,6 @@ public class Email {
     private String verificationCode;
 
     private LocalDateTime expirationDate;
+
+    private boolean isVerified;
 }
