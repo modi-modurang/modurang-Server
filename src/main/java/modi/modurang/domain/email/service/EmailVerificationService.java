@@ -56,20 +56,6 @@ public class EmailVerificationService {
         return String.format("%0" + VERIFICATION_CODE_LENGTH + "d", code);
     }
 
-    private String generateEmailCode() {
-        String chars = "abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        StringBuilder code = new StringBuilder();
-        Random random = new Random();
-
-        for (int i = 0; i < 20; i++) {
-            char c = chars.charAt(random.nextInt(chars.length()));
-
-            code.append(c);
-        }
-
-        return code.toString();
-    }
-
     @Transactional
     public void verifyCode(String email, String code) {
         Email verification = emailRepository.findByEmailAndVerificationCode(email, code).orElse(null);

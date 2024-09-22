@@ -13,6 +13,7 @@ import modi.modurang.domain.user.enums.UserRole;
 @SuperBuilder
 @NoArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

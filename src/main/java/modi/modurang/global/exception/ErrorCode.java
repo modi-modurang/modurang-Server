@@ -16,7 +16,8 @@ public enum ErrorCode {
     INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "ACCOUNT-006", "잘못된 비밀번호입니다."),
     INVALID_STUDENTNUMBER(HttpStatus.BAD_REQUEST, "ACCOUNT-007", "유효하지 않은 학번입니다."),
     EMAIL_NOT_VERIFIED(HttpStatus.BAD_REQUEST, "ACCOUNT-008", "인증되지 않은 이메일입니다."),
-    HAS_EMAIL(HttpStatus.CONFLICT, "ACCOUNT--009", "이미 가입된 이메일입니다."),
+    HAS_EMAIL(HttpStatus.CONFLICT, "ACCOUNT-009", "이미 가입된 이메일입니다."),
+    INVALID_USERNAME(HttpStatus.BAD_REQUEST, "ACCOUNT-010", "유효하지 않은 이름입니다."),
 
     INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "TOKEN-001", "유효하지 않은 토큰입니다."),
     INVALID_SIGNATURE(HttpStatus.UNAUTHORIZED, "TOKEN-002", "유효하지 않은 서명입니다."),
