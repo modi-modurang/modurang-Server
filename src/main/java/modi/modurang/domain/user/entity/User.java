@@ -1,7 +1,6 @@
 package modi.modurang.domain.user.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,6 @@ import modi.modurang.domain.user.enums.UserRole;
 @SuperBuilder
 @NoArgsConstructor
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +23,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Size(min = 4, max = 4)
     @Column(nullable = false, unique = true)
     private String studentNumber;
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -44,18 +45,29 @@ public class EmailVerificationService {
     }
 
     private boolean isValidEmail(String email) {
-        if (email == null || email.isEmpty()) {
-            return false;
-        }
-
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
-        return email.matches(emailRegex);
+
+        return email != null && !email.isBlank() && email.matches(emailRegex);
     }
 
     private String generateVerificationCode() {
         SecureRandom random = new SecureRandom();
         int code = random.nextInt(VERIFICATION_CODE_UPPER_BOUND - VERIFICATION_CODE_LOWER_BOUND + 1) + VERIFICATION_CODE_LOWER_BOUND;
         return String.format("%0" + VERIFICATION_CODE_LENGTH + "d", code);
+    }
+
+    private String generateEmailCode() {
+        String chars = "abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder code = new StringBuilder();
+        Random random = new Random();
+
+        for (int i = 0; i < 20; i++) {
+            char c = chars.charAt(random.nextInt(chars.length()));
+
+            code.append(c);
+        }
+
+        return code.toString();
     }
 
     @Transactional

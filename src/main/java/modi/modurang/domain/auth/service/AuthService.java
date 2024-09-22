@@ -30,6 +30,8 @@ public class AuthService {
             throw new CustomException(ErrorCode.HAS_STUDENTNUMBER);
         } else if (request.getStudentNumber().length() != 4) {
             throw new CustomException(ErrorCode.INVALID_STUDENTNUMBER);
+        } else if (emailRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new CustomException(ErrorCode.HAS_EMAIL);
         }
 
         Email verification = emailRepository.findByEmail(request.getEmail()).orElse(null);
