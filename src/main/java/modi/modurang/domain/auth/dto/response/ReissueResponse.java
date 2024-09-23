@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class ReissueResponse {
 
     private String accessToken;
+
     private String message;
 }
