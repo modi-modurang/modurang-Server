@@ -74,6 +74,6 @@ public class EmailService {
     @Scheduled(cron = "0 * * * * *")
     @Transactional
     public void deleteExpiredEmails() {
-        emailRepository.deleteByExpirationDateBeforeAndVerifiedFalse(LocalDateTime.now());
+        emailRepository.deleteByExpirationDateBeforeAndIsVerifiedFalse(LocalDateTime.now());
     }
 }
