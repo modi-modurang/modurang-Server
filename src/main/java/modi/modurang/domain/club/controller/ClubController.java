@@ -2,8 +2,10 @@ package modi.modurang.domain.club.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import modi.modurang.domain.club.dto.request.SignupRequest;
-import modi.modurang.domain.club.dto.response.SignupResponse;
+import modi.modurang.domain.club.dto.request.JoinRequest;
+import modi.modurang.domain.club.dto.request.ModifyRequest;
+import modi.modurang.domain.club.dto.response.JoinResponse;
+import modi.modurang.domain.club.dto.response.ModifyResponse;
 import modi.modurang.domain.club.service.ClubService;
 import modi.modurang.global.exception.CustomException;
 import org.springframework.http.HttpStatus;
@@ -20,13 +22,23 @@ public class ClubController {
 
     private final ClubService clubService;
 
-    @PostMapping("/signup")
-    public ResponseEntity<SignupResponse> signup(@Valid @RequestBody SignupRequest request) {
+    @PostMapping("/join")
+    public ResponseEntity<JoinResponse> join(@Valid @RequestBody JoinRequest request) {
         try {
-            clubService.signup(request);
-            return ResponseEntity.status(HttpStatus.OK).body(new SignupResponse("동아리 가입 성공"));
+            clubService.join(request);
+            return ResponseEntity.status(HttpStatus.OK).body(new JoinResponse("동아리 가입 성공"));
         } catch (CustomException e) {
-            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new SignupResponse("동아리 가입 실패: " + e.getMessage()));
+            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new JoinResponse("동아리 가입 실패: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/modify")
+    private ResponseEntity<ModifyResponse> modify(@Valid @RequestBody ModifyRequest request) {
+        try {
+            clubService.modify(request);
+            return ResponseEntity.status(HttpStatus.OK).body(new ModifyResponse("동아리 수정 성공"));
+        } catch (CustomException e) {
+            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new ModifyResponse("동아리 수정 실패: " + e.getMessage()));
         }
     }
 }
