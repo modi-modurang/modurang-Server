@@ -4,22 +4,28 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import modi.modurang.domain.email.repository.EmailRepository;
 import modi.modurang.global.config.MailConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class EmailService {
+
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
     private final JavaMailSender javaMailSender;
     private final MailConfig mailConfig;
+    private final EmailRepository emailRepository;
 
     public void sendEmail(String email, String code) {
         try {
@@ -63,5 +69,11 @@ public class EmailService {
         imagePart.setContentID("<image>");
         imagePart.setDisposition(MimeBodyPart.INLINE);
         return imagePart;
+    }
+
+    @Scheduled(cron = "0 0 * * * *")
+    @Transactional
+    public void deleteExpiredEmails() {
+        emailRepository.deleteByExpirationDateBeforeAndIsVerifiedFalse(LocalDateTime.now());
     }
 }

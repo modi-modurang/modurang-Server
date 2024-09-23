@@ -8,7 +8,6 @@ spring:
     hibernate:
       ddl-auto: update
       dialect: org.hibernate.dialect.MySQL8Dialect
-    show-sql: true
     open-in-view: false
 
   mail:
@@ -35,7 +34,7 @@ jwt:
   refresh-token-secret-key: ${JWT_REFRESH_TOKEN_SECRET_KEY}
   refresh-token-expiration: ${JWT_REFRESH_TOKEN_EXPIRATION}
   access-token-prefix: "Bearer "
-  refresh-token-prefix: "Bearer "
+  refresh-token-prefix: "Refresh "
 
 springdoc:
   swagger-ui:

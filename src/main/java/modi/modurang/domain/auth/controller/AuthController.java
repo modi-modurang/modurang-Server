@@ -1,5 +1,6 @@
 package modi.modurang.domain.auth.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.auth.dto.request.LoginRequest;
 import modi.modurang.domain.auth.dto.request.ReissueRequest;
@@ -24,7 +25,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<SignupResponse> signup(@RequestBody SignUpRequest request) {
+    public ResponseEntity<SignupResponse> signup(@Valid @RequestBody SignUpRequest request) {
         try {
             authService.signup(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(new SignupResponse("회원가입 성공"));
@@ -34,7 +35,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         try {
             LoginResponse loginResponse = authService.login(request);
             return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
@@ -44,7 +45,7 @@ public class AuthController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<ReissueResponse> refresh(@RequestBody ReissueRequest request) {
+    public ResponseEntity<ReissueResponse> refresh(@Valid @RequestBody ReissueRequest request) {
         try {
             String newAccessToken = authService.reissue(request.getRefreshToken());
             return ResponseEntity.status(HttpStatus.OK).body(new ReissueResponse(newAccessToken, "토큰 갱신 성공"));

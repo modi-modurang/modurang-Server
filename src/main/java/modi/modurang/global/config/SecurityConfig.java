@@ -1,8 +1,8 @@
 package modi.modurang.global.config;
 
 import lombok.RequiredArgsConstructor;
-import modi.modurang.global.security.JwtAuthenticationFilter;
-import modi.modurang.global.security.JwtProvider;
+import modi.modurang.global.security.filter.JwtAuthenticationFilter;
+import modi.modurang.global.security.provider.JwtProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

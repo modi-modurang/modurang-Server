@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.auth.dto.request.LoginRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
 import modi.modurang.domain.auth.dto.response.LoginResponse;
+import modi.modurang.domain.email.entity.Email;
+import modi.modurang.domain.email.repository.EmailRepository;
 import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
-import modi.modurang.global.security.JwtProvider;
+import modi.modurang.global.security.provider.JwtProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final EmailRepository emailRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
@@ -25,6 +28,13 @@ public class AuthService {
     public void signup(SignUpRequest request) {
         if (userRepository.existsByStudentNumber(request.getStudentNumber())) {
             throw new CustomException(ErrorCode.HAS_STUDENTNUMBER);
+        } else if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new CustomException(ErrorCode.HAS_EMAIL);
+        }
+
+        Email verification = emailRepository.findByEmail(request.getEmail()).orElse(null);
+        if (verification == null || !verification.isVerified()) {
+            throw new CustomException(ErrorCode.EMAIL_NOT_VERIFIED);
         }
 
         User user = User.builder()
@@ -32,8 +42,9 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .studentNumber(request.getStudentNumber())
                 .email(request.getEmail())
-                .club(request.getClub())
+                .club(null)
                 .build();
+
         userRepository.save(user);
     }
 

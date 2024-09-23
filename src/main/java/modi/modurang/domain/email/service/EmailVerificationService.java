@@ -25,17 +25,32 @@ public class EmailVerificationService {
 
     @Transactional
     public void sendVerificationCode(String email) {
-        String code = generateVerificationCode();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(EXPIRATION_MINUTES);
+        if (emailRepository.findByEmail(email).isPresent()) {
+            String code = generateVerificationCode();
+            LocalDateTime expiration = LocalDateTime.now().plusMinutes(EXPIRATION_MINUTES);
 
-        Email emailVerification = new Email();
-        emailVerification.setEmail(email);
-        emailVerification.setVerificationCode(code);
-        emailVerification.setExpirationDate(expirationDate);
+            Email emailVerification = emailRepository.findByEmail(email).get();
+            emailVerification.setVerificationCode(code);
+            emailVerification.setExpirationDate(expiration);
 
-        emailRepository.save(emailVerification);
+            emailRepository.save(emailVerification);
 
-        emailService.sendEmail(email, code);
+            emailService.sendEmail(email, code);
+        } else {
+            String code = generateVerificationCode();
+            LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(EXPIRATION_MINUTES);
+
+            Email emailVerification = Email.builder()
+                    .email(email)
+                    .verificationCode(code)
+                    .expirationDate(expirationDate)
+                    .isVerified(false)
+                    .build();
+
+            emailRepository.save(emailVerification);
+
+            emailService.sendEmail(email, code);
+        }
     }
 
     private String generateVerificationCode() {
@@ -53,9 +68,10 @@ public class EmailVerificationService {
         }
 
         if (verification.getExpirationDate().isBefore(LocalDateTime.now())) {
-            throw new CustomException(ErrorCode.INVALID_EMAIL);
+            throw new CustomException(ErrorCode.EXPIRED_EMAIL);
         }
 
-        emailRepository.delete(verification);
+        verification.setVerified(true);
+        emailRepository.save(verification);
     }
 }
