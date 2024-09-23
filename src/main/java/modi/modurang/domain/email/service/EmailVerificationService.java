@@ -25,19 +25,32 @@ public class EmailVerificationService {
 
     @Transactional
     public void sendVerificationCode(String email) {
+        if (emailRepository.findByEmail(email).isPresent()) {
+            String code = generateVerificationCode();
+            LocalDateTime expiration = LocalDateTime.now().plusMinutes(EXPIRATION_MINUTES);
 
-        String code = generateVerificationCode();
-        LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(EXPIRATION_MINUTES);
+            Email emailVerification = emailRepository.findByEmail(email).get();
+            emailVerification.setVerificationCode(code);
+            emailVerification.setExpirationDate(expiration);
 
-        Email emailVerification = new Email();
-        emailVerification.setEmail(email);
-        emailVerification.setVerificationCode(code);
-        emailVerification.setExpirationDate(expirationDate);
-        emailVerification.setVerified(false);
+            emailRepository.save(emailVerification);
 
-        emailRepository.save(emailVerification);
+            emailService.sendEmail(email, code);
+        } else {
+            String code = generateVerificationCode();
+            LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(EXPIRATION_MINUTES);
 
-        emailService.sendEmail(email, code);
+            Email emailVerification = Email.builder()
+                    .email(email)
+                    .verificationCode(code)
+                    .expirationDate(expirationDate)
+                    .isVerified(false)
+                    .build();
+
+            emailRepository.save(emailVerification);
+
+            emailService.sendEmail(email, code);
+        }
     }
 
     private String generateVerificationCode() {
