@@ -28,13 +28,7 @@ public class AuthService {
     public void signup(SignUpRequest request) {
         if (userRepository.existsByStudentNumber(request.getStudentNumber())) {
             throw new CustomException(ErrorCode.HAS_STUDENTNUMBER);
-        } else if (request.getStudentNumber().length() != 4 || !request.getStudentNumber().matches("\\d{4}")) {
-            throw new CustomException(ErrorCode.INVALID_STUDENTNUMBER);
-        } else if (request.getUsername().contains(" ")) {
-            throw new CustomException(ErrorCode.INVALID_USERNAME);
-        } else if (request.getPassword().contains(" ")) {
-            throw new CustomException(ErrorCode.INVALID_PASSWORD);
-        } else if (emailRepository.findByEmail(request.getEmail()).isPresent()) {
+        } else if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new CustomException(ErrorCode.HAS_EMAIL);
         }
 
@@ -48,7 +42,7 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .studentNumber(request.getStudentNumber())
                 .email(request.getEmail())
-                .club(request.getClub())
+                .club(null)
                 .build();
 
         userRepository.save(user);
