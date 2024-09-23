@@ -14,11 +14,11 @@ public class ClubService {
 
     private final UserRepository userRepository;
 
-    public void signup(SignupRequest signupRequest) {
+    public void signup(SignupRequest request) {
 
-        User user = userRepository.findByUsernameAndStudentNumber(signupRequest.getUsername(), signupRequest.getStudentNumber())
+        User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        user.setClub(signupRequest.getClub());
+        user.setClub(request.getClub());
     }
 }
