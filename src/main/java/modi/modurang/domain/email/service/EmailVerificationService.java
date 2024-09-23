@@ -26,9 +26,6 @@ public class EmailVerificationService {
 
     @Transactional
     public void sendVerificationCode(String email) {
-        if (!isValidEmail(email)) {
-            throw new CustomException(ErrorCode.INVALID_EMAIL);
-        }
 
         String code = generateVerificationCode();
         LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(EXPIRATION_MINUTES);
@@ -42,12 +39,6 @@ public class EmailVerificationService {
         emailRepository.save(emailVerification);
 
         emailService.sendEmail(email, code);
-    }
-
-    private boolean isValidEmail(String email) {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
-
-        return email != null && !email.isBlank() && email.matches(emailRegex);
     }
 
     private String generateVerificationCode() {

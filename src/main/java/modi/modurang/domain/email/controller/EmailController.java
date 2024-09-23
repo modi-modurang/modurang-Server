@@ -1,5 +1,6 @@
 package modi.modurang.domain.email.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.email.dto.request.EmailRequest;
 import modi.modurang.domain.email.dto.response.EmailResponse;
@@ -17,7 +18,7 @@ public class EmailController {
     private final EmailVerificationService emailVerificationService;
 
     @PostMapping("/send")
-    public ResponseEntity<EmailResponse> sendVerificationCode(@RequestBody EmailRequest request) {
+    public ResponseEntity<EmailResponse> sendVerificationCode(@Valid @RequestBody EmailRequest request) {
         try {
             emailVerificationService.sendVerificationCode(request.getEmail());
             return ResponseEntity.status(HttpStatus.OK).body(new EmailResponse("인증 코드 발송 성공"));
@@ -27,7 +28,7 @@ public class EmailController {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<EmailResponse> verifyEmail(@RequestBody EmailRequest request) {
+    public ResponseEntity<EmailResponse> verifyEmail(@Valid @RequestBody EmailRequest request) {
         try {
             emailVerificationService.verifyCode(request.getEmail(), request.getCode());
             return ResponseEntity.status(HttpStatus.OK).body(new EmailResponse("이메일 인증 성공"));
