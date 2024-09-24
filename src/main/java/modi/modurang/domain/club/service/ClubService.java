@@ -1,9 +1,11 @@
 package modi.modurang.domain.club.service;
 
 import lombok.RequiredArgsConstructor;
+import modi.modurang.domain.club.dto.request.AdminRequest;
 import modi.modurang.domain.club.dto.request.JoinRequest;
 import modi.modurang.domain.club.dto.request.ModifyRequest;
 import modi.modurang.domain.user.entity.User;
+import modi.modurang.domain.user.enums.UserRole;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
@@ -21,6 +23,8 @@ public class ClubService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         user.setClub(request.getClub());
+
+        user.setRole(UserRole.USER);
     }
 
     public void modify(ModifyRequest request) {
@@ -29,5 +33,13 @@ public class ClubService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         user.setClub(request.getClub());
+    }
+
+    public void admin(AdminRequest request) {
+
+        User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        user.setRole(UserRole.ADMIN);
     }
 }
