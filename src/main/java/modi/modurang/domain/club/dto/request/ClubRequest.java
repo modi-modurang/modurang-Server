@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ModifyRequest {
+public class ClubRequest {
 
     @NotBlank(message = "동아리는 필수 항목입나다.")
     private String club;
