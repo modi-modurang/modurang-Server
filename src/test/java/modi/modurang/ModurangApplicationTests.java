@@ -7,5 +7,4 @@ class ModurangApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

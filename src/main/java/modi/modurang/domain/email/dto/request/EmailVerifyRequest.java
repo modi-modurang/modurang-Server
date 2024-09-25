@@ -8,7 +8,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmailRequest {
+public class EmailVerifyRequest {
 
     @Email(message = "올바른 이메일 형식을 입력하세요.")
     @NotBlank(message = "이메일은 필수 항목입니다.")
