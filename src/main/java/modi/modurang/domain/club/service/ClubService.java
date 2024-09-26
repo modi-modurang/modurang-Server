@@ -1,6 +1,8 @@
 package modi.modurang.domain.club.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import modi.modurang.domain.club.dto.request.ClubRequest;
 import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.enums.UserRole;
@@ -9,12 +11,14 @@ import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ClubService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     public void join(ClubRequest request) {
 
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
@@ -23,21 +27,30 @@ public class ClubService {
         user.setClub(request.getClub());
 
         user.setRole(UserRole.USER);
+
+        userRepository.save(user);
     }
 
+    @Transactional
     public void modify(ClubRequest request) {
 
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         user.setClub(request.getClub());
+        user.setRole(UserRole.USER);
+
+        userRepository.save(user);
     }
 
+    @Transactional
     public void admin(ClubRequest request) {
 
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         user.setRole(UserRole.ADMIN);
+
+        userRepository.save(user);
     }
 }

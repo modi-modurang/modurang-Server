@@ -19,7 +19,7 @@ public class JwtProvider {
 
     private final JwtProperties jwtProperties;
 
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -36,7 +36,9 @@ public class JwtProvider {
         try {
             String tokenWithoutPrefix;
 
-            if (token.startsWith("Refresh ")) {
+            if (token.startsWith("Bearer ")) {
+                tokenWithoutPrefix = token.substring(7);
+            } else if (token.startsWith("Refresh ")) {
                 tokenWithoutPrefix = token.substring(8);
             } else {
                 throw new CustomException(ErrorCode.UNSUPPORTED_TOKEN_TYPE);
@@ -69,9 +71,9 @@ public class JwtProvider {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateAccessToken(String username) {
+    public String generateAccessToken(String email) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getAccessTokenExpiration()))
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getAccessTokenSecretKey())
@@ -88,7 +90,7 @@ public class JwtProvider {
     }
 
     public Boolean validateToken(String token, String username) {
-        final String extractedUsername = extractUsername(token);
+        final String extractedUsername = extractEmail(token);
         return (extractedUsername.equals(username) && !isTokenExpired(token));
     }
 }
