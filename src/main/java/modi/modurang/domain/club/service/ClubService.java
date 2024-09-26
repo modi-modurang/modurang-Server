@@ -2,7 +2,6 @@ package modi.modurang.domain.club.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import modi.modurang.domain.club.dto.request.AdminRequest;
 import modi.modurang.domain.club.dto.request.ClubRequest;
 import modi.modurang.domain.user.entity.User;
@@ -12,7 +11,6 @@ import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ClubService {
