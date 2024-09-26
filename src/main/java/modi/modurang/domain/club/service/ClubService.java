@@ -3,6 +3,7 @@ package modi.modurang.domain.club.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import modi.modurang.domain.club.dto.request.AdminRequest;
 import modi.modurang.domain.club.dto.request.ClubRequest;
 import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.enums.UserRole;
@@ -44,7 +45,7 @@ public class ClubService {
     }
 
     @Transactional
-    public void admin(ClubRequest request) {
+    public void admin(AdminRequest request) {
 
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
