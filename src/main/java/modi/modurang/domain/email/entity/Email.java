@@ -26,5 +26,6 @@ public class Email {
 
     private LocalDateTime expirationDate;
 
+    @Column(nullable = false)
     private boolean isVerified;
 }
