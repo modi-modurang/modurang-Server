@@ -24,7 +24,6 @@ public class ClubService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         user.setClub(request.getClub());
-
         user.setRole(UserRole.USER);
 
         userRepository.save(user);
