@@ -2,9 +2,9 @@ package modi.modurang.domain.club.enums;
 
 public enum Club {
 
-    bind,
-    cns,
-    modi;
+    BIND,
+    CNS,
+    MODI;
 
     public static boolean isValidClub(String club) {
         for (Club type : Club.values()) {
