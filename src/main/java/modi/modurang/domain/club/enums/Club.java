@@ -9,9 +9,9 @@ public enum Club {
     public static boolean isValidClub(String club) {
         for (Club type : Club.values()) {
             if (type.name().equals(club)) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 }

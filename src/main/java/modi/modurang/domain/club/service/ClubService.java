@@ -24,7 +24,7 @@ public class ClubService {
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        if (!Club.isValidClub(request.getClub())) {
+        if (Club.isValidClub(request.getClub())) {
             throw new CustomException(ErrorCode.INVALID_CLUB);
         }
 
@@ -39,6 +39,14 @@ public class ClubService {
 
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        if (Club.isValidClub(request.getClub())) {
+            throw new CustomException(ErrorCode.INVALID_CLUB);
+        }
+
+        if (user.getClub().equals(request.getClub())) {
+            throw new CustomException(ErrorCode.ALREADY_JOINED_CLUB);
+        }
 
         user.setClub(request.getClub());
         user.setRole(UserRole.USER);

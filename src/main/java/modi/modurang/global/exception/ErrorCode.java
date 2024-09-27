@@ -21,7 +21,8 @@ public enum ErrorCode {
     INVALID_SIGNATURE(HttpStatus.UNAUTHORIZED, "TOKEN-003", "유효하지 않은 서명입니다."),
     UNSUPPORTED_TOKEN_TYPE(HttpStatus.BAD_REQUEST, "TOKEN-004", "지원되지 않는 토큰 유형입니다."),
 
-    INVALID_CLUB(HttpStatus.BAD_REQUEST, "CLUB-001", "유효하지 않은 클럽입니다.");
+    INVALID_CLUB(HttpStatus.BAD_REQUEST, "CLUB-001", "유효하지 않은 클럽입니다."),
+    ALREADY_JOINED_CLUB(HttpStatus.CONFLICT, "CLUB-002", "이미 해당 클럽에 소속되어 있습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
