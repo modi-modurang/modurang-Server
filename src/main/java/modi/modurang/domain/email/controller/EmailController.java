@@ -23,8 +23,8 @@ public class EmailController {
         try {
             emailVerificationService.sendVerificationCode(request.getEmail());
             return ResponseEntity.status(HttpStatus.OK).body(new CommonResponse("인증 코드 발송 성공"));
-        } catch (CustomException e) {
-            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new CommonResponse("인증 코드 발송 실패: " + e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new CommonResponse("인증 코드 발송 실패: " + e.getMessage()));
         }
     }
 
