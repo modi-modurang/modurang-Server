@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.club.dto.request.AdminRequest;
 import modi.modurang.domain.club.dto.request.ClubRequest;
+import modi.modurang.domain.club.enums.Club;
 import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.enums.UserRole;
 import modi.modurang.domain.user.repository.UserRepository;
@@ -22,6 +23,10 @@ public class ClubService {
 
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        if (!Club.isValidClub(request.getClub())) {
+            throw new CustomException(ErrorCode.INVALID_CLUB);
+        }
 
         user.setClub(request.getClub());
         user.setRole(UserRole.USER);
