@@ -21,7 +21,7 @@ public class SignUpRequest {
     @NotBlank(message = "비밀번호는 필수 항목입니다.")
     private String password;
 
-    @Pattern(regexp = "\\d{4}", message = "학번은 숫자 4자리로 구성되어야 합니다.")
+    @Pattern(regexp = "^[1-3][1-4](0[1-9]|1[0-9]|20)$", message = "학번은 4자리이고, 유효한 학번이어야 합니다.")
     @NotBlank(message = "학번은 필수 항목입니다.")
     private String studentNumber;
 
