@@ -74,6 +74,7 @@ public class EmailVerificationService {
         verification.setVerified(true);
         verification.setVerificationCode(null);
         verification.setExpirationDate(null);
+
         emailRepository.save(verification);
     }
 }

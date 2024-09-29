@@ -36,9 +36,9 @@ public class JwtProvider {
         try {
             String tokenWithoutPrefix;
 
-            if (token.startsWith("Bearer ")) {
+            if (token.startsWith(jwtProperties.getAccessTokenPrefix())) {
                 tokenWithoutPrefix = token.substring(7);
-            } else if (token.startsWith("Refresh ")) {
+            } else if (token.startsWith(jwtProperties.getRefreshTokenPrefix())) {
                 tokenWithoutPrefix = token.substring(8);
             } else {
                 throw new CustomException(ErrorCode.UNSUPPORTED_TOKEN_TYPE);
