@@ -22,9 +22,8 @@ public class NoticeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CommonResponse> updateNotice(@PathVariable Long id,
-                                                       @RequestBody NoticeRequest noticeRequest, @RequestHeader("Authorization") String token) {
-        noticeService.updateNotice(id, noticeRequest, token);
+    public ResponseEntity<CommonResponse> updateNotice(@PathVariable Long id, @RequestBody NoticeRequest noticeRequest) {
+        noticeService.updateNotice(id, noticeRequest);
         return ResponseEntity.status(HttpStatus.OK).body(new CommonResponse("공지 수정 성공"));
     }
 

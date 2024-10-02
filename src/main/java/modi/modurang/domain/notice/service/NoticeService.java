@@ -9,7 +9,6 @@ import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
-import modi.modurang.global.security.provider.JwtProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
-    private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
 
     @Transactional
@@ -47,14 +45,14 @@ public class NoticeService {
 
 
     @Transactional
-    public void updateNotice(Long id, NoticeRequest noticeRequest, String token) {
+    public void updateNotice(Long id, NoticeRequest noticeRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication.getPrincipal() instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
             User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
             Notice notice = noticeRepository.findById(id).orElseThrow(() -> new RuntimeException("수정하시려는 공지사항을 찾을 수 없습니다."));
-            if (!notice.getWriter().equals(user.getEmail())) {
+            if (!notice.getWriter().equals(user.getUsername())) {
                 throw new RuntimeException("수정 권한이 없습니다.");
             } else {
                 notice.setTitle(noticeRequest.getTitle());
@@ -71,8 +69,8 @@ public class NoticeService {
         if (authentication.getPrincipal() instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
             User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-            Notice notice = noticeRepository.findById(id).orElseThrow(() -> new RuntimeException("수정하시려는 공지사항을 찾을 수 없습니다."));
-            if (!notice.getWriter().equals(user.getEmail())) {
+            Notice notice = noticeRepository.findById(id).orElseThrow(() -> new RuntimeException("삭제하시려는 공지사항을 찾을 수 없습니다."));
+            if (!notice.getWriter().equals(user.getUsername())) {
                 throw new RuntimeException("수정 권한이 없습니다.");
             } else {
                 noticeRepository.delete(notice);
