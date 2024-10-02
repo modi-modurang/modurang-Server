@@ -1,4 +1,4 @@
-package modi.modurang.global.dto.response;
+package modi.modurang.global.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommonResponse {
+public class BaseResponse {
 
     private String message;
 }

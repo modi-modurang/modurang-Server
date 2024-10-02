@@ -8,7 +8,7 @@ import modi.modurang.domain.auth.dto.request.SignUpRequest;
 import modi.modurang.domain.auth.dto.response.LoginResponse;
 import modi.modurang.domain.auth.dto.response.ReissueResponse;
 import modi.modurang.domain.auth.service.AuthService;
-import modi.modurang.global.dto.response.CommonResponse;
+import modi.modurang.global.common.BaseResponse;
 import modi.modurang.global.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +25,14 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<CommonResponse> signup(@Valid @RequestBody SignUpRequest request) {
+    public ResponseEntity<BaseResponse> signup(@Valid @RequestBody SignUpRequest request) {
         try {
             authService.signup(request);
-            return ResponseEntity.status(HttpStatus.CREATED).body(new CommonResponse("회원가입 성공"));
+            return ResponseEntity.status(HttpStatus.CREATED).body(new BaseResponse("회원가입 성공"));
         } catch (CustomException e) {
-            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new CommonResponse("회원가입 실패: " + e.getMessage()));
+            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new BaseResponse("회원가입 실패: " + e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CommonResponse("회원가입 실패: " + e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new BaseResponse("회원가입 실패: " + e.getMessage()));
         }
     }
 
