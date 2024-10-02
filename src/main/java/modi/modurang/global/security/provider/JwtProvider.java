@@ -19,7 +19,7 @@ public class JwtProvider {
 
     private final JwtProperties jwtProperties;
 
-    public String extractEmail(String token) {
+    public String extractId(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -71,18 +71,18 @@ public class JwtProvider {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateAccessToken(String email) {
+    public String generateAccessToken(String userId) {
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(userId)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getAccessTokenExpiration()))
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getAccessTokenSecretKey())
                 .compact();
     }
 
-    public String generateRefreshToken(String username) {
+    public String generateRefreshToken(String userId) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(userId)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getRefreshTokenExpiration()))
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getRefreshTokenSecretKey())
@@ -90,7 +90,7 @@ public class JwtProvider {
     }
 
     public Boolean validateToken(String token, String username) {
-        final String extractedUsername = extractEmail(token);
+        final String extractedUsername = extractId(token);
         return (extractedUsername.equals(username) && !isTokenExpired(token));
     }
 }

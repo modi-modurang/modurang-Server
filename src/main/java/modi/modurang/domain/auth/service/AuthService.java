@@ -54,19 +54,18 @@ public class AuthService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            String accessToken = jwtProvider.generateAccessToken(user.getEmail());
-            String refreshToken = jwtProvider.generateRefreshToken(user.getEmail());
+            String accessToken = jwtProvider.generateAccessToken(user.getId().toString());
+            String refreshToken = jwtProvider.generateRefreshToken(user.getId().toString());
             return new LoginResponse(accessToken, refreshToken, "로그인 성공");
         } else {
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }
     }
 
-    @Transactional
     public String reissue(String refreshToken) {
-        String username = jwtProvider.extractEmail(refreshToken);
-        if (jwtProvider.validateToken(refreshToken, username)) {
-            return jwtProvider.generateAccessToken(username);
+        String userId = jwtProvider.extractId(refreshToken);
+        if (jwtProvider.validateToken(refreshToken, userId)) {
+            return jwtProvider.generateAccessToken(userId);
         } else {
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
