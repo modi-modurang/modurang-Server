@@ -51,7 +51,7 @@ public class NoticeService {
         if (authentication.getPrincipal() instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
             User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-            Notice notice = noticeRepository.findById(id).orElseThrow(() -> new RuntimeException("수정하시려는 공지사항을 찾을 수 없습니다."));
+            Notice notice = noticeRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
             if (!notice.getWriter().equals(user.getUsername())) {
                 throw new RuntimeException("수정 권한이 없습니다.");
             } else {
@@ -69,7 +69,7 @@ public class NoticeService {
         if (authentication.getPrincipal() instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
             User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-            Notice notice = noticeRepository.findById(id).orElseThrow(() -> new RuntimeException("삭제하시려는 공지사항을 찾을 수 없습니다."));
+            Notice notice = noticeRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
             if (!notice.getWriter().equals(user.getUsername())) {
                 throw new RuntimeException("수정 권한이 없습니다.");
             } else {
