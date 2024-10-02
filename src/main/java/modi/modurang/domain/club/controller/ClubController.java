@@ -9,10 +9,7 @@ import modi.modurang.global.dto.response.CommonResponse;
 import modi.modurang.global.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/club")
@@ -31,7 +28,7 @@ public class ClubController {
         }
     }
 
-    @PostMapping("/modify")
+    @PutMapping("/modify")
     public ResponseEntity<CommonResponse> modify(@Valid @RequestBody ClubRequest request) {
         try {
             clubService.modify(request);
@@ -47,7 +44,7 @@ public class ClubController {
             clubService.admin(request);
             return ResponseEntity.status(HttpStatus.OK).body(new CommonResponse("권한 부여 성공"));
         } catch (CustomException e) {
-            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new CommonResponse("권한 부여 성공: " + e.getMessage()));
+            return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new CommonResponse("권한 부여 실패: " + e.getMessage()));
         }
     }
 }

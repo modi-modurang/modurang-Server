@@ -20,7 +20,7 @@ public class NoticeController {
     public ResponseEntity<CommonResponse> createNotice(@RequestBody NoticeRequest noticeRequest) {
         try {
             noticeService.createNotice(noticeRequest);
-            return ResponseEntity.status(HttpStatus.OK).body(new CommonResponse("공지 등록 성공"));
+            return ResponseEntity.status(HttpStatus.CREATED).body(new CommonResponse("공지 등록 성공"));
         } catch (CustomException e) {
             return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new CommonResponse("공지 등록 실패: " + e.getMessage()));
         } catch (Exception e) {
@@ -28,7 +28,7 @@ public class NoticeController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<CommonResponse> updateNotice(@PathVariable Long id, @RequestBody NoticeRequest noticeRequest) {
         try {
             noticeService.updateNotice(id, noticeRequest);

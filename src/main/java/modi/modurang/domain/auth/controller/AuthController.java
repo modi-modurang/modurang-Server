@@ -49,7 +49,7 @@ public class AuthController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<ReissueResponse> refresh(@Valid @RequestBody ReissueRequest request) {
+    public ResponseEntity<ReissueResponse> reissue(@Valid @RequestBody ReissueRequest request) {
         try {
             String newAccessToken = authService.reissue(request.getRefreshToken());
             return ResponseEntity.status(HttpStatus.OK).body(new ReissueResponse(newAccessToken, "토큰 갱신 성공"));
