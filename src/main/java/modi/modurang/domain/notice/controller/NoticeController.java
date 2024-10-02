@@ -2,14 +2,11 @@ package modi.modurang.domain.notice.controller;
 
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.notice.dto.request.NoticeRequest;
-import modi.modurang.domain.notice.entity.Notice;
 import modi.modurang.domain.notice.service.NoticeService;
 import modi.modurang.global.dto.response.CommonResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/notice")
@@ -18,9 +15,9 @@ public class NoticeController {
 
     private final NoticeService noticeService;
 
-    @PostMapping("/")
-    public ResponseEntity<CommonResponse> createNotice(@RequestBody NoticeRequest noticeDTO) {
-        noticeService.createNotice(noticeDTO);
+    @PostMapping("/write")
+    public ResponseEntity<CommonResponse> createNotice(@RequestBody NoticeRequest noticeRequest) {
+        noticeService.createNotice(noticeRequest);
         return ResponseEntity.status(HttpStatus.OK).body(new CommonResponse("공지 등록 성공"));
     }
 
@@ -32,9 +29,8 @@ public class NoticeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<CommonResponse> deleteNotice(@PathVariable Long id,
-                                               @RequestHeader("Authorization") String token) {
-        noticeService.deleteNotice(id, token);
+    public ResponseEntity<CommonResponse> deleteNotice(@PathVariable Long id) {
+        noticeService.deleteNotice(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(new CommonResponse("공지 삭제 성공"));
     }

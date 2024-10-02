@@ -24,5 +24,5 @@ public class Notice {
     private String content;
 
     @Column(nullable = false)
-    private String author;
+    private String writer;
 }
