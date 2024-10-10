@@ -43,25 +43,6 @@ public class NoticeService {
         }
     }
 
-
-    @Transactional
-    public void updateNotice(Long id, NoticeRequest noticeRequest) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication.getPrincipal() instanceof UserDetails userDetails) {
-            String email = userDetails.getUsername();
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-            Notice notice = noticeRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
-            if (!notice.getWriter().equals(user.getUsername())) {
-                throw new RuntimeException("수정 권한이 없습니다.");
-            } else {
-                notice.setTitle(noticeRequest.getTitle());
-                notice.setContent(noticeRequest.getContent());
-                noticeRepository.save(notice);
-            }
-        }
-    }
-
     @Transactional
     public void deleteNotice(Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -71,7 +52,7 @@ public class NoticeService {
             User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
             Notice notice = noticeRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
             if (!notice.getWriter().equals(user.getUsername())) {
-                throw new RuntimeException("수정 권한이 없습니다.");
+                throw new RuntimeException("권한이 없습니다.");
             } else {
                 noticeRepository.delete(notice);
             }
