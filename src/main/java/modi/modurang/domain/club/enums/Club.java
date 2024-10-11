@@ -2,11 +2,14 @@ package modi.modurang.domain.club.enums;
 
 public enum Club {
 
-    bind,
-    cns,
-    modi;
+    BIND,
+    CNS,
+    MODI,
+    DUCAMI,
+    SAMD,
+    ALT;
 
-    public static boolean isValidClub(String club) {
+    public static boolean isInvalidClub(String club) {
         for (Club type : Club.values()) {
             if (type.name().equals(club)) {
                 return false;
