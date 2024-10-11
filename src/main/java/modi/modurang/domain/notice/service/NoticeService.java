@@ -14,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -26,9 +25,6 @@ public class NoticeService {
 
     @Transactional
     public void createNotice(NoticeRequest noticeRequest) {
-        Notice notice = new Notice();
-        LocalDateTime now = LocalDateTime.now();
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication.getPrincipal() instanceof UserDetails userDetails) {
@@ -37,16 +33,18 @@ public class NoticeService {
             User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
             String username = user.getUsername();
 
-            notice.setTitle(noticeRequest.getTitle());
-            notice.setContent(noticeRequest.getContent());
-            notice.setWriter(username);
-            notice.setCreatedAt(now);
+            Notice notice = Notice.builder()
+                    .title(noticeRequest.getTitle())
+                    .content(noticeRequest.getContent())
+                    .writer(username)
+                    .build();
 
             noticeRepository.save(notice);
         } else {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
     }
+
 
     @Transactional
     public void deleteNotice(Long id) {

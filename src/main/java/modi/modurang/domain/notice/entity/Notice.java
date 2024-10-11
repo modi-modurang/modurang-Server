@@ -1,19 +1,16 @@
 package modi.modurang.domain.notice.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.time.LocalDateTime;
+import lombok.experimental.SuperBuilder;
+import modi.modurang.global.common.BaseEntity;
 
 @Entity
 @Getter
-@Setter
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
-public class Notice {
+public class Notice extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +24,4 @@ public class Notice {
 
     @Column(nullable = false)
     private String writer;
-
-    @Column
-    private LocalDateTime createdAt;
 }
