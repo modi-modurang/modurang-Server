@@ -7,7 +7,8 @@ public enum Club {
     MODI,
     DUCAMI,
     SAMD,
-    ALT;
+    ALT,
+    COMMAND;
 
     public static boolean isInvalidClub(String club) {
         for (Club type : Club.values()) {
