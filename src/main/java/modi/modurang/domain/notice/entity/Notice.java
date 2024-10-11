@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -25,4 +27,7 @@ public class Notice {
 
     @Column(nullable = false)
     private String writer;
+
+    @Column
+    private LocalDateTime createdAt;
 }

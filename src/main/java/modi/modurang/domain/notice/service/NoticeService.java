@@ -14,6 +14,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class NoticeService {
@@ -24,6 +27,7 @@ public class NoticeService {
     @Transactional
     public void createNotice(NoticeRequest noticeRequest) {
         Notice notice = new Notice();
+        LocalDateTime now = LocalDateTime.now();
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -36,6 +40,7 @@ public class NoticeService {
             notice.setTitle(noticeRequest.getTitle());
             notice.setContent(noticeRequest.getContent());
             notice.setWriter(username);
+            notice.setCreatedAt(now);
 
             noticeRepository.save(notice);
         } else {
@@ -57,5 +62,15 @@ public class NoticeService {
                 noticeRepository.delete(notice);
             }
         }
+    }
+
+    @Transactional
+    public Notice getNoticeById(Long id) {
+        return noticeRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
+    }
+
+    @Transactional
+    public List<Notice> getAllNotices() {
+        return noticeRepository.findAll();
     }
 }
