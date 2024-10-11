@@ -2,15 +2,16 @@ package modi.modurang.domain.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.auth.dto.request.LoginRequest;
+import modi.modurang.domain.auth.dto.request.ReissueRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
-import modi.modurang.domain.auth.dto.response.LoginResponse;
 import modi.modurang.domain.email.entity.Email;
 import modi.modurang.domain.email.repository.EmailRepository;
 import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
-import modi.modurang.global.security.provider.JwtProvider;
+import modi.modurang.global.security.jwt.dto.Jwt;
+import modi.modurang.global.security.jwt.provider.JwtProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,24 +50,22 @@ public class AuthService {
     }
 
     @Transactional
-    public LoginResponse login(LoginRequest request) {
+    public Jwt login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            String accessToken = jwtProvider.generateAccessToken(user.getEmail());
-            String refreshToken = jwtProvider.generateRefreshToken(user.getEmail());
-            return new LoginResponse(accessToken, refreshToken, "로그인 성공");
+            return jwtProvider.generateToken(request.getEmail());
         } else {
-            throw new CustomException(ErrorCode.INVALID_PASSWORD);
+            throw new CustomException(ErrorCode.WRONG_PASSWORD);
         }
     }
 
     @Transactional
-    public String reissue(String refreshToken) {
-        String username = jwtProvider.extractEmail(refreshToken);
-        if (jwtProvider.validateToken(refreshToken, username)) {
-            return jwtProvider.generateAccessToken(username);
+    public Jwt reissue(ReissueRequest request) {
+        String email = jwtProvider.extractEmail(request.getRefreshToken());
+        if (jwtProvider.validateToken(request.getRefreshToken(), email)) {
+            return jwtProvider.generateToken(email);
         } else {
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }

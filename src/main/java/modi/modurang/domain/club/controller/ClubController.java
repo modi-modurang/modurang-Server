@@ -6,7 +6,6 @@ import modi.modurang.domain.club.dto.request.AdminRequest;
 import modi.modurang.domain.club.dto.request.ClubRequest;
 import modi.modurang.domain.club.service.ClubService;
 import modi.modurang.global.common.BaseResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,20 +17,20 @@ public class ClubController {
     private final ClubService clubService;
 
     @PostMapping("/join")
-    public ResponseEntity<BaseResponse> join(@Valid @RequestBody ClubRequest request) {
+    public ResponseEntity<BaseResponse<Void>> join(@Valid @RequestBody ClubRequest request) {
         clubService.join(request);
-        return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse("동아리 가입 성공"));
+        return BaseResponse.of(null);
     }
 
     @PutMapping("/modify")
-    public ResponseEntity<BaseResponse> modify(@Valid @RequestBody ClubRequest request) {
+    public ResponseEntity<BaseResponse<Void>> modify(@Valid @RequestBody ClubRequest request) {
         clubService.modify(request);
-        return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse("동아리 수정 성공"));
+        return BaseResponse.of(null);
     }
 
     @PostMapping("/admin")
-    public ResponseEntity<BaseResponse> admin(@Valid @RequestBody AdminRequest request) {
+    public ResponseEntity<BaseResponse<Void>> admin(@Valid @RequestBody AdminRequest request) {
         clubService.admin(request);
-        return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse("권한 부여 성공"));
+        return BaseResponse.of(null);
     }
 }

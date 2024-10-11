@@ -1,4 +1,4 @@
-package modi.modurang.global.security.provider;
+package modi.modurang.global.security.jwt.provider;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -7,8 +7,10 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
-import modi.modurang.global.security.config.JwtProperties;
+import modi.modurang.global.security.jwt.config.JwtProperties;
+import modi.modurang.global.security.jwt.enums.JwtType;
 import org.springframework.stereotype.Component;
+import modi.modurang.global.security.jwt.dto.Jwt;
 
 import java.util.Date;
 import java.util.function.Function;
@@ -71,26 +73,30 @@ public class JwtProvider {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateAccessToken(String email) {
-        return Jwts.builder()
+    public Jwt generateToken(String email) {
+        Date now = new Date();
+
+        String accessToken = Jwts.builder()
+                .setHeaderParam("typ", JwtType.ACCESS.name())
                 .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getAccessTokenExpiration()))
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + jwtProperties.getAccessTokenExpiration()))
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getAccessTokenSecretKey())
                 .compact();
-    }
 
-    public String generateRefreshToken(String username) {
-        return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getRefreshTokenExpiration()))
+        String refreshToken = Jwts.builder()
+                .setHeaderParam("typ", JwtType.REFRESH.name())
+                .setSubject(email)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + jwtProperties.getRefreshTokenExpiration()))
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getRefreshTokenSecretKey())
                 .compact();
+
+        return new Jwt(accessToken, refreshToken);
     }
 
-    public Boolean validateToken(String token, String username) {
+    public Boolean validateToken(String token, String email) {
         final String extractedUsername = extractEmail(token);
-        return (extractedUsername.equals(username) && !isTokenExpired(token));
+        return (extractedUsername.equals(email) && !isTokenExpired(token));
     }
 }

@@ -1,4 +1,4 @@
-package modi.modurang.global.security.service;
+package modi.modurang.global.security.details;
 
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.user.entity.User;

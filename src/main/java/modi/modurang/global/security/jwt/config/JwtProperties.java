@@ -1,4 +1,4 @@
-package modi.modurang.global.security.config;
+package modi.modurang.global.security.jwt.config;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
