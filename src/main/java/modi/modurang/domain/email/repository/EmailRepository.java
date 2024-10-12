@@ -12,5 +12,7 @@ public interface EmailRepository extends JpaRepository<Email, Long> {
 
     Optional<Email> findByEmailAndVerificationCode(String email, String code);
 
+    Boolean existsByEmail(String email);
+
     void deleteByExpirationDateBeforeAndIsVerifiedFalse(LocalDateTime expirationDate);
 }

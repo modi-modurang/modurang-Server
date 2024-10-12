@@ -25,7 +25,7 @@ public class EmailVerificationService {
 
     @Transactional
     public void sendVerificationCode(String email) {
-        if (emailRepository.findByEmail(email).isPresent()) {
+        if (emailRepository.existsByEmail(email)) {
             String code = generateVerificationCode();
             LocalDateTime expiration = LocalDateTime.now().plusMinutes(EXPIRATION_MINUTES);
 
@@ -34,7 +34,6 @@ public class EmailVerificationService {
             emailVerification.setExpirationDate(expiration);
 
             emailRepository.save(emailVerification);
-
             emailService.sendEmail(email, code);
         } else {
             String code = generateVerificationCode();
