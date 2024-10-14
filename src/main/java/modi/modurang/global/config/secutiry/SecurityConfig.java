@@ -1,4 +1,4 @@
-package modi.modurang.global.config;
+package modi.modurang.global.config.secutiry;
 
 import lombok.RequiredArgsConstructor;
 import modi.modurang.global.security.jwt.filter.JwtAuthenticationFilter;

@@ -7,7 +7,7 @@ import jakarta.mail.internet.MimeMultipart;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.email.repository.EmailRepository;
-import modi.modurang.global.config.MailConfig;
+import modi.modurang.global.config.mail.MailConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;

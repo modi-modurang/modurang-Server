@@ -1,4 +1,4 @@
-package modi.modurang.global.config;
+package modi.modurang.global.config.redis;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
