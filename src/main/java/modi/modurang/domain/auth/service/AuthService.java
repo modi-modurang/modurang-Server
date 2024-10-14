@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.auth.dto.request.LoginRequest;
 import modi.modurang.domain.auth.dto.request.ReissueRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
+import modi.modurang.domain.auth.repository.RefreshTokenRepository;
 import modi.modurang.domain.email.entity.Email;
 import modi.modurang.domain.email.repository.EmailRepository;
 import modi.modurang.domain.user.entity.User;
@@ -24,6 +25,7 @@ public class AuthService {
     private final EmailRepository emailRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
     public void signup(SignUpRequest request) {
@@ -49,25 +51,38 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Jwt login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return jwtProvider.generateToken(request.getEmail());
-        } else {
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new CustomException(ErrorCode.WRONG_PASSWORD);
         }
+
+        return jwtProvider.generateToken(request.getEmail());
     }
 
     @Transactional
     public Jwt reissue(ReissueRequest request) {
         String email = jwtProvider.extractEmail(request.getRefreshToken());
-        if (jwtProvider.validateToken(request.getRefreshToken(), email)) {
-            return jwtProvider.generateToken(email);
-        } else {
+
+        if (userRepository.findByEmail(email).isEmpty()) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+
+        if (!jwtProvider.validateToken(request.getRefreshToken(), email)) {
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
+
+        if (!refreshTokenRepository.existsByEmail(email)) {
+            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
+        }
+
+        if (!refreshTokenRepository.findByEmail(email).equals(request.getRefreshToken())) {
+            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
+        }
+
+        return jwtProvider.generateToken(email);
     }
 }

@@ -2,6 +2,7 @@ package modi.modurang.global.security.jwt.provider;
 
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import modi.modurang.domain.auth.repository.RefreshTokenRepository;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
 import modi.modurang.global.security.jwt.config.JwtProperties;
@@ -17,6 +18,7 @@ import java.util.function.Function;
 public class JwtProvider {
 
     private final JwtProperties jwtProperties;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -89,6 +91,8 @@ public class JwtProvider {
                 .setExpiration(new Date(now.getTime() + jwtProperties.getRefreshTokenExpiration()))
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getRefreshTokenSecretKey())
                 .compact();
+
+        refreshTokenRepository.save(email, refreshToken);
 
         return new Jwt(accessToken, refreshToken);
     }
