@@ -40,25 +40,9 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'io.github.cdimascio:dotenv-java:2.3.0'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
-	doFirst {
-		def envFile = file('.env')
-		if (envFile.exists()) {
-			def props = new Properties()
-			envFile.withInputStream { stream -> props.load(stream) }
-
-			def jvmArguments = props.collect { key, value ->
-				"-D${key.toString()}=${value.toString()}"
-			}
-
-			jvmArgs(jvmArguments)
-		} else {
-			println '.env 파일이 존재하지 않습니다.'
-		}
-	}
 }
