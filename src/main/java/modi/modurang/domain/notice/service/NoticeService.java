@@ -37,6 +37,7 @@ public class NoticeService {
                     .title(noticeRequest.getTitle())
                     .content(noticeRequest.getContent())
                     .writer(username)
+                    .isPinned(false)
                     .build();
 
             noticeRepository.save(notice);
@@ -70,5 +71,26 @@ public class NoticeService {
     @Transactional(readOnly = true)
     public List<Notice> getAllNotices() {
         return noticeRepository.findAll();
+    }
+
+    @Transactional
+    public void pinNotice(Long id) {
+        Notice notice = noticeRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
+        notice.setPinned(true);
+        noticeRepository.save(notice);
+    }
+
+    @Transactional
+    public void unpinNotice(Long id) {
+        Notice notice = noticeRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
+        notice.setPinned(false);
+        noticeRepository.save(notice);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Notice> getPinnedNotices() {
+        return noticeRepository.findByIsPinned(true);
     }
 }

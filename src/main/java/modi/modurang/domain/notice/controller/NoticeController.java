@@ -38,4 +38,21 @@ public class NoticeController {
     public ResponseEntity<BaseResponse<List<Notice>>> getAllNotices() {
         return BaseResponse.of(noticeService.getAllNotices());
     }
+
+    @PostMapping("/{id}/pin")
+    public ResponseEntity<BaseResponse<Void>> pinNotice(@PathVariable Long id) {
+        noticeService.pinNotice(id);
+        return BaseResponse.of(null);
+    }
+
+    @PostMapping("/{id}/unpin")
+    public ResponseEntity<BaseResponse<Void>> unpinNotice(@PathVariable Long id) {
+        noticeService.unpinNotice(id);
+        return BaseResponse.of(null);
+    }
+
+    @GetMapping("/pinned")
+    public ResponseEntity<BaseResponse<List<Notice>>> getPinnedNotices() {
+        return BaseResponse.of(noticeService.getPinnedNotices());
+    }
 }
