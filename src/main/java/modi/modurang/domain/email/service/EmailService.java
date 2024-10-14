@@ -52,7 +52,7 @@ public class EmailService {
         }
     }
 
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "0 * * * * *")
     @Transactional
     public void deleteExpiredEmails() {
         emailRepository.deleteByExpirationDateBeforeAndIsVerifiedFalse(LocalDateTime.now());

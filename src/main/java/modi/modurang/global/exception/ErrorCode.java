@@ -15,6 +15,8 @@ public enum ErrorCode {
     EXPIRED_EMAIL(HttpStatus.BAD_REQUEST, "USER-005", "만료된 이메일입니다."),
     EMAIL_NOT_VERIFIED(HttpStatus.BAD_REQUEST, "USER-006", "인증되지 않은 이메일입니다."),
     UNABLE_TO_SEND_EMAIL(HttpStatus.BAD_REQUEST, "USER-007", "이메일 인증을 실패했습니다."),
+    ALREADY_VERIFIED_EMAIL(HttpStatus.BAD_REQUEST, "USER-008", "이미 인증된 이메일입니다."),
+    TOO_MANY_REQUESTS(HttpStatus.TOO_MANY_REQUESTS, "USER-009", "너무 자주 요청하셨습니다."),
 
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "TOKEN-001", "유효하지 않은 토큰입니다."),
     INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "TOKEN-002", "유효하지 않은 리프레쉬 토큰입니다."),

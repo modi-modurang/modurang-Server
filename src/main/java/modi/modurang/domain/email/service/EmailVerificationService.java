@@ -25,17 +25,10 @@ public class EmailVerificationService {
 
     @Transactional
     public void sendVerificationCode(String email) {
-        if (emailRepository.findByEmail(email).isPresent()) {
-            String code = generateVerificationCode();
-            LocalDateTime expiration = LocalDateTime.now().plusMinutes(EXPIRATION_MINUTES);
-
-            Email emailVerification = emailRepository.findByEmail(email).get();
-            emailVerification.setVerificationCode(code);
-            emailVerification.setExpirationDate(expiration);
-
-            emailRepository.save(emailVerification);
-
-            emailService.sendEmail(email, code);
+        if (emailRepository.findByEmailAndIsVerifiedTrue(email).isPresent()) {
+            throw new CustomException(ErrorCode.ALREADY_VERIFIED_EMAIL);
+        } else if (emailRepository.findByEmail(email).isPresent()) {
+            throw new CustomException(ErrorCode.TOO_MANY_REQUESTS);
         } else {
             String code = generateVerificationCode();
             LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(EXPIRATION_MINUTES);
