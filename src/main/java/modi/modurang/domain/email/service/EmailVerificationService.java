@@ -58,15 +58,13 @@ public class EmailVerificationService {
 
         if (verification == null) {
             throw new CustomException(ErrorCode.UNABLE_TO_SEND_EMAIL);
-        }
-
-        if (verification.getExpirationDate().isBefore(LocalDateTime.now())) {
+        } else if (verification.getExpirationDate().isBefore(LocalDateTime.now())) {
             throw new CustomException(ErrorCode.EXPIRED_EMAIL);
+        } else {
+            verification.setVerified(true);
+            verification.setVerificationCode(null);
+            verification.setExpirationDate(null);
+            emailRepository.save(verification);
         }
-
-        verification.setVerified(true);
-        verification.setVerificationCode(null);
-        verification.setExpirationDate(null);
-        emailRepository.save(verification);
     }
 }
