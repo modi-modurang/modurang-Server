@@ -63,7 +63,7 @@ public class AuthService {
         return jwtProvider.generateToken(request.getEmail());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Jwt reissue(ReissueRequest request) {
         String email = jwtProvider.extractEmail(request.getRefreshToken());
 
