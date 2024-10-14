@@ -18,9 +18,8 @@ public enum ErrorCode {
 
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "TOKEN-001", "유효하지 않은 토큰입니다."),
     INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "TOKEN-002", "유효하지 않은 리프레쉬 토큰입니다."),
-    INVALID_SIGNATURE(HttpStatus.UNAUTHORIZED, "TOKEN-003", "유효하지 않은 서명입니다."),
-    UNSUPPORTED_TOKEN(HttpStatus.BAD_REQUEST, "TOKEN-004", "지원되지 않는 토큰 유형입니다."),
-    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "TOKEN-005", "토큰이 만료되었습니다."),
+    UNSUPPORTED_TOKEN(HttpStatus.BAD_REQUEST, "TOKEN-003", "지원되지 않는 토큰 유형입니다."),
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "TOKEN-004", "토큰이 만료되었습니다."),
 
     INVALID_CLUB(HttpStatus.BAD_REQUEST, "CLUB-001", "유효하지 않은 클럽입니다."),
     ALREADY_JOINED_CLUB(HttpStatus.CONFLICT, "CLUB-002", "이미 해당 클럽에 소속되어 있습니다."),
