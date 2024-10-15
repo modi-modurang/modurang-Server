@@ -60,6 +60,7 @@ public class NoticeController {
         return BaseResponse.of(null);
     }
 
+    @Operation(summary = "고정 공지 조회")
     @GetMapping("/pinned")
     public ResponseEntity<BaseResponse<List<Notice>>> getPinnedNotices() {
         return BaseResponse.of(noticeService.getPinnedNotices());
