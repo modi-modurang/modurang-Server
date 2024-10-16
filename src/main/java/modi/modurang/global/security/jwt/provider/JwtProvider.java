@@ -41,26 +41,30 @@ public class JwtProvider {
         );
     }
 
-    public Jwt generateToken(String email) {
+    public Jwt generateToken(String username) {
         Date now = new Date();
 
         String accessToken = Jwts.builder()
-                .setHeaderParam("typ", JwtType.ACCESS.name())
-                .setSubject(email)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + jwtProperties.getAccessTokenExpiration()))
-                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+                .header()
+                .type(JwtType.ACCESS.name())
+                .and()
+                .subject(username)
+                .issuedAt(now)
+                .expiration(new Date(now.getTime() + jwtProperties.getAccessTokenExpiration()))
+                .signWith(key)
                 .compact();
 
         String refreshToken = Jwts.builder()
-                .setHeaderParam("typ", JwtType.REFRESH.name())
-                .setSubject(email)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + jwtProperties.getRefreshTokenExpiration()))
-                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+                .header()
+                .type(JwtType.REFRESH.name())
+                .and()
+                .subject(username)
+                .issuedAt(now)
+                .expiration(new Date(now.getTime() + jwtProperties.getRefreshTokenExpiration()))
+                .signWith(key)
                 .compact();
 
-        refreshTokenRepository.save(email, refreshToken);
+        refreshTokenRepository.save(username, refreshToken);
 
         return new Jwt(accessToken, refreshToken);
     }
