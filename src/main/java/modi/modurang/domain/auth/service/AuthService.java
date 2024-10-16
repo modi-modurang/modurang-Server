@@ -67,8 +67,6 @@ public class AuthService {
     public Jwt reissue(ReissueRequest request) {
         String email = jwtProvider.getSubject(request.getRefreshToken());
 
-        String refreshToken = request.getRefreshToken().substring(8);
-
         if (userRepository.findByEmail(email).isEmpty()) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
@@ -77,7 +75,7 @@ public class AuthService {
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
-        if (!refreshTokenRepository.findByEmail(email).equals(refreshToken)) {
+        if (!refreshTokenRepository.findByEmail(email).equals(request.getRefreshToken())) {
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
