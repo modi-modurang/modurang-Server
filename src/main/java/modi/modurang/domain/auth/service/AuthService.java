@@ -65,16 +65,12 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public Jwt reissue(ReissueRequest request) {
-        String email = jwtProvider.extractEmail(request.getRefreshToken());
+        String email = jwtProvider.getSubject(request.getRefreshToken());
 
         String refreshToken = request.getRefreshToken().substring(8);
 
         if (userRepository.findByEmail(email).isEmpty()) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
-        }
-
-        if (!jwtProvider.validateToken(request.getRefreshToken(), email)) {
-            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
         if (!refreshTokenRepository.existsByEmail(email)) {
