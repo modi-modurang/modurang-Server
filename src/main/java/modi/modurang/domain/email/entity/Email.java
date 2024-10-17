@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import modi.modurang.global.common.BaseEntity;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Email {
+public class Email extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
