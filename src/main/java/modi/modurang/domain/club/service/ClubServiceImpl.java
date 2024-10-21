@@ -38,7 +38,6 @@ public class ClubServiceImpl implements ClubService {
     @Transactional
     @Override
     public void join(ClubRequest request) {
-
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
@@ -51,7 +50,6 @@ public class ClubServiceImpl implements ClubService {
     @Transactional
     @Override
     public void modify(ClubRequest request) {
-
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
@@ -68,7 +66,6 @@ public class ClubServiceImpl implements ClubService {
     @Transactional
     @Override
     public void admin(AdminRequest request) {
-
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
