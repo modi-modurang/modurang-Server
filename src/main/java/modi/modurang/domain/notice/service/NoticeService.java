@@ -19,7 +19,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class NoticeService {
-
     private final NoticeRepository noticeRepository;
     private final UserRepository userRepository;
 
