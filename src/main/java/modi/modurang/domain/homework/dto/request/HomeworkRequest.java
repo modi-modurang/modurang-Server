@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import modi.modurang.domain.user.entity.User;
 
 import java.util.List;
 
@@ -23,5 +22,5 @@ public class HomeworkRequest {
     private String deadline;
 
     @NotBlank
-    private List<User> userId;
+    private List<Long> userId;
 }
