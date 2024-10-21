@@ -24,9 +24,9 @@ public enum ErrorCode {
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "TOKEN-004", "토큰이 만료되었습니다."),
     MALFORMED_TOKEN(HttpStatus.UNAUTHORIZED, "TOKEN-005", "잘못된 형식의 토큰입니다."),
 
-    INVALID_CLUB(HttpStatus.BAD_REQUEST, "CLUB-001", "유효하지 않은 클럽입니다."),
-    ALREADY_JOINED_CLUB(HttpStatus.CONFLICT, "CLUB-002", "이미 해당 클럽에 소속되어 있습니다."),
-    NO_MEMBERS_FOUND(HttpStatus.NOT_FOUND, "CLUB-003", "부원이 없습니다."),
+    ALREADY_JOINED_CLUB(HttpStatus.CONFLICT, "CLUB-001", "이미 해당 클럽에 소속되어 있습니다."),
+    NO_MEMBERS_FOUND(HttpStatus.NOT_FOUND, "CLUB-002", "부원이 없습니다."),
+    UNAUTHORIZED_CLUB_MEMBER(HttpStatus.FORBIDDEN, "CLUB-003", "해당 유저는 이 동아리의 멤버가 아닙니다."),
 
     NOTICE_NOT_FOUND(HttpStatus.NOT_FOUND, "NOTICE-001", "공지사항을 찾을 수 없습니다.");
 
