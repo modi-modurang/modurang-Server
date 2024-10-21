@@ -12,15 +12,15 @@ import java.util.List;
 @AllArgsConstructor
 public class HomeworkRequest {
 
-    @NotBlank
+    @NotBlank(message = "제목은 필수 항목입니다.")
     private String title;
 
-    @NotBlank
+    @NotBlank(message = "내용은 필수 항목입니다.")
     private String content;
 
-    @NotBlank
+    @NotBlank(message = "마감일은 필수 항목입니다.")
     private String deadline;
 
-    @NotBlank
+    @NotBlank(message = "유저 아이디는 필수 항목입니다.")
     private List<Long> userId;
 }

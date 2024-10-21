@@ -2,6 +2,7 @@ package modi.modurang.domain.notice.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.notice.dto.request.NoticeRequest;
 import modi.modurang.domain.notice.entity.Notice;
@@ -22,7 +23,7 @@ public class NoticeController {
 
     @Operation(summary = "공지 작성")
     @PostMapping("/register")
-    public ResponseEntity<BaseResponse<Void>> createNotice(@RequestBody NoticeRequest noticeRequest) {
+    public ResponseEntity<BaseResponse<Void>> createNotice(@Valid @RequestBody NoticeRequest noticeRequest) {
         noticeService.createNotice(noticeRequest);
         return BaseResponse.of(null, 201);
     }

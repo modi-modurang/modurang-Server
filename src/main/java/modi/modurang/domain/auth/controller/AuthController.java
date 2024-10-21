@@ -34,13 +34,13 @@ public class AuthController {
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
-    public ResponseEntity<BaseResponse<Jwt>> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<BaseResponse<Jwt>> login(@Valid @RequestBody LoginRequest request) {
         return BaseResponse.of(authService.login(request));
     }
 
     @Operation(summary = "엑세스 토큰 재발급")
     @PostMapping("/reissue")
-    public ResponseEntity<BaseResponse<Jwt>> reissue(@RequestBody ReissueRequest request) {
+    public ResponseEntity<BaseResponse<Jwt>> reissue(@Valid @RequestBody ReissueRequest request) {
         return BaseResponse.of(authService.reissue(request));
     }
 }
