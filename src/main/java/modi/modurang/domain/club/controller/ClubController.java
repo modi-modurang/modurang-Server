@@ -6,10 +6,14 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.club.dto.request.AdminRequest;
 import modi.modurang.domain.club.dto.request.ClubRequest;
+import modi.modurang.domain.club.dto.request.MemberRequest;
 import modi.modurang.domain.club.service.ClubService;
+import modi.modurang.domain.user.entity.User;
 import modi.modurang.global.common.BaseResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "동아리", description = "Club")
 @RestController
@@ -18,6 +22,12 @@ import org.springframework.web.bind.annotation.*;
 public class ClubController {
 
     private final ClubService clubService;
+
+    @Operation(summary = "부원 조회")
+    @PostMapping("")
+    public ResponseEntity<BaseResponse<List<User>>> club(@Valid @RequestBody MemberRequest request) {
+        return BaseResponse.of(clubService.club(request), 200);
+    }
 
     @Operation(summary = "동아리 가입")
     @PostMapping("/join")

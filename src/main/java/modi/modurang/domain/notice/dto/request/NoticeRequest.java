@@ -3,7 +3,6 @@ package modi.modurang.domain.notice.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

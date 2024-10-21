@@ -21,7 +21,7 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     @Operation(summary = "공지 작성")
-    @PostMapping("/write")
+    @PostMapping("/register")
     public ResponseEntity<BaseResponse<Void>> createNotice(@RequestBody NoticeRequest noticeRequest) {
         noticeService.createNotice(noticeRequest);
         return BaseResponse.of(null, 201);

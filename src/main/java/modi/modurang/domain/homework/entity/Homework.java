@@ -27,6 +27,9 @@ public class Homework extends BaseEntity {
     private String content;
 
     @Column(nullable = false)
+    private String deadline;
+
+    @Column(nullable = false)
     private boolean isCompleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -4,13 +4,16 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.club.dto.request.AdminRequest;
 import modi.modurang.domain.club.dto.request.ClubRequest;
-import modi.modurang.domain.club.enums.Club;
+import modi.modurang.domain.club.dto.request.MemberRequest;
 import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.enums.UserRole;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,14 +23,17 @@ public class ClubServiceImpl implements ClubService {
 
     @Transactional
     @Override
+    public List<User> club(MemberRequest request) {
+        return Collections.singletonList(userRepository.findAllByClub(request.getClub())
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_MEMBERS_FOUND)));
+    }
+
+    @Transactional
+    @Override
     public void join(ClubRequest request) {
 
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
-        if (Club.isInvalidClub(request.getClub())) {
-            throw new CustomException(ErrorCode.INVALID_CLUB);
-        }
 
         user.setClub(request.getClub());
         user.setRole(UserRole.USER);
@@ -41,10 +47,6 @@ public class ClubServiceImpl implements ClubService {
 
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
-        if (Club.isInvalidClub(request.getClub())) {
-            throw new CustomException(ErrorCode.INVALID_CLUB);
-        }
 
         if (user.getClub().equals(request.getClub())) {
             throw new CustomException(ErrorCode.ALREADY_JOINED_CLUB);

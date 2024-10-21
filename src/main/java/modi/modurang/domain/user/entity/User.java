@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import modi.modurang.domain.club.enums.Club;
 import modi.modurang.domain.user.enums.UserRole;
 import modi.modurang.global.common.BaseEntity;
 
@@ -32,7 +33,7 @@ public class User extends BaseEntity {
     @Column(unique = true, nullable = false)
     private String email;
 
-    private String club;
+    private Club club;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
