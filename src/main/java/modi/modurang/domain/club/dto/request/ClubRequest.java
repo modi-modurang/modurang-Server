@@ -1,8 +1,6 @@
 package modi.modurang.domain.club.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +11,7 @@ import modi.modurang.domain.club.enums.Club;
 @AllArgsConstructor
 public class ClubRequest {
 
-    @NotBlank(message = "동아리는 필수 항목입나다.")
+    @NotNull(message = "동아리는 필수 항목입나다.")
     private Club club;
 
     @Size(min = 2, max = 5, message = "이름은 2자 이상 5자 이하여야 합니다.")

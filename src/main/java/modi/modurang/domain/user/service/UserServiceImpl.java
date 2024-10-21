@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         return new UserResponse(
+                user.getId(),
                 user.getUsername(),
                 user.getStudentNumber(),
                 user.getEmail(),

@@ -8,7 +8,7 @@ import modi.modurang.domain.club.dto.request.AdminRequest;
 import modi.modurang.domain.club.dto.request.ClubRequest;
 import modi.modurang.domain.club.dto.request.MemberRequest;
 import modi.modurang.domain.club.service.ClubService;
-import modi.modurang.domain.user.entity.User;
+import modi.modurang.domain.user.dto.response.UserResponse;
 import modi.modurang.global.common.BaseResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ public class ClubController {
 
     @Operation(summary = "부원 조회")
     @PostMapping("")
-    public ResponseEntity<BaseResponse<List<User>>> club(@Valid @RequestBody MemberRequest request) {
+    public ResponseEntity<BaseResponse<List<UserResponse>>> club(@Valid @RequestBody MemberRequest request) {
         return BaseResponse.of(clubService.club(request), 200);
     }
 
