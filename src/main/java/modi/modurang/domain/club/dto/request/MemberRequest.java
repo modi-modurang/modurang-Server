@@ -11,6 +11,6 @@ import modi.modurang.domain.club.enums.Club;
 @AllArgsConstructor
 public class MemberRequest {
 
-    @NotNull(message = "동아리는 필수 항목입니다.")
+    @NotNull(message = "동아리는 입력해 주세요.")
     private Club club;
 }

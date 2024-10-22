@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class ReissueRequest {
 
-    @NotBlank(message = "리프레쉬 토큰은 필수 항목입니다.")
+    @NotBlank(message = "리프레쉬 토큰을 입력해 주세요.")
     private String refreshToken;
 }

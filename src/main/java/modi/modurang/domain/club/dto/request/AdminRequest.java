@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 public class AdminRequest {
 
     @Size(min = 2, max = 5, message = "이름은 2자 이상 5자 이하여야 합니다.")
-    @NotBlank(message = "이름은 필수 항목입니다.")
+    @NotBlank(message = "이름을 입력해 주세요.")
     private String username;
 
-    @Pattern(regexp = "^[1-3][1-4](0[1-9]|1[0-9]|20)$", message = "학번은 4자리이고, 유효한 학번이어야 합니다.")
-    @NotBlank(message = "학번은 필수 항목입니다.")
+    @Pattern(regexp = "\\d{4}", message = "학번은 숫자 4자리로 구성되어야 합니다.")
+    @NotBlank(message = "학번을 입력해 주세요.")
     private String studentNumber;
 }
