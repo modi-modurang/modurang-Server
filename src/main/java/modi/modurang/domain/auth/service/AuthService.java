@@ -1,8 +1,10 @@
 package modi.modurang.domain.auth.service;
 
+import modi.modurang.domain.auth.dto.request.ChangePasswordRequest;
 import modi.modurang.domain.auth.dto.request.LoginRequest;
 import modi.modurang.domain.auth.dto.request.ReissueRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
+import modi.modurang.global.security.details.CustomUserDetails;
 import modi.modurang.global.security.jwt.dto.Jwt;
 
 public interface AuthService {
@@ -12,4 +14,6 @@ public interface AuthService {
     Jwt login(LoginRequest request);
 
     Jwt reissue(ReissueRequest request);
+
+    void changePassword(ChangePasswordRequest request, CustomUserDetails CustomUserDetails);
 }

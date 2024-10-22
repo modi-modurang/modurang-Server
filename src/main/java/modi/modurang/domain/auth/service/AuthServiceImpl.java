@@ -1,6 +1,7 @@
 package modi.modurang.domain.auth.service;
 
 import lombok.RequiredArgsConstructor;
+import modi.modurang.domain.auth.dto.request.ChangePasswordRequest;
 import modi.modurang.domain.auth.dto.request.LoginRequest;
 import modi.modurang.domain.auth.dto.request.ReissueRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
@@ -11,6 +12,7 @@ import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
+import modi.modurang.global.security.details.CustomUserDetails;
 import modi.modurang.global.security.jwt.dto.Jwt;
 import modi.modurang.global.security.jwt.provider.JwtProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -83,5 +85,17 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return jwtProvider.generateToken(email);
+    }
+
+    @Transactional
+    public void changePassword(ChangePasswordRequest request, CustomUserDetails customUserDetails) {
+        User user = customUserDetails.user();
+
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new CustomException(ErrorCode.WRONG_PASSWORD);
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
     }
 }
