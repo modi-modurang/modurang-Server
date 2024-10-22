@@ -5,5 +5,5 @@ import modi.modurang.global.security.details.CustomUserDetails;
 
 public interface HomeworkService {
 
-    void createHomework(HomeworkRequest request, CustomUserDetails userDetails);
+    void createHomework(HomeworkRequest request, CustomUserDetails CustomUserDetails);
 }

@@ -1,10 +1,15 @@
 package modi.modurang.domain.user.dto.response;
 
-public record UserResponse(
-        Long id,
-        String username,
-        String studentNumber,
-        String email,
-        modi.modurang.domain.club.enums.Club club
-) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import modi.modurang.domain.club.enums.Club;
+
+@Data
+@AllArgsConstructor
+public class UserResponse {
+    private Long id;
+    private String username;
+    private String studentNumber;
+    private String email;
+    private Club club;
 }

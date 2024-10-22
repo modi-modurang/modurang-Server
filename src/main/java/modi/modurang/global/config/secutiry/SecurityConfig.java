@@ -33,7 +33,7 @@ public class SecurityConfig {
                                 authorizeRequests
                                         .requestMatchers("/auth/signup", "/auth/login", "/email/send", "/email/verify").anonymous()
                                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/notice").permitAll()
-                                        .anyRequest().permitAll()
+                                        .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

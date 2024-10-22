@@ -26,8 +26,8 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Transactional
     @PreAuthorize("hasAuthority('ADMIN')")
     @Override
-    public void createHomework(HomeworkRequest request, CustomUserDetails userDetails) {
-        User adminUser = userDetails.user();
+    public void createHomework(HomeworkRequest request, CustomUserDetails customUserDetails) {
+        User adminUser = customUserDetails.user();
         Club club = adminUser.getClub();
 
         List<Long> userIds = request.getUserId();
