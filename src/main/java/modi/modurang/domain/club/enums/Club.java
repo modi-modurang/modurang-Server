@@ -8,5 +8,6 @@ public enum Club {
     DUCAMI,
     SAMD,
     ALT,
-    COMMAND
+    COMMAND,
+    AND
 }
