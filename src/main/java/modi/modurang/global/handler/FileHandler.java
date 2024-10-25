@@ -20,8 +20,4 @@ public class FileHandler {
         image.transferTo(new File(fullPathName));
         return fullPathName;
     }
-
-    private String getOriginName(MultipartFile image) {
-        return image.getOriginalFilename();
-    }
 }
