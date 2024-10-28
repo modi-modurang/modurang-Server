@@ -4,7 +4,7 @@ import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import modi.modurang.domain.auth.repository.RefreshTokenRepositoryImpl;
+import modi.modurang.domain.auth.repository.RefreshTokenRepository;
 import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.exception.CustomException;
@@ -29,7 +29,7 @@ import java.util.Date;
 public class JwtProvider {
 
     private final JwtProperties jwtProperties;
-    private final RefreshTokenRepositoryImpl refreshTokenRepositoryImpl;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
     private SecretKey key;
 
@@ -64,7 +64,7 @@ public class JwtProvider {
                 .signWith(key)
                 .compact();
 
-        refreshTokenRepositoryImpl.save(username, refreshToken);
+        refreshTokenRepository.save(username, refreshToken);
 
         return new Jwt(accessToken, refreshToken);
     }

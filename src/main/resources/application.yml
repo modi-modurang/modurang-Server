@@ -3,6 +3,14 @@ spring:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
+    servlet:
+      multipart:
+        enabled: true
+        file-size-threshold: 10MB  # 파일이 디스크에 쓰이기 전에 메모리에 유지될 최대 크기
+        max-file-size: 512MB  # 최대 파일 크기
+        max-request-size: 1024MB  # 최대 요청 크기
+    file:
+      upload-dir: ./images
 
   jpa:
     hibernate:
@@ -42,3 +50,6 @@ jwt:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+
+image:
+  dir: /path/to/images

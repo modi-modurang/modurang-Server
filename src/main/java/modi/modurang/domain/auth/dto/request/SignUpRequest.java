@@ -18,7 +18,7 @@ public class SignUpRequest {
     private String password;
 
     @Pattern(regexp = "\\d{4}", message = "학번은 숫자 4자리로 구성되어야 합니다.")
-    @NotBlank(message = "학번을 입력해 주세요..")
+    @NotBlank(message = "학번을 입력해 주세요.")
     private String studentNumber;
 
     @Email(message = "올바른 이메일 형식을 입력하세요.")
