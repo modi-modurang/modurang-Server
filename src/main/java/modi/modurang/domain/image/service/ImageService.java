@@ -28,7 +28,7 @@ public class ImageService {
 
         Image image = Image.builder()
                 .fileName(fileName)
-                .url("/upload/" + fileName)
+                .url("/image/view/" + fileName)
                 .size(file.getSize())
                 .mimeType(file.getContentType())
                 .build();
