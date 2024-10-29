@@ -36,7 +36,7 @@ spring:
 
   servlet:
     multipart:
-      location: uploads
+      location: ${UPLOAD_DIR}
 
 jwt:
   secret-key: ${JWT_SECRET_KEY}
