@@ -1,4 +1,4 @@
-package modi.modurang.global.config.mail;
+package modi.modurang.global.config.email;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.Properties;
 @Getter
 @Configuration
 @RequiredArgsConstructor
-public class MailConfig {
+public class EmailConfig {
 
     @Value("${spring.mail.host}")
     private String host;
