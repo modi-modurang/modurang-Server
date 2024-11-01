@@ -57,7 +57,7 @@ public class EmailVerificationService {
         Email verification = emailRepository.findByEmailAndVerificationCode(email, code).orElse(null);
 
         if (verification == null) {
-            throw new CustomException(ErrorCode.UNABLE_TO_SEND_EMAIL);
+            throw new CustomException(ErrorCode.EMAIL_NOT_FOUND);
         } else if (verification.getExpirationDate().isBefore(LocalDateTime.now())) {
             throw new CustomException(ErrorCode.EXPIRED_EMAIL);
         } else {
