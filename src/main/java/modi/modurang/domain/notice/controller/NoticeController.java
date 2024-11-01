@@ -29,7 +29,7 @@ public class NoticeController {
     }
 
     @Operation(summary = "공지 삭제")
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/remove/{id}")
     public ResponseEntity<BaseResponse<Void>> deleteNotice(@PathVariable Long id) {
         noticeService.deleteNotice(id);
         return BaseResponse.of(null);

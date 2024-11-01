@@ -45,7 +45,7 @@ public class AuthController {
     }
 
     @Operation(summary = "비밀번호 변경")
-    @PutMapping("/password")
+    @PatchMapping("/password")
     public ResponseEntity<BaseResponse<Void>> changePassword(@Valid @RequestBody ChangePasswordRequest request, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         authService.changePassword(request, customUserDetails);
 

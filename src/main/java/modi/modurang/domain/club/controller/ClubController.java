@@ -37,7 +37,7 @@ public class ClubController {
     }
 
     @Operation(summary = "동아리 수정")
-    @PutMapping("/modify")
+    @PatchMapping("/modify")
     public ResponseEntity<BaseResponse<Void>> modify(@Valid @RequestBody ClubRequest request) {
         clubService.modify(request);
         return BaseResponse.of(null);
