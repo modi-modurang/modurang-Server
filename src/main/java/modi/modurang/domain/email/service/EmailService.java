@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.email.repository.EmailRepository;
 import modi.modurang.global.config.email.EmailConfig;
+import modi.modurang.global.exception.CustomException;
+import modi.modurang.global.exception.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -57,5 +59,13 @@ public class EmailService {
     @Transactional
     public void deleteExpiredEmails() {
         emailRepository.deleteByExpirationDateBeforeAndIsVerifiedFalse(LocalDateTime.now());
+    }
+
+    @Transactional
+    public void deleteEmail(String email) {
+        if (emailRepository.findByEmail(email).isEmpty()) {
+            throw new CustomException(ErrorCode.EMAIL_NOT_FOUND);
+        }
+        emailRepository.deleteByEmail(email);
     }
 }
