@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(servers = {
-        @Server(url = "/", description = "https://0966-221-168-22-204.ngrok-free.app")
+        @Server(url = "/", description = "https://1196-221-168-22-205.ngrok-free.app")
 })
 @Configuration
 public class SwaggerConfig {
