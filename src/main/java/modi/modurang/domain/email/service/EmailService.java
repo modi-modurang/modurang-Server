@@ -16,12 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -53,12 +51,6 @@ public class EmailService {
         } catch (MessagingException | IOException e) {
             logger.error("{}에게 인증 이메일 전송 실패: {}", email, e.getMessage());
         }
-    }
-
-    @Scheduled(cron = "0 * * * * *")
-    @Transactional
-    public void deleteExpiredEmails() {
-        emailRepository.deleteByExpirationDateBeforeAndIsVerifiedFalse(LocalDateTime.now());
     }
 
     @Transactional
