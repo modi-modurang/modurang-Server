@@ -14,6 +14,7 @@ import modi.modurang.global.exception.CustomException;
 import modi.modurang.global.exception.ErrorCode;
 import modi.modurang.global.security.details.CustomUserDetails;
 import modi.modurang.global.security.jwt.dto.Jwt;
+import modi.modurang.global.security.jwt.enums.JwtType;
 import modi.modurang.global.security.jwt.provider.JwtProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -84,10 +85,14 @@ public class AuthServiceImpl implements AuthService {
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
+        if (jwtProvider.getType(request.getRefreshToken()) != JwtType.REFRESH)
+            throw new CustomException(ErrorCode.INVALID_TOKEN_TYPE);
+
         return jwtProvider.generateToken(email);
     }
 
     @Transactional
+    @Override
     public void changePassword(ChangePasswordRequest request, CustomUserDetails customUserDetails) {
         User user = customUserDetails.user();
 
@@ -97,5 +102,13 @@ public class AuthServiceImpl implements AuthService {
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
+    }
+
+    @Transactional
+    @Override
+    public void deleteAccount(CustomUserDetails customUserDetails) {
+        User user = customUserDetails.user();
+
+        userRepository.delete(user);
     }
 }

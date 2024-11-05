@@ -28,7 +28,6 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<BaseResponse<Void>> signup(@Valid @RequestBody SignUpRequest request) {
         authService.signup(request);
-
         return BaseResponse.of(null, 201);
     }
 
@@ -48,8 +47,13 @@ public class AuthController {
     @PatchMapping("/password")
     public ResponseEntity<BaseResponse<Void>> changePassword(@Valid @RequestBody ChangePasswordRequest request, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         authService.changePassword(request, customUserDetails);
-
-        return BaseResponse.of(null, 200);
+        return BaseResponse.of(null);
     }
 
+    @Operation(summary = "회원 탈퇴")
+    @DeleteMapping("/resign")
+    public ResponseEntity<BaseResponse<Void>> deleteAccount(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        authService.deleteAccount(customUserDetails);
+        return BaseResponse.of(null);
+    }
 }

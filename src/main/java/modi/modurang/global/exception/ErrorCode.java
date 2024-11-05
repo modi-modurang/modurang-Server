@@ -22,6 +22,7 @@ public enum ErrorCode {
     UNSUPPORTED_TOKEN(HttpStatus.BAD_REQUEST, "지원되지 않는 토큰 유형입니다."),
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
     MALFORMED_TOKEN(HttpStatus.UNAUTHORIZED, "잘못된 형식의 토큰입니다."),
+    INVALID_TOKEN_TYPE(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰 타입입니다."),
 
     ALREADY_JOINED_CLUB(HttpStatus.CONFLICT, "이미 해당 클럽에 소속되어 있습니다."),
     NO_MEMBERS_FOUND(HttpStatus.NOT_FOUND, "부원이 없습니다."),

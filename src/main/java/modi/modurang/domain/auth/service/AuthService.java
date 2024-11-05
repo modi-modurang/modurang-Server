@@ -16,4 +16,6 @@ public interface AuthService {
     Jwt reissue(ReissueRequest request);
 
     void changePassword(ChangePasswordRequest request, CustomUserDetails CustomUserDetails);
+
+    void deleteAccount(CustomUserDetails CustomUserDetails);
 }

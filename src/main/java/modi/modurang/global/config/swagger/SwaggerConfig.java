@@ -1,5 +1,6 @@
 package modi.modurang.global.config.swagger;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
@@ -11,25 +12,23 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI openAPI() {
-        SecurityScheme securityScheme = new SecurityScheme()
-                .name("Authorization")
-                .type(SecurityScheme.Type.HTTP)
-                .in(SecurityScheme.In.HEADER)
-                .bearerFormat("JWT")
-                .scheme("bearer");
-
+    public OpenAPI api() {
         return new OpenAPI()
+                .info(
+                        new Info().title("Modurang-Server API")
+                                .description("JAVA API")
+                                .version("1.0.0")
+                )
                 .addSecurityItem(new SecurityRequirement().addList("Authorization"))
-                .components(new io.swagger.v3.oas.models.Components()
-                        .addSecuritySchemes("Authorization", securityScheme))
-                .info(apiInfo());
-    }
-
-    private Info apiInfo() {
-        return new Info()
-                .title("Modurang-Server API")
-                .description("Java API")
-                .version("0.0.1");
+                .components(
+                        new Components()
+                                .addSecuritySchemes("Authorization",
+                                        new SecurityScheme()
+                                                .type(SecurityScheme.Type.HTTP)
+                                                .scheme("bearer")
+                                                .bearerFormat("Authorization")
+                                                .in(SecurityScheme.In.HEADER)
+                                                .name("Authorization")
+                                ));
     }
 }
