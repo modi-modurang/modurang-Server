@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "숙제", description = "homework")
+@Tag(name = "숙제", description = "Homework")
 @RestController
 @RequestMapping("/homework")
 @RequiredArgsConstructor
