@@ -1,4 +1,4 @@
-package modi.modurang.global.exception;
+package modi.modurang.global.error;
 
 import lombok.Getter;
 

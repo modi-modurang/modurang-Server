@@ -9,8 +9,8 @@ import modi.modurang.domain.user.dto.response.UserResponse;
 import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.enums.UserRole;
 import modi.modurang.domain.user.repository.UserRepository;
-import modi.modurang.global.exception.CustomException;
-import modi.modurang.global.exception.ErrorCode;
+import modi.modurang.global.error.CustomException;
+import modi.modurang.global.error.ErrorCode;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;

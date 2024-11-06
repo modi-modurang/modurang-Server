@@ -1,4 +1,4 @@
-package modi.modurang.global.config.secutiry;
+package modi.modurang.global.config.security;
 
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
