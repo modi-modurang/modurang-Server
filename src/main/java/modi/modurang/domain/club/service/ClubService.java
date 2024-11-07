@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface ClubService {
 
-    List<UserResponse> club(MemberRequest request);
+    List<UserResponse> clubMember(MemberRequest request);
 
-    void join(ClubRequest request);
+    void joinClub(ClubRequest request);
 
-    void modify(ClubRequest request);
+    void modifyClub(ClubRequest request);
 
     void admin(AdminRequest request);
 }

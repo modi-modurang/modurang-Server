@@ -25,7 +25,7 @@ public class ClubServiceImpl implements ClubService {
 
     @Transactional
     @Override
-    public List<UserResponse> club(MemberRequest request) {
+    public List<UserResponse> clubMember(MemberRequest request) {
         List<User> users = Collections.singletonList(userRepository.findAllByClub(request.getClub())
                 .orElseThrow(() -> new CustomException(ErrorCode.NO_MEMBERS_FOUND)));
 
@@ -37,7 +37,7 @@ public class ClubServiceImpl implements ClubService {
 
     @Transactional
     @Override
-    public void join(ClubRequest request) {
+    public void joinClub(ClubRequest request) {
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
@@ -49,7 +49,7 @@ public class ClubServiceImpl implements ClubService {
 
     @Transactional
     @Override
-    public void modify(ClubRequest request) {
+    public void modifyClub(ClubRequest request) {
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
