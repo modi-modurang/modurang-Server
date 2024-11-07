@@ -48,14 +48,14 @@ public class NoticeController {
     }
 
     @Operation(summary = "공지 고정")
-    @PostMapping("/{id}/pin")
+    @PostMapping("/pin/{id}")
     public ResponseEntity<BaseResponse<Void>> pinNotice(@PathVariable Long id) {
         noticeService.pinNotice(id);
         return BaseResponse.of(null);
     }
 
     @Operation(summary = "공지 고정 해제")
-    @PostMapping("/{id}/unpin")
+    @PostMapping("/unpin/{id}")
     public ResponseEntity<BaseResponse<Void>> unpinNotice(@PathVariable Long id) {
         noticeService.unpinNotice(id);
         return BaseResponse.of(null);
