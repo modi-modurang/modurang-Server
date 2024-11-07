@@ -24,6 +24,7 @@ public class Email extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
+    @Column(length = 6)
     private String verificationCode;
 
     private LocalDateTime expirationDate;
