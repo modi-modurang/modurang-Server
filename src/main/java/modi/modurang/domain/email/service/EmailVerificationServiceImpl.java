@@ -19,6 +19,7 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
     private final EmailService emailService;
 
     @Transactional
+    @Override
     public void sendVerificationCode(String email) {
         if (emailRepository.findByEmailAndIsVerifiedTrue(email).isPresent()) {
             throw new CustomException(ErrorCode.ALREADY_VERIFIED_EMAIL);
@@ -39,11 +40,13 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
         }
     }
 
+    @Override
     public String generateVerificationCode() {
         return String.format("%06d", new SecureRandom().nextInt(1_000_000));
     }
 
     @Transactional
+    @Override
     public void verifyCode(String email, String code) {
         Email verification = emailRepository.findByEmailAndVerificationCode(email, code).orElse(null);
 

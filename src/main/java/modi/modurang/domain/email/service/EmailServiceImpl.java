@@ -30,6 +30,7 @@ public class EmailServiceImpl implements EmailService {
     private final EmailConfig emailConfig;
     private final EmailRepository emailRepository;
 
+    @Override
     public void sendEmail(String email, String code) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
@@ -54,6 +55,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Transactional
+    @Override
     public void deleteEmail(String email) {
         if (emailRepository.findByEmail(email).isEmpty()) {
             throw new CustomException(ErrorCode.EMAIL_NOT_FOUND);
