@@ -10,10 +10,8 @@ import modi.modurang.domain.auth.dto.request.ReissueRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
 import modi.modurang.domain.auth.service.AuthService;
 import modi.modurang.global.common.BaseResponse;
-import modi.modurang.global.security.details.CustomUserDetails;
 import modi.modurang.global.security.jwt.dto.Jwt;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "회원", description = "Auth")
@@ -45,15 +43,15 @@ public class AuthController {
 
     @Operation(summary = "회원 탈퇴")
     @DeleteMapping("/resign")
-    public ResponseEntity<BaseResponse<Void>> deleteAccount(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        authService.deleteAccount(customUserDetails);
+    public ResponseEntity<BaseResponse<Void>> deleteAccount() {
+        authService.deleteAccount();
         return BaseResponse.of(null);
     }
 
     @Operation(summary = "비밀번호 변경")
     @PatchMapping("/password")
-    public ResponseEntity<BaseResponse<Void>> changePassword(@Valid @RequestBody ChangePasswordRequest request, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        authService.changePassword(request, customUserDetails);
+    public ResponseEntity<BaseResponse<Void>> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
+        authService.changePassword(request);
         return BaseResponse.of(null);
     }
 }

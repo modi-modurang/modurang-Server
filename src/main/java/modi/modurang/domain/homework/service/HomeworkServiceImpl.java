@@ -9,8 +9,10 @@ import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
 import modi.modurang.global.error.ErrorCode;
-import modi.modurang.global.security.details.CustomUserDetails;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,29 +28,36 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Transactional
     @PreAuthorize("hasAuthority('ADMIN')")
     @Override
-    public void createHomework(HomeworkRequest request, CustomUserDetails customUserDetails) {
-        User adminUser = customUserDetails.user();
-        Club club = adminUser.getClub();
+    public void createHomework(HomeworkRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof UserDetails userDetails) {
+            String email = userDetails.getUsername();
 
-        List<Long> userIds = request.getUserId();
+            User adminUser = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+            Club club = adminUser.getClub();
 
-        for (Long id : userIds) {
-            User user = userRepository.findById(id)
-                    .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+            List<Long> userIds = request.getUserId();
 
-            if (!user.getClub().equals(club)) {
-                throw new CustomException(ErrorCode.UNAUTHORIZED_CLUB_MEMBER);
+            for (Long id : userIds) {
+                User user = userRepository.findById(id)
+                        .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+                if (!user.getClub().equals(club)) {
+                    throw new CustomException(ErrorCode.UNAUTHORIZED_CLUB_MEMBER);
+                }
+
+                Homework homework = Homework.builder()
+                        .title(request.getTitle())
+                        .content(request.getContent())
+                        .deadline(request.getDeadline())
+                        .isCompleted(false)
+                        .user(user)
+                        .build();
+
+                homeworkRepository.save(homework);
             }
-
-            Homework homework = Homework.builder()
-                    .title(request.getTitle())
-                    .content(request.getContent())
-                    .deadline(request.getDeadline())
-                    .isCompleted(false)
-                    .user(user)
-                    .build();
-
-            homeworkRepository.save(homework);
+        } else {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
     }
 }

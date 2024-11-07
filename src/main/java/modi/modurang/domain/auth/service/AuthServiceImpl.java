@@ -12,10 +12,12 @@ import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
 import modi.modurang.global.error.ErrorCode;
-import modi.modurang.global.security.details.CustomUserDetails;
 import modi.modurang.global.security.jwt.dto.Jwt;
 import modi.modurang.global.security.jwt.enums.JwtType;
 import modi.modurang.global.security.jwt.provider.JwtProvider;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,22 +95,34 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public void changePassword(ChangePasswordRequest request, CustomUserDetails customUserDetails) {
-        User user = customUserDetails.user();
+    public void deleteAccount() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof UserDetails userDetails) {
+            String email = userDetails.getUsername();
 
-        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-            throw new CustomException(ErrorCode.WRONG_PASSWORD);
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+            userRepository.delete(user);
         }
-
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-        userRepository.save(user);
     }
 
     @Transactional
     @Override
-    public void deleteAccount(CustomUserDetails customUserDetails) {
-        User user = customUserDetails.user();
+    public void changePassword(ChangePasswordRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof UserDetails userDetails) {
+            String email = userDetails.getUsername();
 
-        userRepository.delete(user);
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+            if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+                throw new CustomException(ErrorCode.WRONG_PASSWORD);
+            }
+
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+
+            userRepository.save(user);
+        } else {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
     }
 }
