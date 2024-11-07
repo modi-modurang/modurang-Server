@@ -25,7 +25,7 @@ public class ClubServiceImpl implements ClubService {
 
     @Transactional
     @Override
-    public List<UserResponse> clubMember(MemberRequest request) {
+    public List<UserResponse> clubMemberList(MemberRequest request) {
         List<User> users = Collections.singletonList(userRepository.findAllByClub(request.getClub())
                 .orElseThrow(() -> new CustomException(ErrorCode.NO_MEMBERS_FOUND)));
 

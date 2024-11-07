@@ -25,20 +25,20 @@ public class ClubController {
 
     @Operation(summary = "부원 조회")
     @PostMapping("")
-    public ResponseEntity<BaseResponse<List<UserResponse>>> clubMember(@Valid @RequestBody MemberRequest request) {
-        return BaseResponse.of(clubService.clubMember(request), 200);
+    public ResponseEntity<BaseResponse<List<UserResponse>>> clubMemberList(@Valid @RequestBody MemberRequest request) {
+        return BaseResponse.of(clubService.clubMemberList(request), 200);
     }
 
     @Operation(summary = "동아리 가입")
     @PostMapping("/join")
-    public ResponseEntity<BaseResponse<Void>> join(@Valid @RequestBody ClubRequest request) {
+    public ResponseEntity<BaseResponse<Void>> joinClub(@Valid @RequestBody ClubRequest request) {
         clubService.joinClub(request);
         return BaseResponse.of(null);
     }
 
     @Operation(summary = "동아리 수정")
     @PatchMapping("/modify")
-    public ResponseEntity<BaseResponse<Void>> modify(@Valid @RequestBody ClubRequest request) {
+    public ResponseEntity<BaseResponse<Void>> modifyClub(@Valid @RequestBody ClubRequest request) {
         clubService.modifyClub(request);
         return BaseResponse.of(null);
     }
