@@ -8,6 +8,7 @@ import modi.modurang.domain.homework.dto.request.HomeworkRequest;
 import modi.modurang.domain.homework.service.HomeworkService;
 import modi.modurang.global.common.BaseResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ public class HomeworkController {
 
     @Operation(summary = "숙제 등록")
     @PostMapping("/register")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BaseResponse<Void>> createHomework(@Valid @RequestBody HomeworkRequest request) {
         homeworkService.createHomework(request);
         return BaseResponse.of(null);

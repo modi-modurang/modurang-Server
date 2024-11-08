@@ -9,7 +9,6 @@ import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
 import modi.modurang.global.error.ErrorCode;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +25,6 @@ public class HomeworkServiceImpl implements HomeworkService {
     private final UserRepository userRepository;
 
     @Transactional
-    @PreAuthorize("hasAuthority('ADMIN')")
     @Override
     public void createHomework(HomeworkRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

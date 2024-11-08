@@ -27,10 +27,8 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public void createNotice(NoticeRequest noticeRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if (authentication.getPrincipal() instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
-
             User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
             String username = user.getUsername();
 
@@ -52,16 +50,16 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public void deleteNotice(Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if (authentication.getPrincipal() instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
             User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
             Notice notice = noticeRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
             if (!notice.getWriter().equals(user.getUsername())) {
                 throw new RuntimeException("권한이 없습니다.");
-            } else {
-                noticeRepository.delete(notice);
             }
+
+            noticeRepository.delete(notice);
         }
     }
 
@@ -80,18 +78,18 @@ public class NoticeServiceImpl implements NoticeService {
     @Transactional
     @Override
     public void pinNotice(Long id) {
-        Notice notice = noticeRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
+        Notice notice = noticeRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
         notice.setPinned(true);
+
         noticeRepository.save(notice);
     }
 
     @Transactional
     @Override
     public void unpinNotice(Long id) {
-        Notice notice = noticeRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
+        Notice notice = noticeRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
         notice.setPinned(false);
+
         noticeRepository.save(notice);
     }
 
