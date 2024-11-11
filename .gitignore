@@ -36,5 +36,8 @@ out/
 ### VS Code ###
 .vscode/
 
-# Upload directory
+### DS_Store ###
+.DS_Store
+
+### Upload directory ###
 upload/
