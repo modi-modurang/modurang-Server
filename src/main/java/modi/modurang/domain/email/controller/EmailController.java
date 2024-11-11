@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import modi.modurang.domain.email.dto.request.EmailSendRequest;
 import modi.modurang.domain.email.dto.request.EmailVerifyRequest;
 import modi.modurang.domain.email.service.EmailService;
@@ -13,7 +12,6 @@ import modi.modurang.global.common.BaseResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Slf4j
 @Tag(name = "이메일", description = "Email")
 @RestController
 @RequestMapping("/email")
