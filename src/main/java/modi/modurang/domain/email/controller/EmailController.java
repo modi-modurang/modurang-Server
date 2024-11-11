@@ -12,7 +12,7 @@ import modi.modurang.global.common.BaseResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "이메일", description = "Email")
+@Tag(name = "email", description = "이메일")
 @RestController
 @RequestMapping("/email")
 @RequiredArgsConstructor

@@ -14,7 +14,7 @@ import modi.modurang.global.security.jwt.dto.Jwt;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "회원", description = "Auth")
+@Tag(name = "auth", description = "회원")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

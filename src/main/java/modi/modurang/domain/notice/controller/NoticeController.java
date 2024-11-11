@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "공지", description = "Notice")
+@Tag(name = "notice", description = "공지")
 @RestController
 @RequestMapping("/notice")
 @RequiredArgsConstructor

@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@Tag(name = "이미지", description = "Image")
+@Tag(name = "image", description = "이미지")
 @RestController
 @RequestMapping("/image")
 @RequiredArgsConstructor
