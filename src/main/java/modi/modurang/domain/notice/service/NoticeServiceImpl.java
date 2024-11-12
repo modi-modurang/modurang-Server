@@ -77,18 +77,12 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Transactional
     @Override
-    public void pinNotice(Long id) {
-        Notice notice = noticeRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
-        notice.setPinned(true);
+    public void toggleNoticePin(Long id) {
+        Notice notice = noticeRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
 
-        noticeRepository.save(notice);
-    }
-
-    @Transactional
-    @Override
-    public void unpinNotice(Long id) {
-        Notice notice = noticeRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
-        notice.setPinned(false);
+        // 현재 상태의 반대로 설정
+        notice.setPinned(!notice.isPinned());
 
         noticeRepository.save(notice);
     }

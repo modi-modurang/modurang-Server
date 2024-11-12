@@ -47,17 +47,10 @@ public class NoticeController {
         return BaseResponse.of(noticeService.getAllNotices());
     }
 
-    @Operation(summary = "공지 고정")
-    @PostMapping("/pin/{id}")
-    public ResponseEntity<BaseResponse<Void>> pinNotice(@PathVariable Long id) {
-        noticeService.pinNotice(id);
-        return BaseResponse.of(null);
-    }
-
-    @Operation(summary = "공지 고정 해제")
-    @PostMapping("/unpin/{id}")
-    public ResponseEntity<BaseResponse<Void>> unpinNotice(@PathVariable Long id) {
-        noticeService.unpinNotice(id);
+    @Operation(summary = "공지 고정/해제 토글")
+    @PostMapping("/toggle-pin/{id}")
+    public ResponseEntity<BaseResponse<Void>> toggleNoticePin(@PathVariable Long id) {
+        noticeService.toggleNoticePin(id);
         return BaseResponse.of(null);
     }
 

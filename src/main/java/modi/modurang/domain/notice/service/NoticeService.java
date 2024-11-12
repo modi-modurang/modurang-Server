@@ -15,9 +15,7 @@ public interface NoticeService {
 
     List<Notice> getAllNotices();
 
-    void pinNotice(Long id);
-
-    void unpinNotice(Long id);
+    void toggleNoticePin(Long id);
 
     List<Notice> getPinnedNotices();
 }
