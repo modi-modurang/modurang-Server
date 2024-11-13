@@ -23,21 +23,26 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
     public void sendVerificationCode(String email) {
         if (emailRepository.findByEmailAndIsVerifiedTrue(email).isPresent()) {
             throw new CustomException(ErrorCode.ALREADY_VERIFIED_EMAIL);
-        } else {
-            String code = generateVerificationCode();
-            LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(5);
-
-            Email emailVerification = Email.builder()
-                    .email(email)
-                    .verificationCode(code)
-                    .expirationDate(expirationDate)
-                    .isVerified(false)
-                    .build();
-
-            emailRepository.save(emailVerification);
-
-            emailService.sendEmail(email, code);
         }
+
+        String code = generateVerificationCode();
+        LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(5);
+
+        Email emailVerification = emailRepository.findByEmail(email)
+                .map(existing -> {
+                    existing.setVerificationCode(code);
+                    existing.setExpirationDate(expirationDate);
+                    return existing;
+                })
+                .orElse(Email.builder()
+                        .email(email)
+                        .verificationCode(code)
+                        .expirationDate(expirationDate)
+                        .isVerified(false)
+                        .build());
+
+        emailRepository.save(emailVerification);
+        emailService.sendEmail(email, code);
     }
 
     @Override
