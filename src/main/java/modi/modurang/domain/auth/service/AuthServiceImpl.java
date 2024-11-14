@@ -5,15 +5,17 @@ import modi.modurang.domain.auth.dto.request.ChangePasswordRequest;
 import modi.modurang.domain.auth.dto.request.LoginRequest;
 import modi.modurang.domain.auth.dto.request.ReissueRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
+import modi.modurang.domain.auth.error.AuthError;
 import modi.modurang.domain.auth.repository.RefreshTokenRepository;
 import modi.modurang.domain.email.entity.Email;
 import modi.modurang.domain.email.repository.EmailRepository;
 import modi.modurang.domain.user.entity.User;
+import modi.modurang.domain.user.error.UserError;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
-import modi.modurang.global.error.ErrorCode;
 import modi.modurang.global.security.jwt.dto.Jwt;
 import modi.modurang.global.security.jwt.enums.JwtType;
+import modi.modurang.global.security.jwt.error.JwtError;
 import modi.modurang.global.security.jwt.provider.JwtProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,14 +38,14 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void signup(SignUpRequest request) {
         if (userRepository.existsByStudentNumber(request.getStudentNumber())) {
-            throw new CustomException(ErrorCode.HAS_STUDENTNUMBER);
+            throw new CustomException(UserError.HAS_STUDENTNUMBER);
         } else if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new CustomException(ErrorCode.HAS_EMAIL);
+            throw new CustomException(UserError.HAS_EMAIL);
         }
 
         Email verification = emailRepository.findByEmail(request.getEmail()).orElse(null);
         if (verification == null || !verification.isVerified()) {
-            throw new CustomException(ErrorCode.EMAIL_NOT_VERIFIED);
+            throw new CustomException(UserError.EMAIL_NOT_VERIFIED);
         }
 
         User user = User.builder()
@@ -61,10 +63,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Jwt login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new CustomException(ErrorCode.WRONG_PASSWORD);
+            throw new CustomException(AuthError.WRONG_PASSWORD);
         }
 
         return jwtProvider.generateToken(request.getEmail());
@@ -76,19 +78,19 @@ public class AuthServiceImpl implements AuthService {
         String email = jwtProvider.getSubject(request.getRefreshToken());
 
         if (userRepository.findByEmail(email).isEmpty()) {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+            throw new CustomException(UserError.USER_NOT_FOUND);
         }
 
         if (!refreshTokenRepository.existsByEmail(email)) {
-            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
+            throw new CustomException(JwtError.INVALID_TOKEN);
         }
 
         if (!refreshTokenRepository.findByEmail(email).equals(request.getRefreshToken())) {
-            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
+            throw new CustomException(JwtError.INVALID_REFRESH_TOKEN);
         }
 
         if (jwtProvider.getType(request.getRefreshToken()) != JwtType.REFRESH)
-            throw new CustomException(ErrorCode.INVALID_TOKEN_TYPE);
+            throw new CustomException(JwtError.INVALID_TOKEN_TYPE);
 
         return jwtProvider.generateToken(email);
     }
@@ -100,7 +102,7 @@ public class AuthServiceImpl implements AuthService {
         if (authentication.getPrincipal() instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
 
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
 
             userRepository.delete(user);
         }
@@ -113,16 +115,16 @@ public class AuthServiceImpl implements AuthService {
         if (authentication.getPrincipal() instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
 
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
             if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-                throw new CustomException(ErrorCode.WRONG_PASSWORD);
+                throw new CustomException(AuthError.WRONG_PASSWORD);
             }
 
             user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
             userRepository.save(user);
         } else {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+            throw new CustomException(UserError.USER_NOT_FOUND);
         }
     }
 }

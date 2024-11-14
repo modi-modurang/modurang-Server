@@ -2,13 +2,14 @@ package modi.modurang.domain.homework.service;
 
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.club.enums.Club;
+import modi.modurang.domain.club.error.ClubError;
 import modi.modurang.domain.homework.dto.request.HomeworkRequest;
 import modi.modurang.domain.homework.entity.Homework;
 import modi.modurang.domain.homework.repository.HomeworkRepository;
 import modi.modurang.domain.user.entity.User;
+import modi.modurang.domain.user.error.UserError;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
-import modi.modurang.global.error.ErrorCode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,17 +32,17 @@ public class HomeworkServiceImpl implements HomeworkService {
         if (authentication.getPrincipal() instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
 
-            User adminUser = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+            User adminUser = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
             Club club = adminUser.getClub();
 
             List<Long> userIds = request.getUserId();
 
             for (Long id : userIds) {
                 User user = userRepository.findById(id)
-                        .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+                        .orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
 
                 if (!user.getClub().equals(club)) {
-                    throw new CustomException(ErrorCode.UNAUTHORIZED_CLUB_MEMBER);
+                    throw new CustomException(ClubError.UNAUTHORIZED_CLUB_MEMBER);
                 }
 
                 Homework homework = Homework.builder()
@@ -55,7 +56,7 @@ public class HomeworkServiceImpl implements HomeworkService {
                 homeworkRepository.save(homework);
             }
         } else {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+            throw new CustomException(UserError.USER_NOT_FOUND);
         }
     }
 }

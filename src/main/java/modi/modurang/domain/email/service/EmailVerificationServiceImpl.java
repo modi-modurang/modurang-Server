@@ -4,8 +4,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.email.entity.Email;
 import modi.modurang.domain.email.repository.EmailRepository;
+import modi.modurang.domain.user.error.UserError;
 import modi.modurang.global.error.CustomException;
-import modi.modurang.global.error.ErrorCode;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -22,7 +22,7 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
     @Override
     public void sendVerificationCode(String email) {
         if (emailRepository.findByEmailAndIsVerifiedTrue(email).isPresent()) {
-            throw new CustomException(ErrorCode.ALREADY_VERIFIED_EMAIL);
+            throw new CustomException(UserError.ALREADY_VERIFIED_EMAIL);
         }
 
         String code = generateVerificationCode();
@@ -56,9 +56,9 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
         Email verification = emailRepository.findByEmailAndVerificationCode(email, code).orElse(null);
 
         if (verification == null) {
-            throw new CustomException(ErrorCode.EMAIL_NOT_FOUND);
+            throw new CustomException(UserError.EMAIL_NOT_FOUND);
         } else if (verification.getExpirationDate().isBefore(LocalDateTime.now())) {
-            throw new CustomException(ErrorCode.EXPIRED_EMAIL);
+            throw new CustomException(UserError.EXPIRED_EMAIL);
         } else {
             verification.setVerified(true);
             verification.setVerificationCode(null);

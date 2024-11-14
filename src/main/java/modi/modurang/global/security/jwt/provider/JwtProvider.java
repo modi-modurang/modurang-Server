@@ -6,12 +6,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.auth.repository.RefreshTokenRepository;
 import modi.modurang.domain.user.entity.User;
+import modi.modurang.domain.user.error.UserError;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
-import modi.modurang.global.error.ErrorCode;
 import modi.modurang.global.security.details.CustomUserDetails;
 import modi.modurang.global.security.jwt.config.JwtProperties;
 import modi.modurang.global.security.jwt.enums.JwtType;
+import modi.modurang.global.security.jwt.error.JwtError;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -73,10 +74,10 @@ public class JwtProvider {
         Claims claims = getClaims(token);
 
         if (getType(token) != JwtType.ACCESS) {
-            throw new CustomException(ErrorCode.INVALID_TOKEN);
+            throw new CustomException(JwtError.INVALID_TOKEN);
         }
 
-        User user = userRepository.findByEmail(claims.getSubject()).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findByEmail(claims.getSubject()).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
 
         UserDetails details = new CustomUserDetails(user);
 
@@ -105,13 +106,13 @@ public class JwtProvider {
                     .parseSignedClaims(token)
                     .getPayload();
         } catch (ExpiredJwtException e) {
-            throw new CustomException(ErrorCode.EXPIRED_TOKEN);
+            throw new CustomException(JwtError.EXPIRED_TOKEN);
         } catch (UnsupportedJwtException e) {
-            throw new CustomException(ErrorCode.UNSUPPORTED_TOKEN);
+            throw new CustomException(JwtError.UNSUPPORTED_TOKEN);
         } catch (MalformedJwtException e) {
-            throw new CustomException(ErrorCode.MALFORMED_TOKEN);
+            throw new CustomException(JwtError.MALFORMED_TOKEN);
         } catch (IllegalArgumentException e) {
-            throw new CustomException(ErrorCode.INVALID_TOKEN);
+            throw new CustomException(JwtError.INVALID_TOKEN);
         }
     }
 

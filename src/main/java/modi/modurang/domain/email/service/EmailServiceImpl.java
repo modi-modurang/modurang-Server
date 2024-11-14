@@ -8,9 +8,9 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.email.repository.EmailRepository;
+import modi.modurang.domain.user.error.UserError;
 import modi.modurang.global.config.email.EmailConfig;
 import modi.modurang.global.error.CustomException;
-import modi.modurang.global.error.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -58,7 +58,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void deleteEmail(String email) {
         if (emailRepository.findByEmail(email).isEmpty()) {
-            throw new CustomException(ErrorCode.EMAIL_NOT_FOUND);
+            throw new CustomException(UserError.EMAIL_NOT_FOUND);
         }
         emailRepository.deleteByEmail(email);
     }

@@ -5,12 +5,13 @@ import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.club.dto.request.AdminRequest;
 import modi.modurang.domain.club.dto.request.ClubRequest;
 import modi.modurang.domain.club.dto.request.MemberRequest;
+import modi.modurang.domain.club.error.ClubError;
 import modi.modurang.domain.user.dto.response.UserResponse;
 import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.enums.UserRole;
+import modi.modurang.domain.user.error.UserError;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
-import modi.modurang.global.error.ErrorCode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +31,7 @@ public class ClubServiceImpl implements ClubService {
     @Override
     public List<UserResponse> clubMemberList(MemberRequest request) {
         List<User> users = Collections.singletonList(userRepository.findAllByClub(request.getClub())
-                .orElseThrow(() -> new CustomException(ErrorCode.NO_MEMBERS_FOUND)));
+                .orElseThrow(() -> new CustomException(ClubError.NO_MEMBERS_FOUND)));
 
         return users.stream()
                 .map(user -> new UserResponse(user.getId(), user.getUsername(), user.getStudentNumber(),
@@ -44,14 +45,14 @@ public class ClubServiceImpl implements ClubService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof UserDetails userdetails) {
             String email = userdetails.getUsername();
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
 
             user.setClub(request.getClub());
             user.setRole(UserRole.USER);
 
             userRepository.save(user);
         } else {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+            throw new CustomException(UserError.USER_NOT_FOUND);
         }
     }
 
@@ -61,10 +62,10 @@ public class ClubServiceImpl implements ClubService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof UserDetails userdetails) {
             String email = userdetails.getUsername();
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
 
             if (user.getClub().equals(request.getClub())) {
-                throw new CustomException(ErrorCode.ALREADY_JOINED_CLUB);
+                throw new CustomException(ClubError.ALREADY_JOINED_CLUB);
             }
 
             user.setClub(request.getClub());
@@ -72,7 +73,7 @@ public class ClubServiceImpl implements ClubService {
 
             userRepository.save(user);
         } else {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+            throw new CustomException(UserError.USER_NOT_FOUND);
         }
     }
 
@@ -80,7 +81,7 @@ public class ClubServiceImpl implements ClubService {
     @Override
     public void admin(AdminRequest request) {
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
 
         user.setRole(UserRole.ADMIN);
 
