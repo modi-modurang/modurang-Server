@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import modi.modurang.domain.auth.dto.request.ChangePasswordRequest;
 import modi.modurang.domain.auth.dto.request.LoginRequest;
 import modi.modurang.domain.auth.dto.request.ReissueRequest;
@@ -16,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "auth", description = "인증 관련 API")
-@Slf4j
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -27,7 +25,6 @@ public class AuthController {
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<BaseResponse<Void>> signup(@Valid @RequestBody SignUpRequest request) {
-        log.info(request.toString());
         authService.signup(request);
         return BaseResponse.of(null, 201);
     }
@@ -35,7 +32,6 @@ public class AuthController {
     @Operation(summary = "로그인")
     @PostMapping("/login")
     public ResponseEntity<BaseResponse<Jwt>> login(@Valid @RequestBody LoginRequest request) {
-        log.info(request.toString());
         return BaseResponse.of(authService.login(request));
     }
 
@@ -55,7 +51,6 @@ public class AuthController {
     @Operation(summary = "비밀번호 변경")
     @PatchMapping("/password")
     public ResponseEntity<BaseResponse<Void>> updatePassword(@Valid @RequestBody ChangePasswordRequest request) {
-        log.info(request.toString());
         authService.updatePassword(request);
         return BaseResponse.of(null, 204);
     }
