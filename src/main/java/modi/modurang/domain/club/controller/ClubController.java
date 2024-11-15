@@ -40,13 +40,13 @@ public class ClubController {
     @PatchMapping("/modify")
     public ResponseEntity<BaseResponse<Void>> modifyClub(@Valid @RequestBody ClubRequest request) {
         clubService.modifyClub(request);
-        return BaseResponse.of(null);
+        return BaseResponse.of(null, 204);
     }
 
     @Operation(summary = "동아리 관리자 권한 설정")
     @PostMapping("/admin")
     public ResponseEntity<BaseResponse<Void>> admin(@Valid @RequestBody AdminRequest request) {
         clubService.admin(request);
-        return BaseResponse.of(null);
+        return BaseResponse.of(null, 204);
     }
 }
