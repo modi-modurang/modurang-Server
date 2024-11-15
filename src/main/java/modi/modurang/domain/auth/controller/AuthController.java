@@ -4,10 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import modi.modurang.domain.auth.dto.request.ChangePasswordRequest;
 import modi.modurang.domain.auth.dto.request.LoginRequest;
 import modi.modurang.domain.auth.dto.request.ReissueRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
+import modi.modurang.domain.auth.dto.request.UpdatePasswordRequest;
 import modi.modurang.domain.auth.service.AuthService;
 import modi.modurang.global.common.BaseResponse;
 import modi.modurang.global.security.jwt.dto.Jwt;
@@ -50,7 +50,7 @@ public class AuthController {
 
     @Operation(summary = "비밀번호 변경")
     @PatchMapping("/password")
-    public ResponseEntity<BaseResponse<Void>> updatePassword(@Valid @RequestBody ChangePasswordRequest request) {
+    public ResponseEntity<BaseResponse<Void>> updatePassword(@Valid @RequestBody UpdatePasswordRequest request) {
         authService.updatePassword(request);
         return BaseResponse.of(null, 204);
     }

@@ -1,9 +1,9 @@
 package modi.modurang.domain.auth.service;
 
-import modi.modurang.domain.auth.dto.request.ChangePasswordRequest;
 import modi.modurang.domain.auth.dto.request.LoginRequest;
 import modi.modurang.domain.auth.dto.request.ReissueRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
+import modi.modurang.domain.auth.dto.request.UpdatePasswordRequest;
 import modi.modurang.global.security.jwt.dto.Jwt;
 
 public interface AuthService {
@@ -16,5 +16,5 @@ public interface AuthService {
 
     void deleteAccount();
 
-    void updatePassword(ChangePasswordRequest request);
+    void updatePassword(UpdatePasswordRequest request);
 }

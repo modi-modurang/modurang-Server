@@ -1,10 +1,10 @@
 package modi.modurang.domain.auth.service;
 
 import lombok.RequiredArgsConstructor;
-import modi.modurang.domain.auth.dto.request.ChangePasswordRequest;
 import modi.modurang.domain.auth.dto.request.LoginRequest;
 import modi.modurang.domain.auth.dto.request.ReissueRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
+import modi.modurang.domain.auth.dto.request.UpdatePasswordRequest;
 import modi.modurang.domain.auth.error.AuthError;
 import modi.modurang.domain.auth.repository.RefreshTokenRepository;
 import modi.modurang.domain.email.entity.Email;
@@ -110,7 +110,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public void updatePassword(ChangePasswordRequest request) {
+    public void updatePassword(UpdatePasswordRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
