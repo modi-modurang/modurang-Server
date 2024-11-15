@@ -14,7 +14,7 @@ import modi.modurang.global.security.jwt.dto.Jwt;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "auth", description = "회원 API")
+@Tag(name = "auth", description = "인증 관련 API")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public class AuthController {
         return BaseResponse.of(authService.login(request));
     }
 
-    @Operation(summary = "엑세스 토큰 재발급")
+    @Operation(summary = "토큰 재발급")
     @PostMapping("/reissue")
     public ResponseEntity<BaseResponse<Jwt>> reissue(@Valid @RequestBody ReissueRequest request) {
         return BaseResponse.of(authService.reissue(request));
@@ -45,13 +45,13 @@ public class AuthController {
     @DeleteMapping("/resign")
     public ResponseEntity<BaseResponse<Void>> deleteAccount() {
         authService.deleteAccount();
-        return BaseResponse.of(null);
+        return BaseResponse.of(null, 204);
     }
 
     @Operation(summary = "비밀번호 변경")
     @PatchMapping("/password")
-    public ResponseEntity<BaseResponse<Void>> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
-        authService.changePassword(request);
-        return BaseResponse.of(null);
+    public ResponseEntity<BaseResponse<Void>> updatePassword(@Valid @RequestBody ChangePasswordRequest request) {
+        authService.updatePassword(request);
+        return BaseResponse.of(null, 204);
     }
 }

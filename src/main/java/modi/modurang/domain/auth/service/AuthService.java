@@ -16,5 +16,5 @@ public interface AuthService {
 
     void deleteAccount();
 
-    void changePassword(ChangePasswordRequest request);
+    void updatePassword(ChangePasswordRequest request);
 }
