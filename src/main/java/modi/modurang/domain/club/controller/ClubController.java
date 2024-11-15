@@ -23,27 +23,27 @@ public class ClubController {
 
     private final ClubService clubService;
 
-    @Operation(summary = "부원 조회")
+    @Operation(summary = "동아리 멤버 목록 조회")
     @PostMapping("")
     public ResponseEntity<BaseResponse<List<UserResponse>>> clubMemberList(@Valid @RequestBody MemberRequest request) {
         return BaseResponse.of(clubService.clubMemberList(request), 200);
     }
 
-    @Operation(summary = "동아리 가입")
+    @Operation(summary = "동아리 가입 신청")
     @PostMapping("/join")
     public ResponseEntity<BaseResponse<Void>> joinClub(@Valid @RequestBody ClubRequest request) {
         clubService.joinClub(request);
         return BaseResponse.of(null);
     }
 
-    @Operation(summary = "동아리 수정")
+    @Operation(summary = "동아리 정보 수정")
     @PatchMapping("/modify")
     public ResponseEntity<BaseResponse<Void>> modifyClub(@Valid @RequestBody ClubRequest request) {
         clubService.modifyClub(request);
         return BaseResponse.of(null);
     }
 
-    @Operation(summary = "동아리 관리자")
+    @Operation(summary = "동아리 관리자 권한 설정")
     @PostMapping("/admin")
     public ResponseEntity<BaseResponse<Void>> admin(@Valid @RequestBody AdminRequest request) {
         clubService.admin(request);

@@ -12,23 +12,23 @@ import modi.modurang.global.common.BaseResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "email", description = "이메일 API")
+@Tag(name = "email-verification", description = "이메일 인증 API")
 @RestController
-@RequestMapping("/email")
+@RequestMapping("/email-verification")
 @RequiredArgsConstructor
 public class EmailController {
 
     private final EmailVerificationService emailVerificationService;
     private final EmailService emailService;
 
-    @Operation(summary = "이메일 전송")
+    @Operation(summary = "인증 코드 발송")
     @PostMapping("/send")
     public ResponseEntity<BaseResponse<Void>> sendVerificationCode(@Valid @RequestBody EmailSendRequest request) {
         emailVerificationService.sendVerificationCode(request.getEmail());
         return BaseResponse.of(null);
     }
 
-    @Operation(summary = "이메일 인증")
+    @Operation(summary = "인증 코드 확인")
     @PostMapping("/verify")
     public ResponseEntity<BaseResponse<Void>> verifyEmail(@Valid @RequestBody EmailVerifyRequest request) {
         emailVerificationService.verifyCode(request.getEmail(), request.getCode());
