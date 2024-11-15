@@ -10,6 +10,7 @@ import modi.modurang.domain.club.enums.Club;
 import modi.modurang.domain.user.enums.UserRole;
 import modi.modurang.global.common.BaseEntity;
 
+@Table(name = "users")
 @Entity
 @Getter
 @Setter

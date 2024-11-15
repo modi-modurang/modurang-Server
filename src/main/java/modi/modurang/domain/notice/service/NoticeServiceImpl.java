@@ -2,6 +2,7 @@ package modi.modurang.domain.notice.service;
 
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.notice.dto.request.NoticeRequest;
+import modi.modurang.domain.notice.dto.response.NoticeResponse;
 import modi.modurang.domain.notice.entity.Notice;
 import modi.modurang.domain.notice.error.NoticeError;
 import modi.modurang.domain.notice.repository.NoticeRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,34 +48,26 @@ public class NoticeServiceImpl implements NoticeService {
         }
     }
 
-
     @Transactional
     @Override
     public void deleteNotice(Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal() instanceof UserDetails userDetails) {
-            String email = userDetails.getUsername();
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
-
-            Notice notice = noticeRepository.findById(id).orElseThrow(() -> new CustomException(NoticeError.NOTICE_NOT_FOUND));
-            if (!notice.getWriter().equals(user.getUsername())) {
-                throw new RuntimeException("권한이 없습니다.");
-            }
-
-            noticeRepository.delete(notice);
-        }
+        Notice notice = noticeRepository.findById(id).orElseThrow(() -> new CustomException(NoticeError.NOTICE_NOT_FOUND));
+        noticeRepository.delete(notice);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Notice getNoticeById(Long id) {
-        return noticeRepository.findById(id).orElseThrow(() -> new CustomException(NoticeError.NOTICE_NOT_FOUND));
+    public NoticeResponse getNoticeById(Long id) {
+        Notice notice = noticeRepository.findById(id).orElseThrow(() -> new CustomException(NoticeError.NOTICE_NOT_FOUND));
+        return convertToResponse(notice);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<Notice> getAllNotices() {
-        return noticeRepository.findAll();
+    public List<NoticeResponse> getAllNotices() {
+        return noticeRepository.findAll().stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -82,7 +76,6 @@ public class NoticeServiceImpl implements NoticeService {
         Notice notice = noticeRepository.findById(id)
                 .orElseThrow(() -> new CustomException(NoticeError.NOTICE_NOT_FOUND));
 
-        // 현재 상태의 반대로 설정
         notice.setPinned(!notice.isPinned());
 
         noticeRepository.save(notice);
@@ -90,7 +83,17 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Notice> getPinnedNotices() {
-        return noticeRepository.findByIsPinned(true);
+    public List<NoticeResponse> getPinnedNotices() {
+        return noticeRepository.findByIsPinned(true).stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+    }
+
+    private NoticeResponse convertToResponse(Notice notice) {
+        return new NoticeResponse(
+                notice.getTitle(),
+                notice.getContent(),
+                notice.getWriter()
+        );
     }
 }

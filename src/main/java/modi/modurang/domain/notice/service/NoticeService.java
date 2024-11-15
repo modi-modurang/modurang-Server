@@ -1,8 +1,7 @@
 package modi.modurang.domain.notice.service;
 
 import modi.modurang.domain.notice.dto.request.NoticeRequest;
-import modi.modurang.domain.notice.entity.Notice;
-
+import modi.modurang.domain.notice.dto.response.NoticeResponse;
 import java.util.List;
 
 public interface NoticeService {
@@ -11,11 +10,11 @@ public interface NoticeService {
 
     void deleteNotice(Long id);
 
-    Notice getNoticeById(Long id);
+    NoticeResponse getNoticeById(Long id);
 
-    List<Notice> getAllNotices();
+    List<NoticeResponse> getAllNotices();
 
     void toggleNoticePin(Long id);
 
-    List<Notice> getPinnedNotices();
+    List<NoticeResponse> getPinnedNotices();
 }

@@ -5,58 +5,63 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.notice.dto.request.NoticeRequest;
-import modi.modurang.domain.notice.entity.Notice;
+import modi.modurang.domain.notice.dto.response.NoticeResponse;
 import modi.modurang.domain.notice.service.NoticeService;
 import modi.modurang.global.common.BaseResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "notice", description = "공지")
+@Tag(name = "notices", description = "공지사항 API")
 @RestController
-@RequestMapping("/notice")
+@RequestMapping("/api/v1/notices")
 @RequiredArgsConstructor
 public class NoticeController {
 
     private final NoticeService noticeService;
 
-    @Operation(summary = "공지 작성")
-    @PostMapping("/register")
-    public ResponseEntity<BaseResponse<Void>> createNotice(@Valid @RequestBody NoticeRequest noticeRequest) {
+    @Operation(summary = "공지사항 작성")
+    @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<BaseResponse<NoticeResponse>> createNotice(@Valid @RequestBody NoticeRequest noticeRequest) {
         noticeService.createNotice(noticeRequest);
         return BaseResponse.of(null, 201);
     }
 
-    @Operation(summary = "공지 삭제")
-    @DeleteMapping("/remove/{id}")
+    @Operation(summary = "공지사항 삭제")
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BaseResponse<Void>> deleteNotice(@PathVariable Long id) {
         noticeService.deleteNotice(id);
-        return BaseResponse.of(null);
+        return BaseResponse.of(null, 200);
     }
 
-    @Operation(summary = "단일 공지 조회")
+    @Operation(summary = "단일 공지사항 조회")
     @GetMapping("/{id}")
-    public ResponseEntity<BaseResponse<Notice>> getNoticeById(@PathVariable Long id) {
+    public ResponseEntity<BaseResponse<NoticeResponse>> getNotice(@PathVariable Long id) {
         return BaseResponse.of(noticeService.getNoticeById(id));
     }
 
-    @Operation(summary = "전체 공지 조회")
-    @GetMapping("")
-    public ResponseEntity<BaseResponse<List<Notice>>> getAllNotices() {
+    @Operation(summary = "전체 공지사항 조회")
+    @GetMapping
+    public ResponseEntity<BaseResponse<List<NoticeResponse>>> getAllNotices() {
         return BaseResponse.of(noticeService.getAllNotices());
     }
 
-    @Operation(summary = "공지 고정/해제 토글")
-    @PostMapping("/toggle-pin/{id}")
-    public ResponseEntity<BaseResponse<Void>> toggleNoticePin(@PathVariable Long id) {
+    @Operation(summary = "공지사항 고정/해제")
+    @PatchMapping("/{id}/pin")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Void> toggleNoticePin(@PathVariable Long id) {
         noticeService.toggleNoticePin(id);
-        return BaseResponse.of(null);
+        return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "고정 공지 조회")
+    @Operation(summary = "고정된 공지사항 조회")
     @GetMapping("/pinned")
-    public ResponseEntity<BaseResponse<List<Notice>>> getPinnedNotices() {
-        return BaseResponse.of(noticeService.getPinnedNotices());
+    public ResponseEntity<BaseResponse<List<NoticeResponse>>> getPinnedNotices() {
+        List<NoticeResponse> responses = noticeService.getPinnedNotices();
+        return BaseResponse.of(responses, 200);
     }
 }

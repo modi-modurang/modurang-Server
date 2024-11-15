@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 import modi.modurang.global.common.BaseEntity;
 import modi.modurang.domain.user.entity.User;
 
+@Table(name = "homeworks")
 @Entity
 @Getter
 @Setter

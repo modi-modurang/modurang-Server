@@ -10,6 +10,7 @@ import modi.modurang.global.common.BaseEntity;
 
 import java.time.LocalDateTime;
 
+@Table(name = "emails")
 @Entity
 @Getter
 @Setter
