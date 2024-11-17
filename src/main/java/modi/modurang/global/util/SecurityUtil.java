@@ -24,7 +24,6 @@ public class SecurityUtil {
         }
 
         String email = userDetails.getUsername();
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
+        return userRepository.findByEmail(email).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
     }
 }
