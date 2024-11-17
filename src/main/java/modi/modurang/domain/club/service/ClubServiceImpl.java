@@ -12,9 +12,7 @@ import modi.modurang.domain.user.enums.UserRole;
 import modi.modurang.domain.user.error.UserError;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import modi.modurang.global.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -26,6 +24,7 @@ import java.util.stream.Collectors;
 public class ClubServiceImpl implements ClubService {
 
     private final UserRepository userRepository;
+    private final SecurityUtil securityUtil;
 
     @Transactional
     @Override
@@ -42,39 +41,27 @@ public class ClubServiceImpl implements ClubService {
     @Transactional
     @Override
     public void joinClub(ClubRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal() instanceof UserDetails userdetails) {
-            String email = userdetails.getUsername();
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
+        User user = securityUtil.currentUser();
 
-            user.setClub(request.getClub());
-            user.setRole(UserRole.USER);
+        user.setClub(request.getClub());
+        user.setRole(UserRole.USER);
 
-            userRepository.save(user);
-        } else {
-            throw new CustomException(UserError.USER_NOT_FOUND);
-        }
+        userRepository.save(user);
     }
 
     @Transactional
     @Override
     public void modifyClub(ClubRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal() instanceof UserDetails userdetails) {
-            String email = userdetails.getUsername();
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
+        User user = securityUtil.currentUser();
 
-            if (user.getClub().equals(request.getClub())) {
-                throw new CustomException(ClubError.ALREADY_JOINED_CLUB);
-            }
-
-            user.setClub(request.getClub());
-            user.setRole(UserRole.USER);
-
-            userRepository.save(user);
-        } else {
-            throw new CustomException(UserError.USER_NOT_FOUND);
+        if (user.getClub().equals(request.getClub())) {
+            throw new CustomException(ClubError.ALREADY_JOINED_CLUB);
         }
+
+        user.setClub(request.getClub());
+        user.setRole(UserRole.USER);
+
+        userRepository.save(user);
     }
 
     @Transactional

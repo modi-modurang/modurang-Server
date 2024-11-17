@@ -3,10 +3,7 @@ package modi.modurang.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.user.dto.response.UserResponse;
 import modi.modurang.domain.user.entity.User;
-import modi.modurang.domain.user.error.UserError;
-import modi.modurang.domain.user.repository.UserRepository;
-import modi.modurang.global.error.CustomException;
-import org.springframework.security.core.context.SecurityContextHolder;
+import modi.modurang.global.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,15 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final SecurityUtil securityUtil;
 
     @Transactional(readOnly = true)
     @Override
     public UserResponse getMe() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
+        User user = securityUtil.currentUser();
 
         return new UserResponse(
                 user.getId(),

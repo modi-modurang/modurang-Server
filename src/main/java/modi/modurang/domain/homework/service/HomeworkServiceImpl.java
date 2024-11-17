@@ -10,9 +10,7 @@ import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.error.UserError;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import modi.modurang.global.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,39 +22,31 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     private final HomeworkRepository homeworkRepository;
     private final UserRepository userRepository;
+    private final SecurityUtil securityUtil;
 
     @Transactional
     @Override
     public void createHomework(HomeworkRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal() instanceof UserDetails userDetails) {
-            String email = userDetails.getUsername();
+        User adminUser = securityUtil.currentUser();
+        Club club = adminUser.getClub();
 
-            User adminUser = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
-            Club club = adminUser.getClub();
+        List<Long> userIds = request.getUserId();
 
-            List<Long> userIds = request.getUserId();
+        for (Long id : userIds) {
+            User user = userRepository.findById(id).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
 
-            for (Long id : userIds) {
-                User user = userRepository.findById(id)
-                        .orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
-
-                if (!user.getClub().equals(club)) {
-                    throw new CustomException(ClubError.UNAUTHORIZED_CLUB_MEMBER);
-                }
-
-                Homework homework = Homework.builder()
-                        .title(request.getTitle())
-                        .content(request.getContent())
-                        .deadline(request.getDeadline())
-                        .isCompleted(false)
-                        .user(user)
-                        .build();
-
-                homeworkRepository.save(homework);
+            if (!user.getClub().equals(club)) {
+                throw new CustomException(ClubError.UNAUTHORIZED_CLUB_MEMBER);
             }
-        } else {
-            throw new CustomException(UserError.USER_NOT_FOUND);
+
+            Homework homework = Homework.builder()
+                    .title(request.getTitle())
+                    .content(request.getContent())
+                    .deadline(request.getDeadline())
+                    .isCompleted(false)
+                    .user(user)
+                    .build();
+            homeworkRepository.save(homework);
         }
     }
 }

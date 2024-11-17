@@ -7,12 +7,8 @@ import modi.modurang.domain.notice.entity.Notice;
 import modi.modurang.domain.notice.error.NoticeError;
 import modi.modurang.domain.notice.repository.NoticeRepository;
 import modi.modurang.domain.user.entity.User;
-import modi.modurang.domain.user.error.UserError;
-import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import modi.modurang.global.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,28 +20,22 @@ import java.util.stream.Collectors;
 public class NoticeServiceImpl implements NoticeService {
 
     private final NoticeRepository noticeRepository;
-    private final UserRepository userRepository;
+    private final SecurityUtil securityUtil;
 
     @Transactional
     @Override
     public void createNotice(NoticeRequest noticeRequest) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal() instanceof UserDetails userDetails) {
-            String email = userDetails.getUsername();
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
-            String username = user.getUsername();
+        User user = securityUtil.currentUser();
+        String username = user.getUsername();
 
-            Notice notice = Notice.builder()
-                    .title(noticeRequest.getTitle())
-                    .content(noticeRequest.getContent())
-                    .writer(username)
-                    .isPinned(false)
-                    .build();
+        Notice notice = Notice.builder()
+                .title(noticeRequest.getTitle())
+                .content(noticeRequest.getContent())
+                .writer(username)
+                .isPinned(false)
+                .build();
 
-            noticeRepository.save(notice);
-        } else {
-            throw new CustomException(UserError.USER_NOT_FOUND);
-        }
+        noticeRepository.save(notice);
     }
 
     @Transactional

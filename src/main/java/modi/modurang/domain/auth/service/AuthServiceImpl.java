@@ -17,9 +17,7 @@ import modi.modurang.global.security.jwt.dto.Jwt;
 import modi.modurang.global.security.jwt.enums.JwtType;
 import modi.modurang.global.security.jwt.error.JwtError;
 import modi.modurang.global.security.jwt.provider.JwtProvider;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import modi.modurang.global.util.SecurityUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final SecurityUtil securityUtil;
 
     @Transactional
     @Override
@@ -98,33 +97,22 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     @Override
     public void deleteAccount() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal() instanceof UserDetails userDetails) {
-            String email = userDetails.getUsername();
+        User user = securityUtil.currentUser();
 
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
-
-            userRepository.delete(user);
-        }
+        userRepository.delete(user);
     }
 
     @Transactional
     @Override
     public void updatePassword(UpdatePasswordRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal() instanceof UserDetails userDetails) {
-            String email = userDetails.getUsername();
+        User user = securityUtil.currentUser();
 
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
-            if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-                throw new CustomException(AuthError.WRONG_PASSWORD);
-            }
-
-            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-
-            userRepository.save(user);
-        } else {
-            throw new CustomException(UserError.USER_NOT_FOUND);
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new CustomException(AuthError.WRONG_PASSWORD);
         }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+
+        userRepository.save(user);
     }
 }
