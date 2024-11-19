@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -19,7 +20,7 @@ public class HomeworkRequest {
     private String content;
 
     @NotBlank(message = "마감일을 입력해 주세요.")
-    private String deadline;
+    private LocalDateTime deadline;
 
     @NotBlank(message = "유저 아이디를 입력해 주세요.")
     private List<Long> userId;
