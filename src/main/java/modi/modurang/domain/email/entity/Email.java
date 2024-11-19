@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import modi.modurang.global.common.BaseEntity;
 
@@ -13,8 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "emails")
 @Entity
 @Getter
-@Setter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Email extends BaseEntity {
 

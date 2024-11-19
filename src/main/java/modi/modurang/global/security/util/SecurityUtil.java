@@ -1,4 +1,4 @@
-package modi.modurang.global.util;
+package modi.modurang.global.security.util;
 
 import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.error.UserError;

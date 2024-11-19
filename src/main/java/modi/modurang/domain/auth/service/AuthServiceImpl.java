@@ -17,7 +17,7 @@ import modi.modurang.global.security.jwt.dto.Jwt;
 import modi.modurang.global.security.jwt.enums.JwtType;
 import modi.modurang.global.security.jwt.error.JwtError;
 import modi.modurang.global.security.jwt.provider.JwtProvider;
-import modi.modurang.global.util.SecurityUtil;
+import modi.modurang.global.security.util.SecurityUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -111,7 +111,9 @@ public class AuthServiceImpl implements AuthService {
             throw new CustomException(AuthError.WRONG_PASSWORD);
         }
 
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.toBuilder()
+                .password(passwordEncoder.encode(request.getNewPassword()))
+                .build();
 
         userRepository.save(user);
     }

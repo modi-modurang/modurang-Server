@@ -3,7 +3,7 @@ package modi.modurang.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.user.dto.response.UserResponse;
 import modi.modurang.domain.user.entity.User;
-import modi.modurang.global.util.SecurityUtil;
+import modi.modurang.global.security.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

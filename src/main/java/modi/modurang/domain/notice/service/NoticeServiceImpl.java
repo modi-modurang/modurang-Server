@@ -8,7 +8,7 @@ import modi.modurang.domain.notice.error.NoticeError;
 import modi.modurang.domain.notice.repository.NoticeRepository;
 import modi.modurang.domain.user.entity.User;
 import modi.modurang.global.error.CustomException;
-import modi.modurang.global.util.SecurityUtil;
+import modi.modurang.global.security.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

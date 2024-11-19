@@ -30,8 +30,10 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
 
         Email emailVerification = emailRepository.findByEmail(email)
                 .map(existing -> {
-                    existing.setVerificationCode(code);
-                    existing.setExpirationDate(expirationDate);
+                    existing.toBuilder()
+                            .verificationCode(code)
+                            .expirationDate(expirationDate)
+                            .build();
                     return existing;
                 })
                 .orElse(Email.builder()
@@ -60,9 +62,11 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
         } else if (verification.getExpirationDate().isBefore(LocalDateTime.now())) {
             throw new CustomException(UserError.EXPIRED_EMAIL);
         } else {
-            verification.setVerified(true);
-            verification.setVerificationCode(null);
-            verification.setExpirationDate(null);
+            verification.toBuilder()
+                    .isVerified(true)
+                    .verificationCode(null)
+                    .expirationDate(null)
+                    .build();
             emailRepository.save(verification);
         }
     }

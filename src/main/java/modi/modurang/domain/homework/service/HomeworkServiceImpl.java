@@ -10,7 +10,7 @@ import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.error.UserError;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
-import modi.modurang.global.util.SecurityUtil;
+import modi.modurang.global.security.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

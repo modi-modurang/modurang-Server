@@ -12,7 +12,7 @@ import modi.modurang.domain.user.enums.UserRole;
 import modi.modurang.domain.user.error.UserError;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
-import modi.modurang.global.util.SecurityUtil;
+import modi.modurang.global.security.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -43,8 +43,10 @@ public class ClubServiceImpl implements ClubService {
     public void joinClub(ClubRequest request) {
         User user = securityUtil.currentUser();
 
-        user.setClub(request.getClub());
-        user.setRole(UserRole.USER);
+        user.toBuilder()
+                .club(request.getClub())
+                .role(UserRole.USER)
+                .build();
 
         userRepository.save(user);
     }
@@ -58,8 +60,10 @@ public class ClubServiceImpl implements ClubService {
             throw new CustomException(ClubError.ALREADY_JOINED_CLUB);
         }
 
-        user.setClub(request.getClub());
-        user.setRole(UserRole.USER);
+        user.toBuilder()
+                .club(request.getClub())
+                .role(UserRole.USER)
+                .build();
 
         userRepository.save(user);
     }
@@ -70,7 +74,9 @@ public class ClubServiceImpl implements ClubService {
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
 
-        user.setRole(UserRole.ADMIN);
+        user.toBuilder()
+                .role(UserRole.ADMIN)
+                .build();
 
         userRepository.save(user);
     }
