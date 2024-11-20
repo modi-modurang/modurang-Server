@@ -36,9 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-### test ###
-/src/test/
-
 ### DS_Store ###
 .DS_Store
 
