@@ -5,12 +5,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import modi.modurang.domain.email.repository.EmailRepository;
-import modi.modurang.domain.user.error.UserError;
 import modi.modurang.global.config.email.EmailConfig;
-import modi.modurang.global.error.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -28,7 +24,6 @@ public class EmailServiceImpl implements EmailService {
     private static final Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
     private final JavaMailSender javaMailSender;
     private final EmailConfig emailConfig;
-    private final EmailRepository emailRepository;
 
     @Override
     public void sendEmail(String email, String code) {
@@ -52,14 +47,5 @@ public class EmailServiceImpl implements EmailService {
         } catch (MessagingException | IOException e) {
             logger.error("{}에게 인증 이메일 전송 실패: {}", email, e.getMessage());
         }
-    }
-
-    @Transactional
-    @Override
-    public void deleteEmail(String email) {
-        if (emailRepository.findByEmail(email).isEmpty()) {
-            throw new CustomException(UserError.EMAIL_NOT_FOUND);
-        }
-        emailRepository.deleteByEmail(email);
     }
 }
