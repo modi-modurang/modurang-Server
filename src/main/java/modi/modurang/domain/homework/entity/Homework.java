@@ -31,7 +31,7 @@ public class Homework extends BaseEntity {
     private LocalDateTime deadline;
 
     @Column(nullable = false)
-    private boolean isCompleted = false;
+    private boolean isCompleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

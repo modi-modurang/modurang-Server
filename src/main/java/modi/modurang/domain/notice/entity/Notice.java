@@ -30,5 +30,5 @@ public class Notice extends BaseEntity {
     private String writer;
 
     @Column(nullable = false)
-    private boolean isPinned = false;
+    private boolean isPinned;
 }
