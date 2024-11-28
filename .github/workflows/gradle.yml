@@ -40,12 +40,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: EC2 Docker Run
+      - name: GCP Docker Run
         uses: appleboy/ssh-action@v0.1.8
         with:
-          host: ${{ secrets.LINUX_HOST }}
-          username: ${{ secrets.LINUX_USERNAME }}
-          key: ${{ secrets.LINUX_KEY }}
+          host: ${{ secrets.GCP_HOST }}
+          username: ${{ secrets.GCP_USERNAME }}
+          key: ${{ secrets.GCP_KEY }}
           script: |
             cd /
             docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
