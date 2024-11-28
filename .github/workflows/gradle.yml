@@ -55,4 +55,3 @@ jobs:
             #docker compose -f ./docker-compose.yml up modurang --pull always -d
             #docker compose -f ./docker-compose.yml stop
             #docker compose -f ./docker-compose.yml up
-            
