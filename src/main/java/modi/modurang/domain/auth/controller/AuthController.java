@@ -35,14 +35,14 @@ public class AuthController {
         return BaseResponse.of(authService.login(request));
     }
 
-    @Operation(summary = "토큰 재발급")
+    @Operation(summary = "엑세스 토큰 재발급")
     @PostMapping("/reissue")
     public ResponseEntity<BaseResponse<Jwt>> reissue(@Valid @RequestBody ReissueRequest request) {
         return BaseResponse.of(authService.reissue(request));
     }
 
     @Operation(summary = "회원 탈퇴")
-    @DeleteMapping("/resign")
+    @DeleteMapping
     public ResponseEntity<BaseResponse<Void>> deleteAccount() {
         authService.deleteAccount();
         return BaseResponse.of(null, 204);
