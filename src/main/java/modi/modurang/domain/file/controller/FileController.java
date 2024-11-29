@@ -9,9 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@Tag(name = "image", description = "이미지 API")
+@Tag(name = "file", description = "파일 API")
 @RestController
-@RequestMapping("/image")
+@RequestMapping("/file")
 @RequiredArgsConstructor
 public class FileController {
 
