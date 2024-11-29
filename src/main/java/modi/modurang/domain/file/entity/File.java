@@ -1,4 +1,4 @@
-package modi.modurang.domain.image.entity;
+package modi.modurang.domain.file.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import modi.modurang.global.common.BaseEntity;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-public class Image extends BaseEntity {
+public class File extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
