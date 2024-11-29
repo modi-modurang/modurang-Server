@@ -40,6 +40,14 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GCP_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-add ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.GCP_HOST }} >> ~/.ssh/known_hosts
+
       - name: GCP Docker Run
         uses: appleboy/ssh-action@v0.1.8
         with:
@@ -52,7 +60,3 @@ jobs:
             docker compose -f ./docker-compose.yml stop modurang
             docker compose -f ./docker-compose.yml rm -f modurang
             docker compose -f ./docker-compose.yml up modurang --pull always -d
-            #docker compose -f ./docker-compose.yml up modurang --pull always -d
-            #docker compose -f ./docker-compose.yml stop
-            #docker compose -f ./docker-compose.yml up
-
