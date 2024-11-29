@@ -42,14 +42,14 @@ jobs:
     steps:
       - name: Set up SSH
         run: |
-          # SSH 에이전트 시작
           eval $(ssh-agent -s)
+
+          mkdir -p ~/.ssh
 
           echo "${{ secrets.GCP_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-add ~/.ssh/id_rsa
 
-          # GCP 서버의 fingerprint를 추가하여 SSH 연결을 안전하게 설정
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.GCP_HOST }} >> ~/.ssh/known_hosts
 
