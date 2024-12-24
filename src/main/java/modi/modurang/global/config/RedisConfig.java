@@ -1,4 +1,4 @@
-package modi.modurang.global.config.redis;
+package modi.modurang.global.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;

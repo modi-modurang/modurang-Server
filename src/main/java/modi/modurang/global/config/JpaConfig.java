@@ -1,4 +1,4 @@
-package modi.modurang.global.config.jpa;
+package modi.modurang.global.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

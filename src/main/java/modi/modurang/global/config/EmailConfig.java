@@ -1,4 +1,4 @@
-package modi.modurang.global.config.email;
+package modi.modurang.global.config;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
