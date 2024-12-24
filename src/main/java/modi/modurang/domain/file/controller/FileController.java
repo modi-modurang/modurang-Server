@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import modi.modurang.domain.file.service.FileService;
 import modi.modurang.global.common.BaseResponse;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +19,7 @@ public class FileController {
     private final FileService fileService;
 
     @SneakyThrows
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<BaseResponse<String>> uploadImage(@RequestParam("file") MultipartFile file) {
             return BaseResponse.of(fileService.saveImage(file), 200);
     }
