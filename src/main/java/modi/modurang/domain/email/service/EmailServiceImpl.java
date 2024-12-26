@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import modi.modurang.global.config.email.EmailConfig;
+import modi.modurang.global.config.EmailConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;

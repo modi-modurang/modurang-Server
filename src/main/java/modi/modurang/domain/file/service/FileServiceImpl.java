@@ -30,7 +30,7 @@ public class FileServiceImpl implements FileService {
 
         File image = File.builder()
                 .fileName(fileName)
-                .url("/image/view/" + fileName)
+                .url("/file/view/" + fileName)
                 .size(file.getSize())
                 .mimeType(file.getContentType())
                 .build();
