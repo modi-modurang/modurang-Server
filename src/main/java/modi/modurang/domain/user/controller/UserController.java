@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-
     @GetMapping("/me")
     public UserResponse getMe(@CurrentUser User user) {
         return new UserResponse(

@@ -52,7 +52,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(authorizeRequests ->
                                 authorizeRequests
-                                        .requestMatchers(HttpMethod.POST, "/auth/signup", "/auth/login", "/email/send", "/email/verify").anonymous()
+                                        .requestMatchers(HttpMethod.POST, "/auth/signup", "/auth/login", "/email-verification/send", "/email-verification/verify").anonymous()
                                         .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**", "/notice").permitAll()
                                         .anyRequest().permitAll() //TODO
                 )
