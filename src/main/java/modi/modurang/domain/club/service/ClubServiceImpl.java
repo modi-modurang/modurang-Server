@@ -60,10 +60,8 @@ public class ClubServiceImpl implements ClubService {
             throw new CustomException(ClubError.ALREADY_JOINED_CLUB);
         }
 
-        user.toBuilder()
-                .club(request.getClub())
-                .role(UserRole.USER)
-                .build();
+        user.setClub(request.getClub());
+        user.setRole(UserRole.USER);
 
         userRepository.save(user);
     }
@@ -74,9 +72,7 @@ public class ClubServiceImpl implements ClubService {
         User user = userRepository.findByUsernameAndStudentNumber(request.getUsername(), request.getStudentNumber())
                 .orElseThrow(() -> new CustomException(UserError.USER_NOT_FOUND));
 
-        user.toBuilder()
-                .role(UserRole.ADMIN)
-                .build();
+        user.setRole(UserRole.ADMIN);
 
         userRepository.save(user);
     }
