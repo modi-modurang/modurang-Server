@@ -30,10 +30,8 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
 
         Email emailVerification = emailRepository.findByEmail(email)
                 .map(existing -> {
-                    existing.toBuilder()
-                            .verificationCode(code)
-                            .expirationDate(expirationDate)
-                            .build();
+                    existing.setVerificationCode(code);
+                    existing.setExpirationDate(expirationDate);
                     return existing;
                 })
                 .orElse(Email.builder()
@@ -46,6 +44,7 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
         emailRepository.save(emailVerification);
         emailService.sendEmail(email, code);
     }
+
 
     @Override
     public String generateVerificationCode() {
