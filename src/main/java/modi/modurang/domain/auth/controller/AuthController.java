@@ -50,7 +50,7 @@ public class AuthController {
     }
 
     @Operation(summary = "비밀번호 변경")
-    @PatchMapping("/password")
+    @PatchMapping
     public ResponseEntity<BaseResponse<Void>> updatePassword(@CurrentUser User user, @Valid @RequestBody UpdatePasswordRequest request) {
         authService.updatePassword(user, request);
         return BaseResponse.of(null, 204);
