@@ -17,7 +17,6 @@ import java.util.Map;
 
 @Component
 public class JwtExceptionFilter extends OncePerRequestFilter {
-
     @Override
     protected void doFilterInternal(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
