@@ -70,14 +70,6 @@ public class NoticeServiceImpl implements NoticeService {
         noticeRepository.save(notice);
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public List<NoticeResponse> getPinnedNotices() {
-        return noticeRepository.findByIsPinned(true).stream()
-                .map(this::convertToResponse)
-                .collect(Collectors.toList());
-    }
-
     private NoticeResponse convertToResponse(Notice notice) {
         return new NoticeResponse(
                 notice.getTitle(),
