@@ -24,7 +24,7 @@ public class ClubController {
     private final ClubService clubService;
 
     @Operation(summary = "동아리 멤버 목록 조회")
-    @PostMapping("")
+    @GetMapping("")
     public ResponseEntity<BaseResponse<List<UserResponse>>> clubMemberList(@Valid @RequestBody MemberRequest request) {
         return BaseResponse.of(clubService.clubMemberList(request), 200);
     }
