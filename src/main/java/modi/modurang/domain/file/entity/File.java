@@ -7,7 +7,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import modi.modurang.global.common.BaseEntity;
 
-@Table(name = "file")
+@Table(name = "files")
 @Entity
 @Getter
 @Setter
