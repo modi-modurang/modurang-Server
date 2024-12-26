@@ -61,11 +61,9 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
         } else if (verification.getExpirationDate().isBefore(LocalDateTime.now())) {
             throw new CustomException(UserError.EXPIRED_EMAIL);
         } else {
-            verification.toBuilder()
-                    .isVerified(true)
-                    .verificationCode(null)
-                    .expirationDate(null)
-                    .build();
+            verification.setVerified(true);
+            verification.setVerificationCode(null);
+            verification.setExpirationDate(null);
             emailRepository.save(verification);
         }
     }
