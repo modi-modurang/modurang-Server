@@ -1,7 +1,10 @@
+version: '3'
 services:
   server:
     image: ${DOCKER_USERNAME}/modurang-server:latest
     container_name: server
+    ports:
+      - "8080:8080"
     environment:
       MYSQL_URL: ${MYSQL_URL}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -17,26 +20,20 @@ services:
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       JWT_ACCESS_TOKEN_EXPIRATION: ${JWT_ACCESS_TOKEN_EXPIRATION}
       JWT_REFRESH_TOKEN_EXPIRATION: ${JWT_REFRESH_TOKEN_EXPIRATION}
-    ports:
-      - "8080:8080"
-    platform:
-      linux/arm64
-
   mysql:
-    image: mysql:latest
+    image: mysql
     container_name: mysql
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
-
   redis:
-    image: redis:latest
+    image: redis
     container_name: redis
     ports:
       - "6379:6379"
