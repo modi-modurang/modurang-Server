@@ -7,7 +7,6 @@ import modi.modurang.global.error.CustomError;
 @Getter
 @RequiredArgsConstructor
 public enum UserError implements CustomError {
-
     HAS_STUDENTNUMBER(400, "존재하는 학번입니다."),
     USER_NOT_FOUND(404, "유저를 찾을 수 없습니다."),
     HAS_EMAIL(400, "이미 가입된 이메일입니다."),

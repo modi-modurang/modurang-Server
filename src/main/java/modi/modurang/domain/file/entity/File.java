@@ -14,7 +14,6 @@ import modi.modurang.global.common.BaseEntity;
 @SuperBuilder
 @NoArgsConstructor
 public class File extends BaseEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

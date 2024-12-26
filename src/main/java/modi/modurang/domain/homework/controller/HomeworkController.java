@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/homework")
 @RequiredArgsConstructor
 public class HomeworkController {
-
     private final HomeworkService homeworkService;
 
     @Operation(summary = "숙제 등록")

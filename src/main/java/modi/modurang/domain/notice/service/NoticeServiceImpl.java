@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
-
     private final NoticeRepository noticeRepository;
     private final SecurityUtil securityUtil;
 

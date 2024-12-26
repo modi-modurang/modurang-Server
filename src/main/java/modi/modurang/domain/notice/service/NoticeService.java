@@ -5,7 +5,6 @@ import modi.modurang.domain.notice.dto.response.NoticeResponse;
 import java.util.List;
 
 public interface NoticeService {
-
     void createNotice(NoticeRequest noticeRequest);
 
     void deleteNotice(Long id);

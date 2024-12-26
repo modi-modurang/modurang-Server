@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class NoticeResponse {
-
     private String title;
 
     private String content;

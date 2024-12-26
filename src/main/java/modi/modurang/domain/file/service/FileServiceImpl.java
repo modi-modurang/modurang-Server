@@ -13,7 +13,6 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
-
     private final FileRepository fileRepository;
 
     @Value("${spring.servlet.multipart.location}")

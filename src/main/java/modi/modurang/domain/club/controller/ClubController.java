@@ -20,7 +20,6 @@ import java.util.List;
 @RequestMapping("/club")
 @RequiredArgsConstructor
 public class ClubController {
-
     private final ClubService clubService;
 
     @Operation(summary = "동아리 멤버 목록 조회")

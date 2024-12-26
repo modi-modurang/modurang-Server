@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 @Repository
 @RequiredArgsConstructor
 public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
-
     private final RedisTemplate<String, String> redisTemplate;
     private final JwtProperties jwtProperties;
 

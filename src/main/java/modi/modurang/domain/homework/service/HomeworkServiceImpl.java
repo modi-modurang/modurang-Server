@@ -19,7 +19,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class HomeworkServiceImpl implements HomeworkService {
-
     private final HomeworkRepository homeworkRepository;
     private final UserRepository userRepository;
     private final SecurityUtil securityUtil;

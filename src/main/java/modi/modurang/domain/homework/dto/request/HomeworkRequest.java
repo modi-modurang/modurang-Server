@@ -12,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HomeworkRequest {
-
     @NotBlank(message = "제목을 입력해 주세요.")
     private String title;
 

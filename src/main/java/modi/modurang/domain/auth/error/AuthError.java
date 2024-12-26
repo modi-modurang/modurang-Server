@@ -7,7 +7,6 @@ import modi.modurang.global.error.CustomError;
 @Getter
 @RequiredArgsConstructor
 public enum AuthError implements CustomError {
-
     WRONG_PASSWORD(401, "잘못된 비밀번호입니다.");
 
     private final int status;

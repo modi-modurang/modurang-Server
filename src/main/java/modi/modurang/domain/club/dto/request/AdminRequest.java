@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminRequest {
-
     @Size(min = 2, max = 5, message = "이름은 2자 이상 5자 이하여야 합니다.")
     @NotBlank(message = "이름을 입력해 주세요.")
     private String username;

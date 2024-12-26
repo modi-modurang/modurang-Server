@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class EmailVerificationServiceImpl implements EmailVerificationService {
-
     private final EmailRepository emailRepository;
     private final EmailService emailService;
 

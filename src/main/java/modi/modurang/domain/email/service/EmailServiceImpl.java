@@ -20,7 +20,6 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
-
     private static final Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
     private final JavaMailSender javaMailSender;
     private final EmailConfig emailConfig;

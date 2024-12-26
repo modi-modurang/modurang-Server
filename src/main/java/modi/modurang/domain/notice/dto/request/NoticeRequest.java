@@ -7,7 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoticeRequest {
-
     @NotBlank(message = "제목을 입력해 주세요.")
     private String title;
 

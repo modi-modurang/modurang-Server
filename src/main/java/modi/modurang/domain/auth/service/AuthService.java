@@ -7,7 +7,6 @@ import modi.modurang.domain.auth.dto.request.UpdatePasswordRequest;
 import modi.modurang.global.security.jwt.dto.Jwt;
 
 public interface AuthService {
-
     void signup(SignUpRequest request);
 
     Jwt login(LoginRequest request);

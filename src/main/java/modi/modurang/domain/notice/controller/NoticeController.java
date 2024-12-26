@@ -19,7 +19,6 @@ import java.util.List;
 @RequestMapping("/notice")
 @RequiredArgsConstructor
 public class NoticeController {
-
     private final NoticeService noticeService;
 
     @Operation(summary = "공지사항 작성")

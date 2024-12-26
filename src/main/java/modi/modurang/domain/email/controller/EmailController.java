@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/email-verification")
 @RequiredArgsConstructor
 public class EmailController {
-
     private final EmailVerificationService emailVerificationService;
 
     @Operation(summary = "인증 코드 발송")

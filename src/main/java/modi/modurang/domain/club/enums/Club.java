@@ -1,7 +1,6 @@
 package modi.modurang.domain.club.enums;
 
 public enum Club {
-
     BIND,
     CNS,
     MODI,

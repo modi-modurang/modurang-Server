@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ClubServiceImpl implements ClubService {
-
     private final UserRepository userRepository;
     private final SecurityUtil securityUtil;
 
