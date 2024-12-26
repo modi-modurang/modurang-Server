@@ -8,7 +8,7 @@ import modi.modurang.domain.notice.error.NoticeError;
 import modi.modurang.domain.notice.repository.NoticeRepository;
 import modi.modurang.domain.user.entity.User;
 import modi.modurang.global.error.CustomException;
-import modi.modurang.global.security.util.SecurityUtil;
+import modi.modurang.global.security.annotation.CurrentUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,12 +19,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
     private final NoticeRepository noticeRepository;
-    private final SecurityUtil securityUtil;
 
     @Transactional
     @Override
-    public void createNotice(NoticeRequest noticeRequest) {
-        User user = securityUtil.currentUser();
+    public void createNotice(@CurrentUser User user, NoticeRequest noticeRequest) {
         String username = user.getUsername();
 
         Notice notice = Notice.builder()

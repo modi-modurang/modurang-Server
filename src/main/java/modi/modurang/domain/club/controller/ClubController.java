@@ -9,7 +9,9 @@ import modi.modurang.domain.club.dto.request.ClubRequest;
 import modi.modurang.domain.club.dto.request.MemberRequest;
 import modi.modurang.domain.club.service.ClubService;
 import modi.modurang.domain.user.dto.response.UserResponse;
+import modi.modurang.domain.user.entity.User;
 import modi.modurang.global.common.BaseResponse;
+import modi.modurang.global.security.annotation.CurrentUser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,15 +32,15 @@ public class ClubController {
 
     @Operation(summary = "동아리 가입 신청")
     @PostMapping("/join")
-    public ResponseEntity<BaseResponse<Void>> joinClub(@Valid @RequestBody ClubRequest request) {
-        clubService.joinClub(request);
+    public ResponseEntity<BaseResponse<Void>> joinClub(@CurrentUser User user, @Valid @RequestBody ClubRequest request) {
+        clubService.joinClub(user, request);
         return BaseResponse.of(null);
     }
 
     @Operation(summary = "동아리 정보 수정")
     @PatchMapping("/modify")
-    public ResponseEntity<BaseResponse<Void>> modifyClub(@Valid @RequestBody ClubRequest request) {
-        clubService.modifyClub(request);
+    public ResponseEntity<BaseResponse<Void>> modifyClub(@CurrentUser User user, @Valid @RequestBody ClubRequest request) {
+        clubService.modifyClub(user, request);
         return BaseResponse.of(null, 204);
     }
 

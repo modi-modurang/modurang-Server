@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.notice.dto.request.NoticeRequest;
 import modi.modurang.domain.notice.dto.response.NoticeResponse;
 import modi.modurang.domain.notice.service.NoticeService;
+import modi.modurang.domain.user.entity.User;
 import modi.modurang.global.common.BaseResponse;
+import modi.modurang.global.security.annotation.CurrentUser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +26,8 @@ public class NoticeController {
     @Operation(summary = "공지사항 작성")
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<BaseResponse<NoticeResponse>> createNotice(@Valid @RequestBody NoticeRequest noticeRequest) {
-        noticeService.createNotice(noticeRequest);
+    public ResponseEntity<BaseResponse<NoticeResponse>> createNotice(@CurrentUser User user, @Valid @RequestBody NoticeRequest noticeRequest) {
+        noticeService.createNotice(user, noticeRequest);
         return BaseResponse.of(null, 201);
     }
 
@@ -55,12 +57,5 @@ public class NoticeController {
     public ResponseEntity<Void> toggleNoticePin(@PathVariable Long id) {
         noticeService.toggleNoticePin(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @Operation(summary = "고정된 공지사항 조회")
-    @GetMapping("/pinned")
-    public ResponseEntity<BaseResponse<List<NoticeResponse>>> getPinnedNotices() {
-        List<NoticeResponse> responses = noticeService.getPinnedNotices();
-        return BaseResponse.of(responses, 200);
     }
 }

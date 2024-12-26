@@ -10,7 +10,7 @@ import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.error.UserError;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
-import modi.modurang.global.security.util.SecurityUtil;
+import modi.modurang.global.security.annotation.CurrentUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,12 +21,10 @@ import java.util.List;
 public class HomeworkServiceImpl implements HomeworkService {
     private final HomeworkRepository homeworkRepository;
     private final UserRepository userRepository;
-    private final SecurityUtil securityUtil;
 
     @Transactional
     @Override
-    public void createHomework(HomeworkRequest request) {
-        User adminUser = securityUtil.currentUser();
+    public void createHomework(@CurrentUser User adminUser, HomeworkRequest request) {
         Club club = adminUser.getClub();
 
         List<Long> userIds = request.getUserId();

@@ -13,11 +13,11 @@ import modi.modurang.domain.user.entity.User;
 import modi.modurang.domain.user.error.UserError;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
+import modi.modurang.global.security.annotation.CurrentUser;
 import modi.modurang.global.security.jwt.dto.Jwt;
 import modi.modurang.global.security.jwt.enums.JwtType;
 import modi.modurang.global.security.jwt.error.JwtError;
 import modi.modurang.global.security.jwt.provider.JwtProvider;
-import modi.modurang.global.security.util.SecurityUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +30,6 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final SecurityUtil securityUtil;
 
     @Transactional
     @Override
@@ -95,16 +94,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public void deleteAccount() {
-        User user = securityUtil.currentUser();
+    public void deleteAccount(@CurrentUser User user) {
 
         userRepository.delete(user);
     }
 
     @Transactional
     @Override
-    public void updatePassword(UpdatePasswordRequest request) {
-        User user = securityUtil.currentUser();
+    public void updatePassword(@CurrentUser User user, UpdatePasswordRequest request) {
 
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
             throw new CustomException(AuthError.WRONG_PASSWORD);

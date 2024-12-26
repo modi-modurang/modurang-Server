@@ -4,6 +4,8 @@ import modi.modurang.domain.auth.dto.request.LoginRequest;
 import modi.modurang.domain.auth.dto.request.ReissueRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
 import modi.modurang.domain.auth.dto.request.UpdatePasswordRequest;
+import modi.modurang.domain.user.entity.User;
+import modi.modurang.global.security.annotation.CurrentUser;
 import modi.modurang.global.security.jwt.dto.Jwt;
 
 public interface AuthService {
@@ -13,7 +15,7 @@ public interface AuthService {
 
     Jwt reissue(ReissueRequest request);
 
-    void deleteAccount();
+    void deleteAccount(@CurrentUser User user);
 
-    void updatePassword(UpdatePasswordRequest request);
+    void updatePassword(@CurrentUser User user, UpdatePasswordRequest request);
 }

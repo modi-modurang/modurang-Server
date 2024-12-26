@@ -12,7 +12,7 @@ import modi.modurang.domain.user.enums.UserRole;
 import modi.modurang.domain.user.error.UserError;
 import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
-import modi.modurang.global.security.util.SecurityUtil;
+import modi.modurang.global.security.annotation.CurrentUser;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ClubServiceImpl implements ClubService {
     private final UserRepository userRepository;
-    private final SecurityUtil securityUtil;
 
     @Transactional
     @Override
@@ -39,9 +38,7 @@ public class ClubServiceImpl implements ClubService {
 
     @Transactional
     @Override
-    public void joinClub(ClubRequest request) {
-        User user = securityUtil.currentUser();
-
+    public void joinClub(@CurrentUser User user, ClubRequest request) {
         user.toBuilder()
                 .club(request.getClub())
                 .role(UserRole.USER)
@@ -52,8 +49,7 @@ public class ClubServiceImpl implements ClubService {
 
     @Transactional
     @Override
-    public void modifyClub(ClubRequest request) {
-        User user = securityUtil.currentUser();
+    public void modifyClub(@CurrentUser User user, ClubRequest request) {
 
         if (user.getClub().equals(request.getClub())) {
             throw new CustomException(ClubError.ALREADY_JOINED_CLUB);

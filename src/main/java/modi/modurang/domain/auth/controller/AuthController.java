@@ -9,7 +9,9 @@ import modi.modurang.domain.auth.dto.request.ReissueRequest;
 import modi.modurang.domain.auth.dto.request.SignUpRequest;
 import modi.modurang.domain.auth.dto.request.UpdatePasswordRequest;
 import modi.modurang.domain.auth.service.AuthService;
+import modi.modurang.domain.user.entity.User;
 import modi.modurang.global.common.BaseResponse;
+import modi.modurang.global.security.annotation.CurrentUser;
 import modi.modurang.global.security.jwt.dto.Jwt;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,15 +44,15 @@ public class AuthController {
 
     @Operation(summary = "회원 탈퇴")
     @DeleteMapping
-    public ResponseEntity<BaseResponse<Void>> deleteAccount() {
-        authService.deleteAccount();
+    public ResponseEntity<BaseResponse<Void>> deleteAccount(@CurrentUser User user) {
+        authService.deleteAccount(user);
         return BaseResponse.of(null, 204);
     }
 
     @Operation(summary = "비밀번호 변경")
     @PatchMapping("/password")
-    public ResponseEntity<BaseResponse<Void>> updatePassword(@Valid @RequestBody UpdatePasswordRequest request) {
-        authService.updatePassword(request);
+    public ResponseEntity<BaseResponse<Void>> updatePassword(@CurrentUser User user, @Valid @RequestBody UpdatePasswordRequest request) {
+        authService.updatePassword(user, request);
         return BaseResponse.of(null, 204);
     }
 }
