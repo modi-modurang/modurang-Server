@@ -1,6 +1,5 @@
 package modi.modurang.domain.club.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import modi.modurang.domain.club.dto.request.AdminRequest;
 import modi.modurang.domain.club.dto.request.ClubRequest;
@@ -14,8 +13,8 @@ import modi.modurang.domain.user.repository.UserRepository;
 import modi.modurang.global.error.CustomException;
 import modi.modurang.global.security.annotation.CurrentUser;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,15 +23,14 @@ import java.util.stream.Collectors;
 public class ClubServiceImpl implements ClubService {
     private final UserRepository userRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<UserResponse> clubMemberList(MemberRequest request) {
-        List<User> users = Collections.singletonList(userRepository.findAllByClub(request.getClub())
-                .orElseThrow(() -> new CustomException(ClubError.NO_MEMBERS_FOUND)));
+        List<User> users = (List<User>) userRepository.findAllByClub(request.getClub())
+                .orElseThrow(() -> new CustomException(ClubError.NO_MEMBERS_FOUND));
 
         return users.stream()
-                .map(user -> new UserResponse(user.getId(), user.getUsername(), user.getStudentNumber(),
-                        user.getEmail(), user.getClub()))
+                .map(UserResponse::from)
                 .collect(Collectors.toList());
     }
 
