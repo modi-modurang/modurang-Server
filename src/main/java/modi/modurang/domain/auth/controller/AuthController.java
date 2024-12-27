@@ -27,32 +27,32 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<BaseResponse<Void>> signup(@Valid @RequestBody SignUpRequest request) {
         authService.signup(request);
-        return BaseResponse.of(null, 201);
+        return BaseResponse.of(null, 201, "회원가입 성공");
     }
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
     public ResponseEntity<BaseResponse<Jwt>> login(@Valid @RequestBody LoginRequest request) {
-        return BaseResponse.of(authService.login(request));
+        return BaseResponse.of(authService.login(request), "로그인 성공");
     }
 
     @Operation(summary = "엑세스 토큰 재발급")
     @PostMapping("/reissue")
     public ResponseEntity<BaseResponse<Jwt>> reissue(@Valid @RequestBody ReissueRequest request) {
-        return BaseResponse.of(authService.reissue(request));
+        return BaseResponse.of(authService.reissue(request), "엑세스 토큰 재발급 성공");
     }
 
     @Operation(summary = "회원 탈퇴")
     @DeleteMapping
     public ResponseEntity<BaseResponse<Void>> deleteAccount(@CurrentUser User user) {
         authService.deleteAccount(user);
-        return BaseResponse.of(null, 204);
+        return BaseResponse.of(null, 204, "계정 삭제 성공");
     }
 
     @Operation(summary = "비밀번호 변경")
     @PatchMapping
     public ResponseEntity<BaseResponse<Void>> updatePassword(@CurrentUser User user, @Valid @RequestBody UpdatePasswordRequest request) {
         authService.updatePassword(user, request);
-        return BaseResponse.of(null, 204);
+        return BaseResponse.of(null, 204, "비밀번호 변경 성공");
     }
 }

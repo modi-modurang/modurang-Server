@@ -15,6 +15,10 @@ public record BaseResponse<T>(
         return BaseResponse.of(data, status, "");
     }
 
+    public static <T> ResponseEntity<BaseResponse<T>> of(T data, String message) {
+        return BaseResponse.of(data, 200, message);
+    }
+
     public static <T> ResponseEntity<BaseResponse<T>> of(T data, int status, String message) {
         return ResponseEntity.status(status).body(new BaseResponse<>(data, status, message));
     }

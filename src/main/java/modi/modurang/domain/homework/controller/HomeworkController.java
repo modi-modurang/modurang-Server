@@ -28,6 +28,6 @@ public class HomeworkController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BaseResponse<Void>> createHomework(@CurrentUser User user, @Valid @RequestBody HomeworkRequest request) {
         homeworkService.createHomework(user, request);
-        return BaseResponse.of(null);
+        return BaseResponse.of(null, "숙제 등록 성공");
     }
 }

@@ -1,5 +1,6 @@
 package modi.modurang.domain.file.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -18,8 +19,9 @@ public class FileController {
     private final FileService fileService;
 
     @SneakyThrows
+    @Operation(summary = "파일 업로드")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<BaseResponse<String>> uploadImage(@RequestParam("file") MultipartFile file) {
-            return BaseResponse.of(fileService.saveImage(file), 200);
+            return BaseResponse.of(fileService.saveImage(file), "파일 업로드 성공");
     }
 }

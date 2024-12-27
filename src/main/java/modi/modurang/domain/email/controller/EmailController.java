@@ -22,13 +22,13 @@ public class EmailController {
     @PostMapping("/send")
     public ResponseEntity<BaseResponse<Void>> sendVerificationCode(@Valid @RequestBody EmailSendRequest request) {
         emailVerificationService.sendVerificationCode(request.getEmail());
-        return BaseResponse.of(null);
+        return BaseResponse.of(null, "인증 코드 발송 성공");
     }
 
     @Operation(summary = "인증 코드 확인")
     @PostMapping("/verify")
     public ResponseEntity<BaseResponse<Void>> verifyEmail(@Valid @RequestBody EmailVerifyRequest request) {
         emailVerificationService.verifyCode(request.getEmail(), request.getCode());
-        return BaseResponse.of(null);
+        return BaseResponse.of(null, "인증 코드 확인 성공");
     }
 }
