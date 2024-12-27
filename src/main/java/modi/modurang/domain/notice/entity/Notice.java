@@ -8,7 +8,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import modi.modurang.global.common.BaseEntity;
 
-@Table(name = "notices")
 @Entity
 @Getter
 @Setter

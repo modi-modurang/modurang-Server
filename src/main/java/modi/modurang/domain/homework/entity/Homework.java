@@ -10,7 +10,6 @@ import modi.modurang.domain.user.entity.User;
 
 import java.time.LocalDateTime;
 
-@Table(name = "homeworks")
 @Entity
 @Getter
 @SuperBuilder(toBuilder = true)
