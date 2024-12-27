@@ -11,7 +11,7 @@ import modi.modurang.global.common.BaseResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "email-verification", description = "이메일 인증 API")
+@Tag(name = "Email-verification", description = "이메일 인증 API")
 @RestController
 @RequestMapping("/email-verification")
 @RequiredArgsConstructor
